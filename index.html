@@ -1,51 +1,84 @@
-<!DOCTYPE html><html lang="zh-HK"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Yuki恐龍數學王 旗艦版</title><style>
+<!DOCTYPE html><html lang="zh-HK"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Yuki恐龍數學王 修復版</title><style>
 body{margin:0;background:#0f0f23;display:flex;justify-content:center;font-family:sans-serif}
 #game{width:100%;max-width:440px;background:linear-gradient(#fff8e1,#ffcc80);min-height:100vh;padding:14px;box-sizing:border-box;text-align:center}
 .pet-box{background:white;border-radius:24px;padding:14px;margin:10px 0;position:relative}
-.pet-img{width:200px;height:200px;object-fit:contain;display:block;margin:0 auto}
-.star-bar{position:absolute;top:10px;right:14px;font-size:18px}
-.prog-bg{background:#eee;border-radius:12px;height:22px;overflow:hidden;margin:10px 0}.prog-fill{height:100%;background:#66bb6a;display:flex;align-items:center;justify-content:center;color:white;font-weight:bold;font-size:13px;transition:.5s}
-.btn{width:100%;padding:14px;border:none;border-radius:14px;font-size:18px;font-weight:bold;margin:6px 0;cursor:pointer}.btn-go{background:#66bb6a;color:white}.btn-evo{background:gold;display:none;animation:glow 1s infinite}.btn-small{background:#fff3e0;font-size:14px;padding:8px}
-@keyframes wobble{0%,100%{transform:rotate(-5deg)}50%{transform:rotate(5deg)}}@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-18px)}}@keyframes happy{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
-.ani-egg{animation:wobble .6s infinite}.ani-bb{animation:bounce .5s infinite}.ani-teen{animation:happy .6s infinite}.ani-king{animation:floaty 1.5s infinite}
-#mathBox{position:fixed;inset:0;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;z-index:99;display:none}.math-card{background:white;width:92%;max-width:380px;border-radius:20px;padding:20px;text-align:center}.math-card input{font-size:36px;width:150px;padding:10px;border:3px solid orange;border-radius:12px;text-align:center}
-#report{margin-top:12px;background:#fffde7;border-radius:14px;padding:10px;font-size:13px;text-align:left}
-@keyframes glow{0%,100%{box-shadow:0 0 5px gold}50%{box-shadow:0 0 18px gold}}
+.pet-img{width:210px;height:210px;object-fit:contain;display:block;margin:0 auto}
+.star{position:absolute;top:10px;right:14px;font-weight:bold}
+.prog-bg{background:#eee;border-radius:12px;height:24px;overflow:hidden;margin:12px 0}.prog-fill{height:100%;background:#66bb6a;display:flex;align-items:center;justify-content:center;color:white;font-weight:bold;transition:.5s}
+.btn{width:100%;padding:16px;border:none;border-radius:14px;font-size:20px;font-weight:bold;margin:8px 0}.btn-go{background:#66bb6a;color:white}.btn-evo{background:gold;display:none}
+@keyframes wobble{0%,100%{transform:rotate(-6deg)}50%{transform:rotate(6deg)}}.ani-egg{animation:wobble .7s infinite}.ani-bb{animation:wobble .5s infinite alternate}.ani-teen{transform:scale(1.05)}.ani-king{filter:drop-shadow(0 8px 10px rgba(0,0,0,.3))}
+#mathBox{position:fixed;left:0;top:0;right:0;bottom:0;background:rgba(0,0,0,.7);display:none;align-items:center;justify-content:center;z-index:9999}.math-card{background:white;width:90%;max-width:380px;border-radius:20px;padding:22px;text-align:center}
+.math-card input{font-size:40px;width:160px;padding:12px;border:4px solid orange;border-radius:14px;text-align:center}
 </style></head><body>
 <div id="game">
 <h2>🦖 Yuki恐龍數學王</h2>
-<p id="lvInfo" style="font-weight:bold"></p>
+<p id="lvInfo"></p>
 <div class="pet-box">
-<div class="star-bar">⭐ x <span id="starCount">0</span></div>
-<img id="petImg" class="pet-img ani-egg" src="./dino1.png.jpg?v=3">
+<div class="star">⭐ x <span id="star">0</span></div>
+<img id="petImg" class="pet-img ani-egg" src="./dino1.png.jpg">
 <h3 id="petName"></h3><p id="petSay"></p>
-<div class="prog-bg"><div id="progBar" class="prog-fill" style="width:0%"></div></div>
-<p>總答 <b id="solved">0</b> | 分 <b id="score">0</b></p>
+<div class="prog-bg"><div id="progBar" class="prog-fill" style="width:0%">0/50</div></div>
+<p>總答 <span id="solved">0</span> | 分 <span id="score">0</span></p>
 </div>
-<button class="btn btn-go" id="goBtn" onclick="doAction()">▶️ 開始做題 (會讀題)</button>
-<button class="btn btn-evo" id="evoBtn" onclick="evolve()">⚡️ 進化下一關！</button>
-<button class="btn btn-small" onclick="toggleReport()">👨‍👩‍👧 家長報表 (今日統計)</button>
-<div id="report" style="display:none"></div>
+<button class="btn btn-go" onclick="startQ()">▶️ 開始做題 (會讀題)</button>
+<button class="btn btn-evo" id="evoBtn" onclick="doEvo()">⚡️ 進化下一關！</button>
+<div style="margin-top:10px;font-size:13px;color:#666">總答10題送1粒星 ⭐ | 有廣東話讀題 🗣️<br><a href="javascript:localStorage.clear();location.reload();">清零重玩</a></div>
 </div>
 
 <div id="mathBox"><div class="math-card">
-<div id="mathType" style="color:#888;font-size:13px"></div>
-<h2 id="mathQ"></h2>
-<input id="mathAns" type="number" inputmode="numeric"><br><br>
-<button class="btn" style="background:orange;color:white" onclick="checkMath()">確定</button>
-<button class="btn" style="background:#eee" onclick="document.getElementById('mathBox').style.display='none'">取消</button>
-<label style="display:block;margin-top:10px;font-size:13px"><input type="checkbox" id="voiceOn" checked> 🗣️ 廣東話讀題</label>
+<div id="mType" style="color:#999;font-size:13px"></div>
+<h1 id="mQ" style="font-size:32px"></h1>
+<input id="mAns" type="number" inputmode="numeric"><br><br>
+<button class="btn" style="background:orange;color:white" onclick="checkAns()">確定</button>
+<button class="btn" style="background:#eee" onclick="hideBox()">取消</button>
 </div></div>
 
 <script>
-// 音效 (WebAudio 無需檔案)
-let ac;function beep(f,d,t){try{if(!ac)ac=new (window.AudioContext||window.webkitAudioContext)();let o=ac.createOscillator(),g=ac.createGain();o.frequency.value=f;o.type=t||'sine';o.connect(g);g.connect(ac.destination);g.gain.setValueAtTime(0.3,ac.currentTime);g.gain.exponentialRampToValueAtTime(0.01,ac.currentTime+d);o.start();o.stop(ac.currentTime+d);}catch(e){}}
-function sCorrect(){beep(800,0.2,'sine');setTimeout(()=>beep(1200,0.3,'sine'),120);}
-function sWrong(){beep(200,0.4,'sawtooth');}
-function sEvo(){beep(300,0.2,'triangle');setTimeout(()=>beep(600,0.2,'triangle'),150);setTimeout(()=>beep(1000,0.6,'triangle'),300);}
-
-// 廣東話讀題
-function speakHK(t){if(!document.getElementById('voiceOn').checked)return;try{speechSynthesis.cancel();let u=new SpeechSynthesisUtterance(t);u.lang='zh-HK';u.rate=0.9;speechSynthesis.speak(u);}catch(e){}}
-
-// 數據
-const pets=[{img:"./dino1.png.jpg?v=3",name:"Lv.1 蛋 - 50內加法",ani:"ani-egg",total:50},{img:"./dino2.png.jpg?v=3",name:"Lv.2 奶樽BB - 50內減法",ani:"ani-bb",total:50},{img:"./dino3.png.WEBP?v=3",name:"Lv.3 橙色火焰龍 - 1-10乘法",ani:"ani-teen",total:100
+const pets=[
+{img:"./dino1.png.jpg",name:"Lv.1 蛋 - 50內加法",ani:"ani-egg",total:50},
+{img:"./dino2.png.jpg",name:"Lv.2 奶樽BB - 50內減法",ani:"ani-bb",total:50},
+{img:"./dino3.png.WEBP",name:"Lv.3 橙色火焰龍 - 1-10乘法",ani:"ani-teen",total:100},
+{img:"./dino4.png.jpg",name:"Lv.4 龍王 - 99內除法",ani:"ani-king",total:100}
+];
+let petIdx=0,solvedLv=0,total=0,score=0,stars=0,ans=0,qKey='';
+let ac;
+function beep(f,d){try{if(!ac)ac=new(window.AudioContext||window.webkitAudioContext)();let o=ac.createOscillator(),g=ac.createGain();o.frequency.value=f;o.connect(g);g.connect(ac.destination);g.gain.setValueAtTime(0.25,ac.currentTime);g.gain.exponentialRampToValueAtTime(0.01,ac.currentTime+d);o.start();o.stop(ac.currentTime+d);}catch(e){}}
+function speak(t){try{speechSynthesis.cancel();let u=new SpeechSynthesisUtterance(t);u.lang='zh-HK';u.rate=0.95;speechSynthesis.speak(u);}catch(e){}}
+function update(){
+let p=pets[petIdx];
+let img=document.getElementById('petImg');img.src=p.img;img.className='pet-img '+p.ani;
+document.getElementById('petName').innerText=p.name;
+document.getElementById('lvInfo').innerText='第'+(petIdx+1)+'關 - 目標'+p.total+'題';
+let pct=Math.floor(solvedLv/p.total*100);let bar=document.getElementById('progBar');bar.style.width=pct+'%';bar.innerText=solvedLv+'/'+p.total;
+document.getElementById('solved').innerText=total;document.getElementById('score').innerText=score;document.getElementById('star').innerText=stars;
+document.getElementById('evoBtn').style.display=solvedLv>=p.total?'block':'none';
+document.getElementById('petSay').innerText=solvedLv>=p.total?'🎉 完成晒！快啲進化！':'仲有 '+(p.total-solvedLv)+' 題就進化！';
+}
+function startQ(){
+let a,b,qt,qs;
+if(petIdx==0){a=Math.floor(Math.random()*26);b=Math.floor(Math.random()*(51-a));ans=a+b;qt=a+' + '+b+' = ?';qs=a+'加'+b+'等於幾多';qKey='加法';}
+else if(petIdx==1){a=Math.floor(Math.random()*50)+1;b=Math.floor(Math.random()*(a+1));ans=a-b;qt=a+' - '+b+' = ?';qs=a+'減'+b+'等於幾多';qKey='減法';}
+else if(petIdx==2){a=Math.floor(Math.random()*10)+1;b=Math.floor(Math.random()*10)+1;ans=a*b;qt=a+' × '+b+' = ?';qs=a+'乘'+b+'等於幾多';qKey='乘法';}
+else{b=Math.floor(Math.random()*11)+2;ans=Math.floor(Math.random()*9)+1;a=b*ans;qt=a+' ÷ '+b+' = ?';qs=a+'除以'+b+'等於幾多';qKey='除法';}
+document.getElementById('mQ').innerText=qt;document.getElementById('mType').innerText=qKey;
+document.getElementById('mathBox').style.display='flex';
+document.getElementById('mAns').value='';
+setTimeout(()=>{document.getElementById('mAns').focus();speak(qs);},200);
+}
+function hideBox(){document.getElementById('mathBox').style.display='none';}
+function checkAns(){
+let v=parseInt(document.getElementById('mAns').value);
+if(v===ans){
+solvedLv++;total++;score+=10;beep(800,0.2);setTimeout(()=>beep(1200,0.2),120);
+if(total%10==0){stars++;beep(1500,0.4);alert('⭐ 叻呀！儲到 '+stars+' 粒星！');}
+hideBox();update();
+}else{beep(200,0.4);alert('錯咗，正確係 '+ans+'，再試！');}
+}
+function doEvo(){
+if(solvedLv>=pets[petIdx].total && petIdx<3){
+beep(400,0.2);setTimeout(()=>beep(800,0.4),200);
+petIdx++;solvedLv=0;update();alert('💥 進化成功！');
+}else if(petIdx==3){alert('🏆 龍王畢業！總共 '+total+' 題，'+stars+' 粒星！');}
+}
+update();
+</script></body></html>
