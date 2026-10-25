@@ -4,12 +4,12 @@ body{margin:0;background:#0f0f23;display:flex;justify-content:center;font-family
 .card{background:white;border-radius:22px;padding:14px;margin:10px 0;box-shadow:0 4px 12px rgba(0,0,0,.1)}
 .pet-img{width:200px;height:200px;object-fit:contain;margin:0 auto;display:block}
 .btn{width:100%;padding:14px;border:none;border-radius:14px;font-size:18px;font-weight:bold;margin:5px 0;cursor:pointer}.btn-go{background:#66bb6a;color:white}.btn-leader{background:linear-gradient(135deg,#ff9800,#f44336);color:white}.btn-evo{background:gold;display:none}
-.bgm-bar{display:flex;gap:8px;margin:10px 0}.bgm-btn{flex:1;padding:11px;border-radius:24px;border:2.5px solid #ff9800;background:white;font-weight:bold;font-size:12px;cursor:pointer;transition:.2s}.bgm-btn.on{background:#ff9800;color:white;transform:scale(1.05)}
+.bgm-bar{display:flex;gap:8px;margin:10px 0}.bgm-btn{flex:1;padding:11px;border-radius:24px;border:2.5px solid #ff9800;background:white;font-weight:bold;font-size:12px;cursor:pointer}.bgm-btn.on{background:#ff9800;color:white;transform:scale(1.05)}
 .timer{font-size:20px;font-weight:bold;color:#e65100;background:#fff3e0;padding:6px 14px;border-radius:20px;display:inline-block}
 .prog-bg{background:#eee;border-radius:12px;height:20px;overflow:hidden;margin:8px 0;position:relative}.prog-fill{height:100%;background:#66bb6a;transition:.4s}.prog-text{position:absolute;width:100%;top:2px;font-weight:bold;font-size:12px;text-align:center}
 #mathBox,#leadBox{position:fixed;inset:0;background:rgba(0,0,0,.8);display:none;align-items:center;justify-content:center;z-index:9999;padding:14px}.box{background:white;width:100%;max-width:380px;border-radius:24px;padding:20px;text-align:center;border:4px solid #ff9800;max-height:90vh;overflow:auto}
 .box input{font-size:18px;padding:10px;border:3px solid #ff9800;border-radius:12px;width:85%;margin:5px 0;text-align:center;font-weight:bold}
-#toast{position:fixed;top:38%;left:50%;transform:translate(-50%,-50%);padding:16px 24px;border-radius:20px;font-size:17px;font-weight:bold;z-index:10001;display:none;color:white;text-align:center}
+#toast{position:fixed;top:35%;left:50%;transform:translate(-50%,-50%);padding:16px 24px;border-radius:20px;font-size:17px;font-weight:bold;z-index:10001;display:none;color:white;text-align:center}
 .lead-row{display:flex;justify-content:space-between;padding:10px;border-bottom:1px solid #ffe0b2;font-size:13px}
 </style></head><body>
 <div id="game">
@@ -29,7 +29,7 @@ body{margin:0;background:#0f0f23;display:flex;justify-content:center;font-family
 <div style="font-size:11px;color:#795548;margin-top:6px"><a href="#" onclick="clearAll();return false">清零重玩</a></div></div>
 
 <div id="mathBox"><div class="box"><h1 id="mQ" style="font-size:34px"></h1><input id="mAns" type="tel" inputmode="numeric"><br><br><button class="btn" style="background:#ff9800;color:white" onclick="checkAns()">確定</button><button class="btn" style="background:#eee" onclick="hideMath()">取消</button></div></div>
-<div id="leadBox"><div class="box"><h2>👑 霸主榜</h2><div id="leadList"></div><div style="margin-top:10px;border-top:3px dashed #ff9800;padding-top:10px"><input id="playerName" placeholder="霸主名號"><input id="playerPwd" type="password" placeholder="4位密碼鎖名"><button class="btn" style="background:#66bb6a;color:white" onclick="uploadScore()">🔒 登榜</button><button class="btn" style="background:#eee" onclick="closeLeader()">關閉</button></div></div></div>
+<div id="leadBox"><div class="box"><h2>👑 霸主榜</h2><p style="font-size:12px;color:#e65100">同分比快 ⏱️</p><div id="leadList"></div><div style="margin-top:10px;border-top:3px dashed #ff9800;padding-top:10px"><input id="playerName" placeholder="霸主名號"><input id="playerPwd" type="password" placeholder="4位密碼鎖名"><button class="btn" style="background:#66bb6a;color:white" onclick="uploadScore()">🔒 登榜</button><button class="btn" style="background:#eee" onclick="closeLeader()">關閉</button></div></div></div>
 <div id="toast"></div>
 
 <audio id="kidBgm" loop preload="auto" playsinline><source src="./jiuyinge.mp3" type="audio/mpeg"></audio>
@@ -39,8 +39,8 @@ body{margin:0;background:#0f0f23;display:flex;justify-content:center;font-family
 const BUCKET_ID="9xrLimS38pHRafoTWwqfSP",KEY="yuki_leaderboard";
 const pets=[{img:"./dino1.png.jpg",name:"Lv.1 蛋蛋龍",total:20},{img:"./dino2.png.jpg",name:"Lv.2 BB龍",total:20},{img:"./dino3.png.WEBP",name:"Lv.3 火焰龍",total:20},{img:"./dino4.png.jpg",name:"Lv.4 霸王龍",total:20}];
 let petIdx=0,solvedLv=0,total=0,score=0,ans=0,ac,startTime=0,pausedTime=0,timerPaused=false,timerInterval=null,pauseStart=0,pausedElapsed=0;
-let saved=JSON.parse(localStorage.getItem('yuki_v32')||'{}'); if(saved.petIdx!=null){petIdx=saved.petIdx;solvedLv=saved.solvedLv;total=saved.total;score=saved.score;startTime=saved.startTime||0;}
-function save(){localStorage.setItem('yuki_v32',JSON.stringify({petIdx,solvedLv,total,score,startTime,pausedTime,timerPaused}));}
+let saved=JSON.parse(localStorage.getItem('yuki_v33')||'{}'); if(saved.petIdx!=null){petIdx=saved.petIdx;solvedLv=saved.solvedLv;total=saved.total;score=saved.score;startTime=saved.startTime||0;}
+function save(){localStorage.setItem('yuki_v33',JSON.stringify({petIdx,solvedLv,total,score,startTime,pausedTime,timerPaused}));}
 function beep(f,d){try{if(!ac)ac=new(window.AudioContext||window.webkitAudioContext)();let o=ac.createOscillator(),g=ac.createGain();o.frequency.value=f;o.connect(g);g.connect(ac.destination);g.gain.setValueAtTime(.3,ac.currentTime);g.gain.exponentialRampToValueAtTime(.01,ac.currentTime+d);o.start();o.stop(ac.currentTime+d);}catch(e){}}
 function showToast(t,c){let e=document.getElementById('toast');e.innerText=t;e.style.background=c;e.style.display='block';setTimeout(()=>e.style.display='none',2500);}
 function formatTime(ms){let s=Math.floor(ms/1000),m=Math.floor(s/60);s%=60;return (m<10?'0':'')+m+':'+(s<10?'0':'')+s;}
@@ -55,44 +55,55 @@ function checkAns(){let v=parseInt(document.getElementById('mAns').value);if(isN
 function doEvo(){if(solvedLv>=pets[petIdx].total&&petIdx<3){startTimer();petIdx++;solvedLv=0;update();}else if(petIdx==3){stopTimer();openLeader();}}
 function clearAll(){if(confirm('清零？')){localStorage.clear();location.reload();}}
 
-// V32 音樂強制切換
-let kidOn=false,pianoOn=false,kidSynthTimer=null;
+// V33 真童聲九因歌 - 用系統童聲
+let kidOn=false,pianoOn=false,kidUtter=null,jiuyinLines=[
+"一一得一","一二得二","一三得三","一四得四","一五得五","一六得六","一七得七","一八得八","一九得九",
+"二二得四","二三得六","二四得八","二五一十","二六十二","二七十四","二八十六","二九十八",
+"三三得九","三四十二","三五十五","三六十八","三七二十一","三八二十四","三九二十七",
+"四四十六","四五二十","四六二十四","四七二十八","四八三十二","四九三十六",
+"五五二十五","五六三十","五七三十五","五八四十","五九四十五",
+"六六三十六","六七四十二","六八四十八","六九五十四",
+"七七四十九","七八五十六","七九六十三",
+"八八六十四","八九七十二",
+"九九八十一"
+];
+let lineIdx=0;
 function initAudio(){try{if(!ac)ac=new(window.AudioContext||window.webkitAudioContext)(); if(ac.state==='suspended') ac.resume();}catch(e){}}
-function playKidSynth(){
-  if(!ac) return;
-  let notes=[261,294,329,349,392,440,493,523];
-  let i=0;
-  kidSynthTimer=setInterval(()=>{beep(notes[i%notes.length],0.4); i++;},500);
+function speakLine(){
+  if(!kidOn) return;
+  let text=jiuyinLines[lineIdx%jiuyinLines.length];
+  let u=new SpeechSynthesisUtterance(text);
+  u.lang='zh-CN'; u.rate=0.9; u.pitch=1.4; u.volume=1;
+  // 盡量搵童聲/女聲
+  let voices=speechSynthesis.getVoices();
+  let child=voices.find(v=>v.name.includes('Ting')||v.name.includes('child')||v.name.includes('Yaoyao')||v.name.includes('Meimei')||v.name.includes('Xiao'))||voices.find(v=>v.lang.startsWith('zh'))||voices[0];
+  if(child) u.voice=child;
+  u.onend=()=>{lineIdx++; if(kidOn) setTimeout(speakLine,400);};
+  speechSynthesis.speak(u);
 }
-function stopKidSynth(){if(kidSynthTimer){clearInterval(kidSynthTimer);kidSynthTimer=null;}}
-
 function toggleKid(){
   initAudio();
   let a=document.getElementById('kidBgm'),btn=document.getElementById('b1');
   if(kidOn){
-    a.pause(); stopKidSynth();
-    kidOn=false; btn.innerText='👧 童聲九因歌 OFF'; btn.classList.remove('on');
+    a.pause(); speechSynthesis.cancel(); kidOn=false;
+    btn.innerText='👧 童聲九因歌 OFF'; btn.classList.remove('on');
     showToast('🔇 已關九因歌','#666');
   }else{
-    // 先轉ON
     kidOn=true; btn.innerText='👧 童聲九因歌 ON'; btn.classList.add('on');
-    a.volume=0.8;
-    a.play().then(()=>{showToast('🎵 童聲九因歌播放中','#ff9800');}).catch(()=>{
-      // 無mp3檔就用電子版
-      playKidSynth();
-      showToast('🎵 電子九因歌播放中(上傳jiuyinge.mp3會有真童聲)','#ff9800');
+    // 先試播真mp3
+    a.volume=0.8; a.play().then(()=>{showToast('🎵 真童聲mp3播放中','#ff9800');}).catch(()=>{
+      // 無mp3就用真人TTS童聲
+      lineIdx=0; speechSynthesis.cancel();
+      showToast('👧 真童聲九因歌開始：一一得一...','#ff9800');
+      speakLine();
     });
   }
 }
 function togglePiano(){
   initAudio();
   let a=document.getElementById('pianoBgm'),btn=document.getElementById('b2');
-  if(pianoOn){
-    a.pause(); pianoOn=false; btn.innerText='🎹 輕音樂 OFF'; btn.classList.remove('on');
-  }else{
-    pianoOn=true; btn.innerText='🎹 輕音樂 ON'; btn.classList.add('on');
-    a.volume=0.3; a.play().catch(()=>showToast('🎹 輕音樂需再按','#ff9800'));
-  }
+  if(pianoOn){a.pause();pianoOn=false;btn.innerText='🎹 輕音樂 OFF';btn.classList.remove('on');}
+  else{pianoOn=true;btn.innerText='🎹 輕音樂 ON';btn.classList.add('on');a.volume=0.3;a.play().catch(()=>{});}
 }
 async function loadLeaderboard(){let el=document.getElementById('leadList');el.innerHTML='⏳ 載入中...';let c=[];try{c=c.concat(JSON.parse(localStorage.getItem('yuki_local_lead')||'[]'));}catch(e){}try{let r=await fetch(`https://kvdb.io/${BUCKET_ID}/${KEY}?t=${Date.now()}`,{cache:'no-store'});if(r.ok){let t=await r.text();if(t)c=c.concat(JSON.parse(t));}}catch(e){}if(!c.length){el.innerHTML='未有霸主';return;}let m={};c.forEach(x=>{let k=x.name.trim().toLowerCase();if(!m[k]||x.score>m[k].score||(x.score==m[k].score&&x.timeMs<m[k].timeMs))m[k]=x;});let u=Object.values(m).sort((a,b)=>b.score!=a.score?b.score-a.score:a.timeMs-b.timeMs).slice(0,20);el.innerHTML=u.map((r,i)=>`<div class="lead-row"><span>${i==0?'👑':i+1+'.'} ${r.name}</span><span>${r.score}分 | ⏱️${r.timeStr}</span></div>`).join('');}
 async function uploadScore(){let n=document.getElementById('playerName').value.trim(),p=document.getElementById('playerPwd').value.trim();if(!n||!p){showToast('名+密碼必填','#ff9800');return;}let e={name:n,score,total,timeMs:getElapsed(),timeStr:formatTime(getElapsed()),pwd:p};localStorage.setItem('yuki_last_name',n);localStorage.setItem('yuki_last_pwd',p);try{let r=await fetch(`https://kvdb.io/${BUCKET_ID}/${KEY}?t=${Date.now()}`,{cache:'no-store'});let d=[];if(r.ok){let t=await r.text();if(t)d=JSON.parse(t);}let k=n.toLowerCase();let ex=d.find(x=>x.name.toLowerCase()==k);if(ex&&ex.pwd&&ex.pwd!==p){showToast('🔒 名已被鎖','#ff5252');return;}d=d.filter(x=>x.name.toLowerCase()!=k);d.push(e);d.sort((a,b)=>b.score!=a.score?b.score-a.score:a.timeMs-b.timeMs);await fetch(`https://kvdb.io/${BUCKET_ID}/${KEY}`,{method:'POST',body:JSON.stringify(d)});showToast('👑 上榜','#66bb6a');}catch(e){}loadLeaderboard();}
