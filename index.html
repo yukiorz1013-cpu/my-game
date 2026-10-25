@@ -1,85 +1,51 @@
-<!DOCTYPE html><html lang="zh-HK"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Yuki恐龍數學王 記憶版</title><style>
-body{margin:0;background:#0f0f23;display:flex;justify-content:center;font-family:sans-serif}
-#game{width:100%;max-width:440px;background:linear-gradient(#fff8e1,#ffcc80);min-height:100vh;padding:14px;box-sizing:border-box;text-align:center}
-.pet-box{background:white;border-radius:24px;padding:14px;margin:10px 0;position:relative}
-.pet-img{width:210px;height:210px;object-fit:contain;display:block;margin:0 auto}
-.star{position:absolute;top:10px;right:14px;font-weight:bold}
-.prog-bg{background:#eee;border-radius:12px;height:24px;overflow:hidden;margin:12px 0}.prog-fill{height:100%;background:#66bb6a;display:flex;align-items:center;justify-content:center;color:white;font-weight:bold;transition:.5s}
-.btn{width:100%;padding:16px;border:none;border-radius:14px;font-size:20px;font-weight:bold;margin:8px 0}.btn-go{background:#66bb6a;color:white}.btn-evo{background:gold;display:none}
-@keyframes wobble{0%,100%{transform:rotate(-6deg)}50%{transform:rotate(6deg)}}.ani-egg{animation:wobble .7s infinite}
-#mathBox{position:fixed;left:0;top:0;right:0;bottom:0;background:rgba(0,0,0,.7);display:none;align-items:center;justify-content:center;z-index:9999}.math-card{background:white;width:90%;max-width:380px;border-radius:20px;padding:22px;text-align:center}
-.math-card input{font-size:40px;width:160px;padding:12px;border:4px solid orange;border-radius:14px;text-align:center}
+<!DOCTYPE html><html lang="zh-HK"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"><title>Yuki恐龍數學王</title><style>
+body{margin:0;background:#0f0f23;display:flex;justify-content:center;font-family:-apple-system,sans-serif}
+#game{width:100%;max-width:440px;background:linear-gradient(#fff8e1,#ffcc80);min-height:100vh;padding:16px;box-sizing:border-box;text-align:center}
+.card{background:white;border-radius:24px;padding:16px;margin:12px 0;position:relative;box-shadow:0 4px 12px rgba(0,0,0,.1)}
+.pet-img{width:220px;height:220px;object-fit:contain;display:block;margin:0 auto}
+.star{position:absolute;top:14px;right:16px;background:#fff7c0;padding:4px 10px;border-radius:20px;font-weight:bold;font-size:15px}
+.prog-bg{background:#eee;border-radius:12px;height:28px;overflow:hidden;margin:14px 0;position:relative}.prog-fill{height:100%;background:linear-gradient(90deg,#66bb6a,#43a047);transition:.4s;display:flex;align-items:center}.prog-text{position:absolute;width:100%;text-align:center;top:5px;font-weight:bold;font-size:14px;color:#333}
+.btn{width:100%;padding:18px;border:none;border-radius:16px;font-size:21px;font-weight:bold;margin:8px 0;cursor:pointer}.btn-go{background:#66bb6a;color:white}.btn-evo{background:gold;display:none}
+@keyframes wobble{0%,100%{transform:rotate(-5deg)}50%{transform:rotate(5deg)}}.wobble{animation:wobble .8s infinite}
+#mathBox{position:fixed;inset:0;background:rgba(0,0,0,.65);display:none;align-items:center;justify-content:center;z-index:9999;padding:16px}.math-card{background:white;width:100%;max-width:360px;border-radius:24px;padding:24px;text-align:center}
+.math-card input{font-size:42px;width:180px;padding:14px;border:4px solid #ff9800;border-radius:16px;text-align:center;-webkit-appearance:none;outline:none}
 </style></head><body>
 <div id="game">
-<h2>🦖 Yuki恐龍數學王</h2>
-<p id="lvInfo"></p>
-<div class="pet-box">
+<h2 style="margin:8px 0">🦖 Yuki恐龍數學王</h2>
+<p id="lvInfo" style="color:#666;font-size:14px;margin:4px"></p>
+<div class="card">
 <div class="star">⭐ x <span id="star">0</span></div>
-<img id="petImg" class="pet-img ani-egg" src="./dino1.png.jpg">
-<h3 id="petName"></h3><p id="petSay"></p>
-<div class="prog-bg"><div id="progBar" class="prog-fill" style="width:0%">0/50</div></div>
-<p>總答 <span id="solved">0</span> | 分 <span id="score">0</span></p>
+<img id="petImg" class="pet-img wobble" src="./dino1.png.jpg">
+<h3 id="petName" style="margin:8px 0"></h3>
+<p id="petSay" style="color:#e65100;font-weight:bold"></p>
+<div class="prog-bg"><div id="progBar" class="prog-fill" style="width:4%"></div><div id="progText" class="prog-text">0 / 50</div></div>
+<p style="margin:6px 0">總答 <b id="solved">0</b> 題 | <b id="score">0</b> 分</p>
 </div>
 <button class="btn btn-go" onclick="startQ()">▶️ 開始做題 (會讀題)</button>
 <button class="btn btn-evo" id="evoBtn" onclick="doEvo()">⚡️ 進化下一關！</button>
-<div style="margin-top:10px;font-size:13px;color:#666">
-🔊有音效+廣東話讀題 🗣️<br>
-<a href="#" onclick="clearAll()">清零重玩</a> | 已自動保存進度
-</div>
+<div style="margin-top:12px;font-size:13px;color:#795548">🔊自動讀題+音效<br><a href="#" onclick="clearAll();return false" style="color:#795548">清零重玩</a> · 已自動保存</div>
 </div>
 
 <div id="mathBox"><div class="math-card">
-<div id="mType" style="color:#999"></div>
-<h1 id="mQ"></h1>
-<input id="mAns" type="number" inputmode="numeric"><br><br>
-<button class="btn" style="background:orange;color:white" onclick="checkAns()">確定</button>
-<button class="btn" style="background:#eee" onclick="hideBox()">取消</button>
+<div id="mType" style="color:#999;font-size:14px;margin-bottom:8px"></div>
+<h1 id="mQ" style="font-size:36px;margin:12px 0"></h1>
+<input id="mAns" type="tel" inputmode="numeric" pattern="[0-9]*" autocomplete="off" autocorrect="off" spellcheck="false"><br><br>
+<button class="btn" style="background:#ff9800;color:white;margin:6px 0" onclick="checkAns()">確定</button>
+<button class="btn" style="background:#eee;margin:6px 0" onclick="hideBox()">取消</button>
 </div></div>
 
 <script>
-const pets=[
-{img:"./dino1.png.jpg",name:"Lv.1 蛋 - 50內加法",total:50},
-{img:"./dino2.png.jpg",name:"Lv.2 奶樽BB - 50內減法",total:50},
-{img:"./dino3.png.WEBP",name:"Lv.3 橙色火焰龍 - 1-10乘法",total:100},
-{img:"./dino4.png.jpg",name:"Lv.4 龍王 - 99內除法",total:100}
-];
-// 讀取進度
-let petIdx=parseInt(localStorage.getItem('yuki_petIdx')||0);
-let solvedLv=parseInt(localStorage.getItem('yuki_solvedLv')||0);
-let total=parseInt(localStorage.getItem('yuki_total')||0);
-let score=parseInt(localStorage.getItem('yuki_score')||0);
-let stars=parseInt(localStorage.getItem('yuki_stars')||0);
-let ans=0;
-let ac;
-function save(){localStorage.setItem('yuki_petIdx',petIdx);localStorage.setItem('yuki_solvedLv',solvedLv);localStorage.setItem('yuki_total',total);localStorage.setItem('yuki_score',score);localStorage.setItem('yuki_stars',stars);}
-function beep(f,d){try{if(!ac)ac=new(window.AudioContext||window.webkitAudioContext)();let o=ac.createOscillator(),g=ac.createGain();o.frequency.value=f;o.connect(g);g.connect(ac.destination);g.gain.setValueAtTime(0.25,ac.currentTime);g.gain.exponentialRampToValueAtTime(0.01,ac.currentTime+d);o.start();o.stop(ac.currentTime+d);}catch(e){}}
-function speak(t){try{speechSynthesis.cancel();let u=new SpeechSynthesisUtterance(t);u.lang='zh-HK';u.rate=0.95;speechSynthesis.speak(u);}catch(e){}}
-function update(){
-let p=pets[petIdx];
-document.getElementById('petImg').src=p.img;
-document.getElementById('petName').innerText=p.name;
-document.getElementById('lvInfo').innerText='第'+(petIdx+1)+'關 - 目標'+p.total+'題';
-let pct=Math.floor(solvedLv/p.total*100);let bar=document.getElementById('progBar');bar.style.width=pct+'%';bar.innerText=solvedLv+'/'+p.total;
-document.getElementById('solved').innerText=total;document.getElementById('score').innerText=score;document.getElementById('star').innerText=stars;
-document.getElementById('evoBtn').style.display=solvedLv>=p.total?'block':'none';
-document.getElementById('petSay').innerText=solvedLv>=p.total?'🎉完成！快啲進化！':'仲有 '+(p.total-solvedLv)+' 題進化！';
-save();
-}
-function startQ(){
-let a,b,qt,qs;
-if(petIdx==0){a=Math.floor(Math.random()*26);b=Math.floor(Math.random()*(51-a));ans=a+b;qt=a+' + '+b+' = ?';qs=a+'加'+b+'等於幾多';}
-else if(petIdx==1){a=Math.floor(Math.random()*50)+1;b=Math.floor(Math.random()*(a+1));ans=a-b;qt=a+' - '+b+' = ?';qs=a+'減'+b+'等於幾多';}
-else if(petIdx==2){a=Math.floor(Math.random()*10)+1;b=Math.floor(Math.random()*10)+1;ans=a*b;qt=a+' × '+b+' = ?';qs=a+'乘'+b+'等於幾多';}
-else{b=Math.floor(Math.random()*11)+2;ans=Math.floor(Math.random()*9)+1;a=b*ans;qt=a+' ÷ '+b+' = ?';qs=a+'除以'+b+'等於幾多';}
-document.getElementById('mQ').innerText=qt;document.getElementById('mType').innerText='第'+(petIdx+1)+'關';
-document.getElementById('mathBox').style.display='flex';document.getElementById('mAns').value='';
-setTimeout(()=>{document.getElementById('mAns').focus();speak(qs);},200);
-}
+const pets=[{img:"./dino1.png.jpg",name:"Lv.1 蛋 - 50內加法",total:50},{img:"./dino2.png.jpg",name:"Lv.2 奶樽BB - 50內減法",total:50},{img:"./dino3.png.WEBP",name:"Lv.3 火焰龍 - 乘法",total:100},{img:"./dino4.png.jpg",name:"Lv.4 龍王 - 除法",total:100}];
+let petIdx=parseInt(localStorage.getItem('yuki_petIdx')||0),solvedLv=parseInt(localStorage.getItem('yuki_solvedLv')||0),total=parseInt(localStorage.getItem('yuki_total')||0),score=parseInt(localStorage.getItem('yuki_score')||0),stars=parseInt(localStorage.getItem('yuki_stars')||0),ans=0;
+let ac;function save(){localStorage.setItem('yuki_petIdx',petIdx);localStorage.setItem('yuki_solvedLv',solvedLv);localStorage.setItem('yuki_total',total);localStorage.setItem('yuki_score',score);localStorage.setItem('yuki_stars',stars);}
+function beep(f,d){try{if(!ac)ac=new(window.AudioContext||window.webkitAudioContext)();let o=ac.createOscillator(),g=ac.createGain();o.frequency.value=f;o.connect(g);g.connect(ac.destination);g.gain.setValueAtTime(.25,ac.currentTime);g.gain.exponentialRampToValueAtTime(.01,ac.currentTime+d);o.start();o.stop(ac.currentTime+d);}catch(e){}}
+function speak(t){try{speechSynthesis.cancel();let u=new SpeechSynthesisUtterance(t);u.lang='zh-HK';u.rate=.92;speechSynthesis.speak(u);}catch(e){}}
+function update(){let p=pets[petIdx];document.getElementById('petImg').src=p.img;document.getElementById('petName').innerText=p.name;document.getElementById('lvInfo').innerText='第'+(petIdx+1)+'關 · 目標'+p.total+'題';let pct=Math.round(solvedLv/p.total*100);document.getElementById('progBar').style.width=pct+'%';document.getElementById('progText').innerText=solvedLv+' / '+p.total+' ('+pct+'%)';document.getElementById('solved').innerText=total;document.getElementById('score').innerText=score;document.getElementById('star').innerText=stars;document.getElementById('evoBtn').style.display=solvedLv>=p.total?'block':'none';document.getElementById('petSay').innerText=solvedLv>=p.total?'🎉 完成晒，快啲按進化！':'仲有 '+(p.total-solvedLv)+' 題就進化！';save();}
+function startQ(){let a,b,qt,qs;if(petIdx==0){a=Math.floor(Math.random()*26);b=Math.floor(Math.random()*(51-a));ans=a+b;qt=a+' + '+b+' = ?';qs=a+'加'+b+'等於幾多';}else if(petIdx==1){a=Math.floor(Math.random()*50)+1;b=Math.floor(Math.random()*(a+1));ans=a-b;qt=a+' - '+b+' = ?';qs=a+'減'+b+'等於幾多';}else if(petIdx==2){a=Math.floor(Math.random()*10)+1;b=Math.floor(Math.random()*10)+1;ans=a*b;qt=a+' × '+b+' = ?';qs=a+'乘'+b+'等於幾多';}else{b=Math.floor(Math.random()*11)+2;ans=Math.floor(Math.random()*9)+1;a=b*ans;qt=a+' ÷ '+b+' = ?';qs=a+'除以'+b+'等於幾多';}
+document.getElementById('mQ').innerText=qt;document.getElementById('mType').innerText='第'+(petIdx+1)+'關';document.getElementById('mathBox').style.display='flex';document.getElementById('mAns').value='';setTimeout(()=>{document.getElementById('mAns').focus();speak(qs);},250);}
 function hideBox(){document.getElementById('mathBox').style.display='none';}
-function checkAns(){
-let v=parseInt(document.getElementById('mAns').value);
-if(v===ans){solvedLv++;total++;score+=10;beep(800,0.2);setTimeout(()=>beep(1200,0.2),120);if(total%10==0){stars++;beep(1500,0.4);alert('⭐ 儲到 '+stars+' 粒星！');}hideBox();update();}else{beep(200,0.4);alert('錯咗，係 '+ans);}}
-function doEvo(){if(solvedLv>=pets[petIdx].total&&petIdx<3){petIdx++;solvedLv=0;update();beep(400,0.2);setTimeout(()=>beep(800,0.4),200);alert('💥 進化成功！');}else if(petIdx==3){alert('🏆 龍王畢業！');}}
-function clearAll(){if(confirm('清零？')){localStorage.clear();location.reload();}}
+function checkAns(){let v=parseInt(document.getElementById('mAns').value);if(isNaN(v)){return;}if(v===ans){solvedLv++;total++;score+=10;beep(800,.18);setTimeout(()=>beep(1200,.2),120);if(total%10==0){stars++;setTimeout(()=>{beep(1500,.4);alert('⭐ 叻叻！儲夠10題，得到1粒星！而家有 '+stars+' 粒！');update();},200);}hideBox();update();}else{beep(180,.4);alert('答錯咗，正確係 '+ans+'，再試下！');}}
+function doEvo(){if(solvedLv>=pets[petIdx].total&&petIdx<3){petIdx++;solvedLv=0;beep(400,.2);setTimeout(()=>beep(900,.5),200);update();alert('💥 進化成功！');}else if(petIdx==3){alert('🏆 龍王畢業！總共做咗 '+total+' 題！');}}
+function clearAll(){if(confirm('確定清零？')){localStorage.clear();location.reload();}}
 update();
 </script></body></html>
