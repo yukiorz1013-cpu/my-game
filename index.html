@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Kitchen Adventure</title>
+</head>
+<body style="margin:0;background:#FFF3E0;font-family:system-ui;display:flex;justify-content:center;align-items:center;min-height:100vh">
+<div style="background:white;padding:28px;border-radius:20px;box-shadow:0 12px 32px rgba(0,0,0,.15);max-width:420px;width:90%;text-align:center">
+<h2 style="margin:0 0 10px">🍳 廚房大冒險</h2>
+<p style="color:#888" id="progress">第 1 關 / 7</p>
+<div style="font-size:60px;margin:15px 0" id="emoji">🧊</div>
+<p id="q" style="font-size:18px;font-weight:bold;min-height:50px">This is a fridge. We can ___ food in it.</p>
+<div id="choices" style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center"></div>
+<p id="msg" style="min-height:24px;font-weight:bold;margin-top:15px"></p>
+</div>
+<script>
+const levels=[
+{emoji:"🧊",q:"This is a fridge. We can ___ food in it.",opts:["store","throw","draw"],ans:"store"},
+{emoji:"🍳",q:"This is a stove. Be careful ___ it!",opts:["of","under","on"],ans:"of"},
+{emoji:"🔪",q:"There is a knife. Don't ___ with it.",opts:["play","sleep","read"],ans:"play"},
+{emoji:"🚰",q:"This is a sink. We can ___ hands in it.",opts:["wash","hide","swing"],ans:"wash"},
+{emoji:"🪑",q:"There is a table. Put the plate ___ it.",opts:["on","under","behind"],ans:"on"},
+{emoji:"🧹",q:"The floor is dirty. We can ___ it.",opts:["sweep","draw","read"],ans:"sweep"},
+{emoji:"🎉",q:"最後！We can ___ dinner together!",opts:["eat","sleep","hide"],ans:"eat"}
+];
+let i=0;
+function render(){
+ document.getElementById('progress').innerText=`第 ${i+1} 關 / 7`;
+ document.getElementById('emoji').innerText=levels[i].emoji;
+ document.getElementById('q').innerText=levels[i].q;
+ let c=document.getElementById('choices'); c.innerHTML='';
+ levels[i].opts.forEach(o=>{
+   let b=document.createElement('button');
+   b.innerText=o; b.style="padding:10px 20px;border:2px solid #FFB74D;background:white;border-radius:12px;font-size:16px;cursor:pointer";
+   b.onclick=()=>check(o); c.appendChild(b);
+ });
+}
+function check(a){
+ let m=document.getElementById('msg');
+ if(a===levels[i].ans){m.style.color="green";m.innerText="✅ 啱晒！";i++;
+   if(i<levels.length){setTimeout(()=>{m.innerText='';render()},700)}
+   else{setTimeout(()=>{document.getElementById('q').innerText="🏆 你煮完大餐喇！7關全過！";document.getElementById('choices').innerHTML='';document.getElementById('emoji').innerText='👨‍🍳';m.innerText='超叻！'},700)}
+ } else {m.style.color="red";m.innerText=`❌ 試多次，提示：${levels[i].ans}`}
+}
+render();
+</script>
+</body>
+</html>
