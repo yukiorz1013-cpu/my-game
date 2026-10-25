@@ -1,1 +1,52 @@
-<!DOCTYPE html><html lang="zh"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Dino Pet</title><style>body{margin:0;background:#0f0f23;display:flex;justify-content:center;font-family:sans-serif}#game{width:100%;max-width:420px;background:linear-gradient(#fff8e1,#ffcc80);min-height:100vh;padding:15px;box-sizing:border-box;text-align:center}.pet-box{background:white;border-radius:24px;padding:15px;margin:10px 0}.pet-img{width:220px;height:220px;object-fit:contain}.bar{flex:1;background:#eee;border-radius:10px;height:16px;overflow:hidden}.bar-fill{height:100%;transition:.5s}.btn{width:100%;padding:14px;border:none;border-radius:14px;font-size:17px;font-weight:bold;margin:6px 0}.btn-feed{background:#66bb6a;color:white}.btn-play{background:#42a5f5;color:white}.btn-evo{background:gold;display:none;font-size:20px}#mathBox{position:fixed;inset:0;background:#0009;display:flex;align-items:center;justify-content:center;z-index:99;display:none}.math-card{background:white;width:90%;max-width:350px;border-radius:20px;padding:20px}.math-card input{font-size:30px;width:120px;padding:10px;border:3px solid orange;border-radius:12px;text-align:center}</style></head><body><div id="game"><h2>🦖 DINO 育成</h2><p>P1 20內加減</p><div class="pet-box"><img id="petImg" class="pet-img" src="dino1.png"><h3 id="petName">Dino 蛋 Lv.1</h3><p id="petSay">孵我啦！</p><div style="display:flex;gap:8px"><div style="flex:1;background:#eee;border-radius:10px;height:16px"><div id="hungerBar" style="height:100%;width:60%;background:#66bb6a"></div></div><div style="flex:1;background:#eee;border-radius:10px;height:16px"><div id="happyBar" style="height:100%;width:50%;background:#42a5f5"></div></div></div><div style="margin-top:8px;background:#eee;border-radius:10px;height:16px"><div id="evoBar" style="height:100%;width:0%;background:gold"></div></div><p>已答 <b id="solved">0</b> | 分 <b id="score">0</b></p></div><button class="btn btn-feed" onclick="doAction('feed')">🍙 餵食 加法</button><button class="btn btn-play" onclick="doAction('play')">⚽️ 陪玩 減法</button><button class="btn btn-evo" id="evoBtn" onclick="evolve()">⚡️ 進化！</button></div><div id="mathBox"><div class="math-card"><h2 id="mathQ">5+7=?</h2><input id="mathAns" type="number" inputmode="numeric"><br><br><button class="btn" style="background:orange;color:white" onclick="checkMath()">確定</button></div></div><script>const pets=[{img:"dino1.png",name:"Dino 蛋 Lv.1"},{img:"dino2.png",name:"Baby T-Rex Lv.2"},{img:"dino3.png",name:"Teen Dino Lv.3"},{img:"dino4.png",name:"Dino Dragon Boss Lv.4 MAX"}];let hunger=60,happy=50,evo=0,solved=0,score=0,petIdx=0,curAns=0,curAction='feed';function updatePet(){document.getElementById('petImg').src=pets[petIdx].img;document.getElementById('petName').innerText=pets[petIdx].name;document.getElementById('hungerBar').style.width=hunger+'%';document.getElementById('happyBar').style.width=happy+'%';document.getElementById('evoBar').style.width=evo+'%';document.getElementById('solved').innerText=solved;document.getElementById('score').innerText=score;document.getElementById('evoBtn').style.display=evo>=100?'block':'none';}function doAction(t){curAction=t;let a,b;if(t=='feed'){a=Math.floor(Math.random()*10)+2;b=Math.floor(Math.random()*(19-a))+1;curAns=a+b;document.getElementById('mathQ').innerText=a+' + '+b+' = ?';}else{a=Math.floor(Math.random()*10)+11;b=Math.floor(Math.random()*(a-1))+1;curAns=a-b;document.getElementById('mathQ').innerText=a+' - '+b+' = ?';}document.getElementById('mathBox').style.display='flex';document.getElementById('mathAns').value='';}function checkMath(){let v=parseInt(document.getElementById('mathAns').value);if(v===curAns){solved++;score+=10;evo=Math.min(100,evo+20);if(curAction=='feed')hunger=Math.min(100,hunger+25);else happy=Math.min(100,happy+25);document.getElementById('mathBox').style.display='none';updatePet();}else alert('錯咗，再試！');}function evolve(){if(petIdx<3){petIdx++;evo=0;updatePet();alert('🎉 進化！');}else alert('已是最勁！');}updatePet();</script></body></html>
+<!DOCTYPE html><html lang="zh"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Dino Pet Final</title><style>body{margin:0;background:#0f0f23;display:flex;justify-content:center;font-family:sans-serif}#game{width:100%;max-width:420px;background:linear-gradient(#fff8e1,#ffcc80);min-height:100vh;padding:15px;box-sizing:border-box;text-align:center}.pet-box{background:white;border-radius:24px;padding:15px;margin:10px 0;box-shadow:0 8px 20px #0002}.pet-img{width:220px;height:220px;object-fit:contain;transition:.4s}.bars{display:flex;gap:8px;margin:12px 0}.bar{flex:1;background:#eee;border-radius:10px;height:16px;overflow:hidden;position:relative}.bar-fill{height:100%;transition:.5s}.btn{width:100%;padding:14px;border:none;border-radius:14px;font-size:17px;font-weight:bold;margin:6px 0;cursor:pointer}.btn-feed{background:#66bb6a;color:white}.btn-play{background:#42a5f5;color:white}.btn-evo{background:gold;display:none;font-size:20px;animation:pop .5s infinite alternate}@keyframes pop{from{transform:scale(1)}to{transform:scale(1.05)}}#mathBox{position:fixed;inset:0;background:#0009;display:flex;align-items:center;justify-content:center;z-index:99;display:none}.math-card{background:white;width:90%;max-width:350px;border-radius:20px;padding:20px}.math-card input{font-size:32px;width:130px;padding:10px;border:3px solid orange;border-radius:12px;text-align:center}</style></head><body>
+<div id="game"><h2>🦖 DINO 恐龍育成</h2><p>P1 20以內加減</p><div class="pet-box"><img id="petImg" class="pet-img" src="IMG_9691.png"><h3 id="petName">Dino 蛋 - Lv.1</h3><p id="petSay">快啲孵我啦！</p><div class="bars"><div class="bar"><div id="hungerBar" class="bar-fill" style="width:60%;background:#66bb6a"></div></div><div class="bar"><div id="happyBar" class="bar-fill" style="width:50%;background:#42a5f5"></div></div></div><div class="bars"><div class="bar"><div id="evoBar" class="bar-fill" style="width:0%;background:gold"></div></div></div><p>已答 <b id="solved">0</b> 題 | 分數 <b id="score">0</b></p></div><button class="btn btn-feed" onclick="doAction('feed')">🍙 餵食 加法</button><button class="btn btn-play" onclick="doAction('play')">⚽️ 陪玩 減法</button><button class="btn btn-evo" id="evoBtn" onclick="evolve()">⚡️ 進化！</button><p style="font-size:11px;color:#666">yukiorz1013-cpu.github.io/my-game/</p></div>
+<div id="mathBox"><div class="math-card"><div style="font-size:40px">✏️</div><h2 id="mathQ">5+7=?</h2><input id="mathAns" type="number" inputmode="numeric"><br><br><button class="btn" style="background:orange;color:white" onclick="checkMath()">確定</button><p id="hint" style="color:#888">答啱先得！</p></div></div>
+<script>
+const pets=[
+{img:"IMG_9691.png",name:"Dino 蛋 - Lv.1"},
+{img:"IMG_9688.png",name:"Baby T-Rex - Lv.2"},
+{img:"IMG_9689.png",name:"Teen Dino - Lv.3"},
+{img:"IMG_9690.png",name:"Dino Dragon Boss - Lv.4 MAX"}
+];
+let hunger=60,happy=50,evo=0,solved=0,score=0,petIdx=0,curAns=0,curAction='feed';
+function updatePet(){
+document.getElementById('petImg').src=pets[petIdx].img;
+document.getElementById('petName').innerText=pets[petIdx].name;
+document.getElementById('hungerBar').style.width=hunger+'%';
+document.getElementById('happyBar').style.width=happy+'%';
+document.getElementById('evoBar').style.width=evo+'%';
+document.getElementById('solved').innerText=solved;
+document.getElementById('score').innerText=score;
+document.getElementById('evoBtn').style.display=evo>=100?'block':'none';
+}
+function doAction(t){
+curAction=t;let a,b;
+if(t=='feed'){a=Math.floor(Math.random()*10)+2;b=Math.floor(Math.random()*(19-a))+1;curAns=a+b;document.getElementById('mathQ').innerText=a+' + '+b+' = ?';}
+else{a=Math.floor(Math.random()*10)+11;b=Math.floor(Math.random()*(a-1))+1;curAns=a-b;document.getElementById('mathQ').innerText=a+' - '+b+' = ?';}
+document.getElementById('mathBox').style.display='flex';
+document.getElementById('mathAns').value='';
+setTimeout(()=>document.getElementById('mathAns').focus(),100);
+}
+function checkMath(){
+let v=parseInt(document.getElementById('mathAns').value);
+if(v===curAns){
+solved++;score+=10;evo=Math.min(100,evo+20);
+if(curAction=='feed')hunger=Math.min(100,hunger+25);else happy=Math.min(100,happy+25);
+document.getElementById('mathBox').style.display='none';
+let img=document.getElementById('petImg');img.style.transform='scale(1.2)';setTimeout(()=>img.style.transform='scale(1)',300);
+updatePet();
+if(evo>=100)document.getElementById('petSay').innerText='可以進化喇！按下面金色制！';
+}else{
+document.getElementById('hint').innerText='錯咗，再試！💪';
+document.getElementById('hint').style.color='red';
+setTimeout(()=>{document.getElementById('hint').innerText='答啱先得！';document.getElementById('hint').style.color='#888';},1000);
+}
+}
+function evolve(){
+if(petIdx<3){petIdx++;evo=0;hunger=70;happy=70;updatePet();alert('🎉 進化成功！變成 '+pets[petIdx].name);}
+else alert('🏆 已經係最勁龍王！你答啱咗 '+solved+' 題！超勁！');
+}
+setInterval(()=>{hunger=Math.max(0,hunger-2);happy=Math.max(0,happy-1);updatePet();},4000);
+updatePet();
+document.getElementById('mathAns').addEventListener('keydown',e=>{if(e.key=='Enter')checkMath();});
+</script></body></html>
