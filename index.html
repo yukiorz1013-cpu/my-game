@@ -1,12 +1,12 @@
-<!DOCTYPE html><html lang="zh-HK"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>數學霸 - 童聲九因歌 V29</title><style>
+<!DOCTYPE html><html lang="zh-HK"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>數學霸恐龍王</title><style>
 body{margin:0;background:#0f0f23;display:flex;justify-content:center;font-family:-apple-system,sans-serif}
 #game{width:100%;max-width:440px;background:linear-gradient(#fff8e1,#ffcc80);min-height:100vh;padding:14px;box-sizing:border-box;text-align:center}
 .card{background:white;border-radius:22px;padding:14px;margin:10px 0;box-shadow:0 4px 12px rgba(0,0,0,.1)}
 .pet-img{width:200px;height:200px;object-fit:contain;margin:0 auto;display:block}
 .btn{width:100%;padding:14px;border:none;border-radius:14px;font-size:18px;font-weight:bold;margin:5px 0;cursor:pointer}.btn-go{background:#66bb6a;color:white}.btn-leader{background:linear-gradient(135deg,#ff9800,#f44336);color:white}.btn-evo{background:gold;display:none}
-.bgm-bar{display:flex;gap:6px;margin:8px 0}.bgm-btn{flex:1;padding:10px;border-radius:20px;border:2px solid #ff9800;background:white;font-weight:bold;font-size:12px;cursor:pointer}
-.bgm-btn.on{background:#fff9c4;border-color:#f44336}
-.timer{font-size:20px;font-weight:bold;color:#e65100;background:#fff3e0;padding:5px 12px;border-radius:20px;display:inline-block}
+.bgm-bar{display:flex;gap:8px;margin:10px 0}.bgm-btn{flex:1;padding:10px;border-radius:24px;border:2px solid #ff9800;background:white;font-weight:bold;font-size:12px;cursor:pointer}
+.bgm-btn.on{background:#ff9800;color:white}
+.timer{font-size:20px;font-weight:bold;color:#e65100;background:#fff3e0;padding:6px 14px;border-radius:20px;display:inline-block}
 .prog-bg{background:#eee;border-radius:12px;height:20px;overflow:hidden;margin:8px 0;position:relative}.prog-fill{height:100%;background:#66bb6a;transition:.4s}.prog-text{position:absolute;width:100%;top:2px;font-weight:bold;font-size:12px;text-align:center}
 #mathBox,#leadBox{position:fixed;inset:0;background:rgba(0,0,0,.8);display:none;align-items:center;justify-content:center;z-index:9999;padding:14px}.box{background:white;width:100%;max-width:380px;border-radius:24px;padding:20px;text-align:center;border:4px solid #ff9800;max-height:90vh;overflow:auto}
 .box input{font-size:18px;padding:10px;border:3px solid #ff9800;border-radius:12px;width:85%;margin:5px 0;text-align:center;font-weight:bold}
@@ -14,7 +14,7 @@ body{margin:0;background:#0f0f23;display:flex;justify-content:center;font-family
 .lead-row{display:flex;justify-content:space-between;padding:8px;border-bottom:1px solid #ffe0b2;font-size:13px}
 </style></head><body>
 <div id="game">
-<h2>🦖 數學霸 - 童聲九因歌</h2>
+<h2>🦖 數學霸恐龍王</h2>
 <div class="card">
 <img id="petImg" class="pet-img" src="./dino1.png.jpg"><h3 id="petName"></h3>
 <div class="timer">⏱️ <span id="timer">00:00</span></div>
@@ -30,12 +30,12 @@ body{margin:0;background:#0f0f23;display:flex;justify-content:center;font-family
 <div style="font-size:11px;color:#795548;margin-top:6px"><a href="#" onclick="clearAll();return false">清零重玩</a></div></div>
 
 <div id="mathBox"><div class="box"><h1 id="mQ" style="font-size:34px"></h1><input id="mAns" type="tel" inputmode="numeric"><br><br><button class="btn" style="background:#ff9800;color:white" onclick="checkAns()">確定</button><button class="btn" style="background:#eee" onclick="hideMath()">取消</button></div></div>
-<div id="leadBox"><div class="box"><h2>👑 霸主榜</h2><div id="leadList"></div><div style="margin-top:10px;border-top:3px dashed #ff9800;padding-top:10px"><input id="playerName" placeholder="霸主名號" maxlength="10"><input id="playerPwd" type="password" placeholder="4位密碼鎖名" maxlength="6" inputmode="numeric"><button class="btn" style="background:#66bb6a;color:white" onclick="uploadScore()">🔒 登榜</button><button class="btn" style="background:#eee" onclick="closeLeader()">關閉</button></div></div></div>
+<div id="leadBox"><div class="box"><h2>👑 霸主榜</h2><div id="leadList"></div><div style="margin-top:10px;border-top:3px dashed #ff9800;padding-top:10px"><input id="playerName" placeholder="霸主名號"><input id="playerPwd" type="password" placeholder="4位密碼鎖名"><button class="btn" style="background:#66bb6a;color:white" onclick="uploadScore()">🔒 登榜</button><button class="btn" style="background:#eee" onclick="closeLeader()">關閉</button></div></div></div>
 <div id="toast"></div>
 
-<audio id="kidBgm" loop preload="auto" playsinline>
+<audio id="kidBgm" loop preload="auto" playsinline crossorigin="anonymous">
   <source src="./jiuyinge.mp3" type="audio/mpeg">
-  <source src="https://cdn.pixabay.com/audio/2022/03/10/audio_c8c8a650f6.mp3" type="audio/mpeg">
+  <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
 </audio>
 <audio id="pianoBgm" loop preload="auto" playsinline><source src="https://cdn.pixabay.com/download/audio/2022/03/24/audio_09bd4170e4.mp3" type="audio/mpeg"></audio>
 
@@ -51,30 +51,39 @@ function getElapsed(){if(startTime==0) return 0; if(timerPaused) return pausedEl
 function startTimer(){if(startTime==0){startTime=Date.now();save();} if(timerPaused){pausedTime+=Date.now()-pauseStart;timerPaused=false;save();} if(timerInterval) clearInterval(timerInterval); timerInterval=setInterval(()=>{document.getElementById('timer').innerText=formatTime(getElapsed());},1000);}
 function pauseTimer(){if(timerPaused) return; timerPaused=true; pauseStart=Date.now(); pausedElapsed=getElapsed(); if(timerInterval) clearInterval(timerInterval); save(); document.getElementById('timer').innerText=formatTime(pausedElapsed)+' ⏸️';}
 function stopTimer(){if(timerInterval) clearInterval(timerInterval);}
-function update(){let p=pets[petIdx];document.getElementById('petImg').src=p.img;document.getElementById('petName').innerText=p.name;let pct=Math.round(solvedLv/p.total*100);document.getElementById('progBar').style.width=pct+'%';document.getElementById('progText').innerText=solvedLv+'/'+p.total+' ('+pct+'%)';document.getElementById('solved').innerText=total;document.getElementById('score').innerText=score;let b=document.getElementById('evoBtn');if(solvedLv>=p.total){b.style.display='block';b.innerText=petIdx<3?'⚡️ 進化':'🏆 霸榜';if(!timerPaused&&total>0)pauseTimer();document.getElementById('petSay').innerText='🎉 完成！';}else{b.style.display='none';document.getElementById('petSay').innerText='仲有 '+(p.total-solvedLv)+' 題！';}document.getElementById('timer').innerText=formatTime(getElapsed())+(timerPaused?' ⏸️':'');save();}
-function startQ(){startTimer();let a,b,q;if(petIdx==0){a=Math.floor(Math.random()*26);b=Math.floor(Math.random()*(51-a));ans=a+b;q=a+' + '+b+' = ?';}else if(petIdx==1){a=Math.floor(Math.random()*50)+1;b=Math.floor(Math.random()*(a+1));ans=a-b;q=a+' - '+b+' = ?';}else if(petIdx==2){a=Math.floor(Math.random()*9)+1;b=Math.floor(Math.random()*9)+1;ans=a*b;q=a+' × '+b+' = ?';}else{b=Math.floor(Math.random()*9)+2;ans=Math.floor(Math.random()*9)+1;a=b*ans;q=a+' ÷ '+b+' = ?';}document.getElementById('mQ').innerText=q;document.getElementById('mathBox').style.display='flex';document.getElementById('mAns').value='';setTimeout(()=>document.getElementById('mAns').focus(),150);}
+function update(){let p=pets[petIdx];document.getElementById('petImg').src=p.img;document.getElementById('petName').innerText=p.name;let pct=Math.round(solvedLv/p.total*100);document.getElementById('progBar').style.width=pct+'%';document.getElementById('progText').innerText=solvedLv+'/'+p.total+' ('+pct+'%)';document.getElementById('solved').innerText=total;document.getElementById('score').innerText=score;let b=document.getElementById('evoBtn');if(solvedLv>=p.total){b.style.display='block';b.innerText=petIdx<3?'⚡️ 進化':'🏆 霸榜';if(!timerPaused&&total>0)pauseTimer();}else{b.style.display='none';}document.getElementById('timer').innerText=formatTime(getElapsed())+(timerPaused?' ⏸️':'');save();}
+function startQ(){startTimer();let a,b,q;if(petIdx==0){a=Math.floor(Math.random()*26);b=Math.floor(Math.random()*(51-a));ans=a+b;q=a+' + '+b+' = ?';}else if(petIdx==1){a=Math.floor(Math.random()*50)+1;b=Math.floor(Math.random()*(a+1));ans=a-b;q=a+' - '+b+' = ?';}else if(petIdx==2){a=Math.floor(Math.random()*9)+1;b=Math.floor(Math.random()*9)+1;ans=a*b;q=a+' × '+b+' = ?';}else{b=Math.floor(Math.random()*9)+2;ans=Math.floor(Math.random()*9)+1;a=b*ans;q=a+' ÷ '+b+' = ?';}document.getElementById('mQ').innerText=q;document.getElementById('mathBox').style.display='flex';document.getElementById('mAns').value='';}
 function hideMath(){document.getElementById('mathBox').style.display='none';}
-function checkAns(){let v=parseInt(document.getElementById('mAns').value);if(isNaN(v))return;if(v===ans){solvedLv++;total++;score+=10;beep(800,.15);hideMath();update();showToast('✅ +10分','#66bb6a');}else{beep(180,.4);showToast('❌ 再諗下','#ff5252');document.getElementById('mAns').value='';document.getElementById('mAns').focus();}}
-function doEvo(){if(solvedLv>=pets[petIdx].total&&petIdx<3){startTimer();petIdx++;solvedLv=0;update();showToast('💥 進化！','#66bb6a');}else if(petIdx==3){stopTimer();openLeader();}}
-function clearAll(){if(confirm('清零重玩？')){localStorage.clear();location.reload();}}
+function checkAns(){let v=parseInt(document.getElementById('mAns').value);if(isNaN(v))return;if(v===ans){solvedLv++;total++;score+=10;beep(800,.15);hideMath();update();showToast('✅ +10分','#66bb6a');}else{beep(180,.4);showToast('❌ 再諗下','#ff5252');document.getElementById('mAns').value='';}}
+function doEvo(){if(solvedLv>=pets[petIdx].total&&petIdx<3){startTimer();petIdx++;solvedLv=0;update();}else if(petIdx==3){stopTimer();openLeader();}}
+function clearAll(){if(confirm('清零？')){localStorage.clear();location.reload();}}
 
-// V29 iPhone 童聲修正
+// --- 修好音樂 ON/OFF ---
 let kidOn=false,pianoOn=false;
+function initAudio(){try{if(!ac)ac=new(window.AudioContext||window.webkitAudioContext)(); if(ac.state==='suspended') ac.resume();}catch(e){}}
 function toggleKid(){
-  try{if(!ac)ac=new(window.AudioContext||window.webkitAudioContext)(); if(ac.state==='suspended') ac.resume();}catch(e){}
-  let a=document.getElementById('kidBgm');
-  if(kidOn){a.pause();kidOn=false;document.getElementById('b1').innerText='👧 童聲九因歌 OFF';document.getElementById('b1').classList.remove('on');localStorage.setItem('yuki_kid','off');}
-  else{a.volume=0.8;a.currentTime=0;let p=a.play(); if(p!==undefined){p.then(()=>{kidOn=true;document.getElementById('b1').innerText='👧 童聲九因歌 ON';document.getElementById('b1').classList.add('on');localStorage.setItem('yuki_kid','on');showToast('👧 童聲九因歌播放中！','#ff9800');}).catch(()=>{showToast('🔊 iPhone要再按一次先有聲','#ff5252');});}}
+  initAudio();
+  let a=document.getElementById('kidBgm'); let btn=document.getElementById('b1');
+  if(kidOn){
+    a.pause(); kidOn=false; btn.innerText='👧 童聲九因歌 OFF'; btn.classList.remove('on'); localStorage.setItem('yuki_kid','off'); showToast('🔇 已關九因歌','#666');
+  }else{
+    a.volume=0.8; a.currentTime=0;
+    a.play().then(()=>{kidOn=true; btn.innerText='👧 童聲九因歌 ON'; btn.classList.add('on'); localStorage.setItem('yuki_kid','on'); showToast('🎵 九因歌 ON','#ff9800');}).catch(()=>{showToast('🔊 再按一次先有聲','#ff5252');});
+  }
 }
 function togglePiano(){
-  try{if(!ac)ac=new(window.AudioContext||window.webkitAudioContext)(); if(ac.state==='suspended') ac.resume();}catch(e){}
-  let a=document.getElementById('pianoBgm');
-  if(pianoOn){a.pause();pianoOn=false;document.getElementById('b2').innerText='🎹 輕音樂 OFF';document.getElementById('b2').classList.remove('on');localStorage.setItem('yuki_piano','off');}
-  else{a.volume=0.3;let p=a.play(); if(p!==undefined){p.then(()=>{pianoOn=true;document.getElementById('b2').innerText='🎹 輕音樂 ON';document.getElementById('b2').classList.add('on');localStorage.setItem('yuki_piano','on');}).catch(()=>showToast('再按一次','#ff9800'));}}
+  initAudio();
+  let a=document.getElementById('pianoBgm'); let btn=document.getElementById('b2');
+  if(pianoOn){
+    a.pause(); pianoOn=false; btn.innerText='🎹 輕音樂 OFF'; btn.classList.remove('on'); localStorage.setItem('yuki_piano','off'); showToast('🔇 已關輕音樂','#666');
+  }else{
+    a.volume=0.3;
+    a.play().then(()=>{pianoOn=true; btn.innerText='🎹 輕音樂 ON'; btn.classList.add('on'); localStorage.setItem('yuki_piano','on'); showToast('🎹 輕音樂 ON','#66bb6a');}).catch(()=>showToast('再按一次','#ff5252'));
+  }
 }
-async function loadLeaderboard(){let el=document.getElementById('leadList');el.innerHTML='⏳ 載入中...';let c=[];try{c=c.concat(JSON.parse(localStorage.getItem('yuki_local_lead')||'[]'));}catch(e){}try{let r=await fetch(`https://kvdb.io/${BUCKET_ID}/${KEY}?t=${Date.now()}`,{cache:'no-store'});if(r.ok){let t=await r.text();if(t)c=c.concat(JSON.parse(t));}}catch(e){}if(!c.length){el.innerHTML='未有霸主';return;}let m={};c.forEach(x=>{let k=x.name.trim().toLowerCase();if(!m[k]||x.score>m[k].score||(x.score==m[k].score&&x.timeMs<m[k].timeMs))m[k]=x;});let u=Object.values(m).sort((a,b)=>b.score-a.score||a.timeMs-b.timeMs).slice(0,20);el.innerHTML=u.map((r,i)=>`<div class="lead-row"><span>${i==0?'👑':i+1+'.'} ${r.name}</span><span>${r.score}分 ${r.timeStr}</span></div>`).join('');}
-async function uploadScore(){let n=document.getElementById('playerName').value.trim(),p=document.getElementById('playerPwd').value.trim();if(!n||!p){showToast('名同密碼必填','#ff9800');return;}let e={name:n,score,total,timeMs:getElapsed(),timeStr:formatTime(getElapsed()),pwd:p};let k=n.toLowerCase();localStorage.setItem('yuki_last_name',n);localStorage.setItem('yuki_last_pwd',p);try{let r=await fetch(`https://kvdb.io/${BUCKET_ID}/${KEY}?t=${Date.now()}`,{cache:'no-store'});let d=[];if(r.ok){try{let t=await r.text();if(t)d=JSON.parse(t);}catch(e){}}let ex=d.find(x=>x.name.trim().toLowerCase()==k);if(ex&&ex.pwd&&ex.pwd!==p){showToast('🔒 名已被鎖','#ff5252');return;}if(ex&&e.score<ex.score){showToast('要破紀錄先更新','#ff5252');return;}d=d.filter(x=>x.name.trim().toLowerCase()!=k);d.push(e);d.sort((a,b)=>b.score-a.score||a.timeMs-b.timeMs);d=d.slice(0,50);await fetch(`https://kvdb.io/${BUCKET_ID}/${KEY}`,{method:'POST',body:JSON.stringify(d)});showToast('👑 上榜成功','#66bb6a');}catch(e){showToast('已存本地','#66bb6a');}loadLeaderboard();}
-function openLeader(){document.getElementById('leadBox').style.display='flex';document.getElementById('playerName').value=localStorage.getItem('yuki_last_name')||'';document.getElementById('playerPwd').value=localStorage.getItem('yuki_last_pwd')||'';loadLeaderboard();}
+async function loadLeaderboard(){let el=document.getElementById('leadList');el.innerHTML='⏳...';let c=[];try{c=c.concat(JSON.parse(localStorage.getItem('yuki_local_lead')||'[]'));}catch(e){}try{let r=await fetch(`https://kvdb.io/${BUCKET_ID}/${KEY}?t=${Date.now()}`,{cache:'no-store'});if(r.ok){let t=await r.text();if(t)c=c.concat(JSON.parse(t));}}catch(e){}if(!c.length){el.innerHTML='未有霸主';return;}let m={};c.forEach(x=>{let k=x.name.toLowerCase();if(!m[k]||x.score>m[k].score)m[k]=x;});let u=Object.values(m).sort((a,b)=>b.score-a.score).slice(0,20);el.innerHTML=u.map((r,i)=>`<div class="lead-row"><span>${i+1}. ${r.name}</span><span>${r.score}分</span></div>`).join('');}
+async function uploadScore(){let n=document.getElementById('playerName').value.trim(),p=document.getElementById('playerPwd').value.trim();if(!n||!p){showToast('名+密碼必填','#ff9800');return;}let e={name:n,score,total,timeMs:getElapsed(),timeStr:formatTime(getElapsed()),pwd:p};let k=n.toLowerCase();localStorage.setItem('yuki_last_name',n);localStorage.setItem('yuki_last_pwd',p);try{let r=await fetch(`https://kvdb.io/${BUCKET_ID}/${KEY}?t=${Date.now()}`,{cache:'no-store'});let d=[];if(r.ok){try{let t=await r.text();if(t)d=JSON.parse(t);}catch(e){}}let ex=d.find(x=>x.name.toLowerCase()==k);if(ex&&ex.pwd&&ex.pwd!==p){showToast('🔒 名已被鎖','#ff5252');return;}d=d.filter(x=>x.name.toLowerCase()!=k);d.push(e);d.sort((a,b)=>b.score-a.score);await fetch(`https://kvdb.io/${BUCKET_ID}/${KEY}`,{method:'POST',body:JSON.stringify(d)});showToast('👑 上榜','#66bb6a');}catch(e){}loadLeaderboard();}
+function openLeader(){document.getElementById('leadBox').style.display='flex';loadLeaderboard();}
 function closeLeader(){document.getElementById('leadBox').style.display='none';}
 update();
 if(total>0 && !timerPaused) startTimer();
