@@ -1,11 +1,11 @@
 <!DOCTYPE html><html lang="zh-HK"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Yuki恐龍Online排行榜</title><style>
 body{margin:0;background:#0f0f23;display:flex;justify-content:center;font-family:-apple-system,sans-serif}
 #game{width:100%;max-width:440px;background:linear-gradient(#fff8e1,#ffcc80);min-height:100vh;padding:14px;box-sizing:border-box;text-align:center}
-.card{background:white;border-radius:22px;padding:14px;margin:10px 0;position:relative}
+.card{background:white;border-radius:22px;padding:14px;margin:10px 0;position:relative;box-shadow:0 4px 12px rgba(0,0,0,.1)}
 .pet-img{width:200px;height:200px;object-fit:contain;margin:0 auto;display:block}
 .btn{width:100%;padding:16px;border:none;border-radius:14px;font-size:19px;font-weight:bold;margin:6px 0;cursor:pointer}.btn-go{background:#66bb6a;color:white}.btn-leader{background:#42a5f5;color:white}.btn-evo{background:gold;display:none}
-.prog-bg{background:#eee;border-radius:12px;height:24px;overflow:hidden;margin:10px 0;position:relative}.prog-fill{height:100%;background:#66bb6a;transition:.4s}.prog-text{position:absolute;width:100%;top:3px;font-weight:bold;font-size:13px}
-#mathBox,#leadBox{position:fixed;inset:0;background:rgba(0,0,0,.7);display:none;align-items:center;justify-content:center;z-index:9999;padding:14px}.box{background:white;width:100%;max-width:380px;border-radius:20px;padding:20px;text-align:center;max-height:80vh;overflow:auto}
+.prog-bg{background:#eee;border-radius:12px;height:24px;overflow:hidden;margin:10px 0;position:relative}.prog-fill{height:100%;background:#66bb6a;transition:.4s}.prog-text{position:absolute;width:100%;top:3px;font-weight:bold;font-size:13px;text-align:center}
+#mathBox,#leadBox{position:fixed;inset:0;background:rgba(0,0,0,.7);display:none;align-items:center;justify-content:center;z-index:9999;padding:14px}.box{background:white;width:100%;max-width:380px;border-radius:20px;padding:20px;text-align:center;max-height:85vh;overflow:auto}
 .box input{font-size:20px;padding:10px;border:3px solid orange;border-radius:10px;width:80%;margin:8px 0;text-align:center}
 .lead-row{display:flex;justify-content:space-between;padding:8px 6px;border-bottom:1px solid #eee;font-size:14px}.lead-row.top{background:#fff9c4;font-weight:bold}
 </style></head><body>
@@ -15,18 +15,18 @@ body{margin:0;background:#0f0f23;display:flex;justify-content:center;font-family
 <div class="card">
 <div style="position:absolute;top:10px;right:12px;background:#fff7c0;padding:4px 10px;border-radius:20px;font-weight:bold">⭐ x <span id="star">0</span></div>
 <img id="petImg" class="pet-img" src="./dino1.png.jpg">
-<h3 id="petName"></h3><p id="petSay"></p>
+<h3 id="petName"></h3><p id="petSay" style="color:#e65100;font-weight:bold"></p>
 <div class="prog-bg"><div id="progBar" class="prog-fill" style="width:0%"></div><div id="progText" class="prog-text">0 / 50</div></div>
 <p>總答 <b id="solved">0</b> | <b id="score">0</b> 分</p>
 </div>
 <button class="btn btn-go" onclick="startQ()">▶️ 開始做題</button>
 <button class="btn btn-evo" id="evoBtn" onclick="doEvo()">⚡️ 進化</button>
 <button class="btn btn-leader" onclick="openLeader()">🏆 全球排行榜</button>
-<div style="font-size:12px;color:#795548;margin-top:8px"><a href="#" onclick="clearAll();return false">清零重玩</a> | 已自動保存</div>
+<div style="font-size:12px;color:#795548;margin-top:8px">Online同步中...<br><a href="#" onclick="clearAll();return false">清零重玩</a></div>
 </div>
 
 <div id="mathBox"><div class="box">
-<div id="mType" style="color:#999"></div><h1 id="mQ"></h1>
+<div id="mType" style="color:#999"></div><h1 id="mQ" style="font-size:34px"></h1>
 <input id="mAns" type="tel" inputmode="numeric"><br><br>
 <button class="btn" style="background:orange;color:white" onclick="checkAns()">確定</button>
 <button class="btn" style="background:#eee" onclick="hideMath()">取消</button>
@@ -36,82 +36,56 @@ body{margin:0;background:#0f0f23;display:flex;justify-content:center;font-family
 <h2>🏆 全球龍王榜</h2>
 <div id="leadList">載入中...</div>
 <div style="margin-top:14px;border-top:2px dashed #ffcc80;padding-top:12px">
-<p>上傳你嘅分數：</p>
 <input id="playerName" placeholder="打你個名 (例如 Yuki)" maxlength="10"><br>
-<button class="btn" style="background:#66bb6a;color:white" onclick="uploadScore()">🚀 上傳上榜！</button>
+<button class="btn" style="background:#66bb6a;color:white" onclick="uploadScore()">🚀 上傳分數！</button>
 <button class="btn" style="background:#eee" onclick="closeLeader()">關閉</button>
-<p style="font-size:11px;color:#999;margin-top:10px">Bucket: <span id="bucketInfo"></span><br>換咗ID後全世界即時同步</p>
 </div>
 </div></div>
 
 <script>
-// ==== 設定你個 Bucket ID ====
-const BUCKET_ID = "YOUR_BUCKET_ID"; // <-- 換做你喺 kvdb.io 攞到嗰串
+const BUCKET_ID = "9xrLimS38pHRafoTWwqfSP";
 const KEY = "yuki_leaderboard";
-document.getElementById('bucketInfo').innerText = BUCKET_ID === "YOUR_BUCKET_ID" ? "未設定 (用緊本地模擬榜)" : BUCKET_ID;
-
-const pets=[{img:"./dino1.png.jpg",name:"Lv.1 蛋 - 50內加法",total:50},{img:"./dino2.png.jpg",name:"Lv.2 BB - 減法",total:50},{img:"./dino3.png.WEBP",name:"Lv.3 火焰龍 - 乘法",total:100},{img:"./dino4.png.jpg",name:"Lv.4 龍王 - 除法",total:100}];
+const pets=[{img:"./dino1.png.jpg",name:"Lv.1 蛋 - 加法",total:50},{img:"./dino2.png.jpg",name:"Lv.2 BB - 減法",total:50},{img:"./dino3.png.WEBP",name:"Lv.3 火焰龍 - 乘法",total:100},{img:"./dino4.png.jpg",name:"Lv.4 龍王 - 除法",total:100}];
 let petIdx=parseInt(localStorage.getItem('yuki_petIdx')||0),solvedLv=parseInt(localStorage.getItem('yuki_solvedLv')||0),total=parseInt(localStorage.getItem('yuki_total')||0),score=parseInt(localStorage.getItem('yuki_score')||0),stars=parseInt(localStorage.getItem('yuki_stars')||0),ans=0;
 let ac;function save(){localStorage.setItem('yuki_petIdx',petIdx);localStorage.setItem('yuki_solvedLv',solvedLv);localStorage.setItem('yuki_total',total);localStorage.setItem('yuki_score',score);localStorage.setItem('yuki_stars',stars);}
 function beep(f,d){try{if(!ac)ac=new(window.AudioContext||window.webkitAudioContext)();let o=ac.createOscillator(),g=ac.createGain();o.frequency.value=f;o.connect(g);g.connect(ac.destination);g.gain.setValueAtTime(.25,ac.currentTime);g.gain.exponentialRampToValueAtTime(.01,ac.currentTime+d);o.start();o.stop(ac.currentTime+d);}catch(e){}}
 function speak(t){try{speechSynthesis.cancel();let u=new SpeechSynthesisUtterance(t);u.lang='zh-HK';u.rate=.92;speechSynthesis.speak(u);}catch(e){}}
-function update(){let p=pets[petIdx];document.getElementById('petImg').src=p.img;document.getElementById('petName').innerText=p.name;document.getElementById('lvInfo').innerText='第'+(petIdx+1)+'關 目標'+p.total+'題';let pct=Math.round(solvedLv/p.total*100);document.getElementById('progBar').style.width=pct+'%';document.getElementById('progText').innerText=solvedLv+' / '+p.total;document.getElementById('solved').innerText=total;document.getElementById('score').innerText=score;document.getElementById('star').innerText=stars;document.getElementById('evoBtn').style.display=solvedLv>=p.total?'block':'none';document.getElementById('petSay').innerText=solvedLv>=p.total?'完成！進化！':'仲有 '+(p.total-solvedLv)+' 題進化！';save();}
-function startQ(){let a,b,qt,qs;if(petIdx==0){a=Math.floor(Math.random()*26);b=Math.floor(Math.random()*(51-a));ans=a+b;qt=a+' + '+b+' = ?';qs=a+'加'+b;}else if(petIdx==1){a=Math.floor(Math.random()*50)+1;b=Math.floor(Math.random()*(a+1));ans=a-b;qt=a+' - '+b+' = ?';qs=a+'減'+b;}else if(petIdx==2){a=Math.floor(Math.random()*10)+1;b=Math.floor(Math.random()*10)+1;ans=a*b;qt=a+' × '+b+' = ?';qs=a+'乘'+b;}else{b=Math.floor(Math.random()*11)+2;ans=Math.floor(Math.random()*9)+1;a=b*ans;qt=a+' ÷ '+b+' = ?';qs=a+'除以'+b;}document.getElementById('mQ').innerText=qt;document.getElementById('mType').innerText='第'+(petIdx+1)+'關';document.getElementById('mathBox').style.display='flex';document.getElementById('mAns').value='';setTimeout(()=>{document.getElementById('mAns').focus();speak(qs);},200);}
+function update(){let p=pets[petIdx];document.getElementById('petImg').src=p.img;document.getElementById('petName').innerText=p.name;document.getElementById('lvInfo').innerText='第'+(petIdx+1)+'關 目標'+p.total+'題';let pct=Math.round(solvedLv/p.total*100);document.getElementById('progBar').style.width=pct+'%';document.getElementById('progText').innerText=solvedLv+' / '+p.total+' ('+pct+'%)';document.getElementById('solved').innerText=total;document.getElementById('score').innerText=score;document.getElementById('star').innerText=stars;document.getElementById('evoBtn').style.display=solvedLv>=p.total?'block':'none';document.getElementById('petSay').innerText=solvedLv>=p.total?'完成！進化！':'仲有 '+(p.total-solvedLv)+' 題進化！';save();}
+function startQ(){let a,b,qt,qs;if(petIdx==0){a=Math.floor(Math.random()*26);b=Math.floor(Math.random()*(51-a));ans=a+b;qt=a+' + '+b+' = ?';qs=a+'加'+b;}else if(petIdx==1){a=Math.floor(Math.random()*50)+1;b=Math.floor(Math.random()*(a+1));ans=a-b;qt=a+' - '+b+' = ?';qs=a+'減'+b;}else if(petIdx==2){a=Math.floor(Math.random()*10)+1;b=Math.floor(Math.random()*10)+1;ans=a*b;qt=a+' × '+b+' = ?';qs=a+'乘'+b;}else{b=Math.floor(Math.random()*11)+2;ans=Math.floor(Math.random()*9)+1;a=b*ans;qt=a+' ÷ '+b+' = ?';qs=a+'除以'+b;}document.getElementById('mQ').innerText=qt;document.getElementById('mType').innerText='第'+(petIdx+1)+'關';document.getElementById('mathBox').style.display='flex';document.getElementById('mAns').value='';setTimeout(()=>{document.getElementById('mAns').focus();speak(qs+'等於幾多');},250);}
 function hideMath(){document.getElementById('mathBox').style.display='none';}
 function checkAns(){let v=parseInt(document.getElementById('mAns').value);if(isNaN(v))return;if(v===ans){solvedLv++;total++;score+=10;beep(800,.18);setTimeout(()=>beep(1200,.2),120);if(total%10==0)stars++;hideMath();update();}else{beep(180,.4);alert('錯咗，係 '+ans);}}
 function doEvo(){if(solvedLv>=pets[petIdx].total&&petIdx<3){petIdx++;solvedLv=0;update();alert('💥 進化！');}else if(petIdx==3){alert('🏆 畢業！總分 '+score);}}
 function clearAll(){if(confirm('清零？')){localStorage.clear();location.reload();}}
-
-// ===== Online 排行榜邏輯 =====
 async function loadLeaderboard(){
 let listEl=document.getElementById('leadList');
+listEl.innerHTML='載入中...';
 try{
-if(BUCKET_ID==="YOUR_BUCKET_ID"){
-// 本地模擬榜 (未設Bucket時)
-let mock=JSON.parse(localStorage.getItem('mock_lead')||'[{"name":"龍王Yuki","score":880,"total":88},{"name":"數學小天才","score":650,"total":65},{"name":"BB龍","score":420,"total":42}]');
-mock.sort((a,b)=>b.score-a.score);
-renderLead(mock);
-return;
-}
 let res=await fetch(`https://kvdb.io/${BUCKET_ID}/${KEY}`);
-if(!res.ok) throw 'no data';
+if(!res.ok) throw 'empty';
 let data=await res.json();
 if(!Array.isArray(data)) data=[];
 data.sort((a,b)=>b.score-a.score);
-renderLead(data.slice(0,20));
-}catch(e){
-listEl.innerHTML='暫時冇資料，成為第一個龍王啦！';
-}
-}
-function renderLead(arr){
-let html='';
-arr.forEach((r,i)=>{
-html+=`<div class="lead-row ${i<3?'top':''}"><span>${i==0?'🥇':i==1?'🥈':i==2?'🥉':(i+1)+'.'} ${r.name}</span><span>${r.score}分 (${r.total}題) ⭐${Math.floor(r.total/10)}</span></div>`;
-});
-document.getElementById('leadList').innerHTML=html||'未有上榜';
+if(data.length==0){listEl.innerHTML='仲未有人上榜，你做第一個啦！';return;}
+let html='';data.slice(0,20).forEach((r,i)=>{html+=`<div class="lead-row ${i<3?'top':''}"><span>${i==0?'🥇':i==1?'🥈':i==2?'🥉':(i+1)+'.'} ${r.name}</span><span>${r.score}分 (${r.total}題)</span></div>`;});
+listEl.innerHTML=html;
+}catch(e){listEl.innerHTML='暫時冇資料，成為第一個龍王啦！';}
 }
 async function uploadScore(){
 let name=document.getElementById('playerName').value.trim();
 if(!name){alert('打個名先！');return;}
 if(total==0){alert('做幾題先上榜啦！');return;}
 let entry={name,score,total,date:new Date().toLocaleDateString()};
-if(BUCKET_ID==="YOUR_BUCKET_ID"){
-let mock=JSON.parse(localStorage.getItem('mock_lead')||'[]');
-mock.push(entry);
-localStorage.setItem('mock_lead',JSON.stringify(mock));
-alert('✅ 已上本地榜！設定Bucket ID後就變真Online！');
-loadLeaderboard();
-return;
-}
 try{
 let res=await fetch(`https://kvdb.io/${BUCKET_ID}/${KEY}`);
 let data=res.ok?await res.json():[];
 if(!Array.isArray(data)) data=[];
 data.push(entry);
-await fetch(`https://kvdb.io/${BUCKET_ID}/${KEY}`,{method:'POST',body:JSON.stringify(data),headers:{'Content-Type':'application/json'}});
-alert('🚀 上榜成功！');
+data.sort((a,b)=>b.score-a.score);
+data=data.slice(0,50);
+await fetch(`https://kvdb.io/${BUCKET_ID}/${KEY}`,{method:'POST',body:JSON.stringify(data)});
+alert('🚀 上榜成功！全世界都見到你！');
 loadLeaderboard();
-}catch(e){alert('上傳失敗，檢查Bucket ID');}
+}catch(e){alert('上傳失敗，稍後再試');}
 }
 function openLeader(){document.getElementById('leadBox').style.display='flex';loadLeaderboard();}
 function closeLeader(){document.getElementById('leadBox').style.display='none';}
