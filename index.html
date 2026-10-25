@@ -1,102 +1,172 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh">
 <head>
-<meta charset="UTF-8" name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>Pikachu Math Adventure</title>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Pikachu Math Adventure - P1</title>
 <style>
-body{margin:0;background:#2d1b4e;font-family:Arial;text-align:center;color:#fff;overflow:hidden}
-#game{max-width:800px;margin:0 auto;background:#ffc8d0;position:relative;height:100vh}
-.map-screen,.stage-intro{padding:20px;background:#fff8e8;color:#333;min-height:100vh}
-.world{display:inline-block;width:45%;margin:2%;background:white;border-radius:20px;padding:15px;box-shadow:0 4px 10px #0002;cursor:pointer}
-.world:hover{transform:scale(1.05)}
-.stage{width:80px;height:80px;background:#ffd966;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;margin:10px;font-weight:bold;border:4px solid #ff9800}
-#canvas{width:100%;height:70vh;background:#ffd0d8;display:block;image-rendering:pixelated}
-#joy{position:absolute;left:20px;bottom:20px;width:100px;height:100px;background:#0003;border-radius:50%}
-#skill{position:absolute;right:20px;bottom:20px;width:80px;height:80px;background:#ffeb3b;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:30px;border:4px solid #fff}
-#dialog{position:absolute;bottom:0;left:0;right:0;background:#fffef0;border:3px solid #ff9800;border-radius:20px 20px 0 0;padding:15px;color:#333;min-height:80px}
-button{background:#ff9800;color:white;border:none;padding:12px 24px;border-radius:12px;font-size:18px;margin:5px}
-.math-popup{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:white;color:#333;padding:25px;border-radius:20px;box-shadow:0 10px 30px #0005;z-index:10;width:80%}
-.math-popup input{font-size:24px;width:100px;text-align:center;padding:10px;border-radius:10px;border:2px solid #ff9800}
+body{margin:0;background:#1a1a2e;font-family:"Noto Sans TC",sans-serif;overflow:hidden;user-select:none}
+#game{max-width:500px;margin:0 auto;background:#f8bbd0;height:100vh;position:relative;display:flex;flex-direction:column}
+.header{background:#ff9800;color:white;padding:8px 15px;display:flex;justify-content:space-between;font-weight:bold}
+#canvas{flex:1;background:#ffcdd2;width:100%;touch-action:none}
+.controls{height:130px;background:#1a1a2e;position:relative;display:flex;justify-content:space-between;align-items:center;padding:0 15px}
+.joy{width:110px;height:110px;background:radial-gradient(#666,#333);border-radius:50%;position:relative;border:3px solid #555}
+.joy-stick{width:50px;height:50px;background:#aaa;border-radius:50%;position:absolute;left:30px;top:30px;box-shadow:0 3px 5px #000}
+.skill{width:90px;height:90px;background:radial-gradient(#ffeb3b,#ff9800);border-radius:50%;border:4px solid white;display:flex;align-items:center;justify-content:center;font-size:40px;box-shadow:0 0 15px gold}
+.skill:active{transform:scale(0.9)}
+#dialog{position:absolute;bottom:135px;left:10px;right:10px;background:#fffef0;border:3px solid #ff9800;border-radius:16px;padding:12px;color:#333;font-size:14px;z-index:5}
+#mathBox{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:white;padding:20px;border-radius:20px;width:85%;max-width:360px;box-shadow:0 10px 40px #0008;z-index:10;text-align:center;color:#333}
+#mathBox h2{font-size:32px;margin:10px 0}
+#mathBox input{font-size:28px;width:120px;padding:10px;border:3px solid #ff9800;border-radius:12px;text-align:center}
+.btn{background:#ff9800;color:white;border:none;padding:12px 28px;border-radius:12px;font-size:18px;font-weight:bold;margin-top:10px}
+.map{padding:20px;background:#fff8e1;height:100vh;color:#333;text-align:center;overflow:auto}
+.world-card{background:white;border-radius:20px;padding:18px;margin:15px 0;box-shadow:0 6px 15px #0001;cursor:pointer;border:3px solid #ffcc80}
+.world-card.active{border-color:#ff9800;transform:scale(1.02)}
 </style>
 </head>
 <body>
 <div id="game">
-<!-- MAP SCREEN -->
-<div id="mapScreen" class="map-screen">
-<h2>⚡️ PIKACHU'S MATH ADVENTURE</h2>
-<p>The Science Quest - Math Edition</p>
-<div class="world" onclick="startWorld(1)"><h3>WORLD 1</h3><p>➕ 加法世界<br>Nose & Trachea</p><div class="stage">1</div></div>
-<div class="world" onclick="startWorld(2)"><h3>WORLD 2</h3><p>➖ 減法世界<br>Coming Soon</p><div class="stage">2</div></div>
-<p>Score: <span id="totalScore">0</span></p>
+<div id="mapScreen" class="map">
+<h1>⚡️ PIKACHU<br>數學大冒險</h1>
+<p><b>P1 20以內 加減</b> | Math Body Quest</p>
+<div class="world-card active" onclick="startGame(1)">
+<h3>🟡 WORLD 1: 加法鼻腔</h3>
+<p>收集藍波波，答加法題，儲電打細菌！</p>
+<p>題目: 5+7, 12+3 (≤20)</p>
+<span class="btn">開始 START</span>
+</div>
+<div class="world-card" onclick="startGame(2)">
+<h3>🔵 WORLD 2: 減法氣管</h3>
+<p>題目: 15-6, 18-9 (不會有負數)</p>
+<span class="btn">挑戰 CHALLENGE</span>
+</div>
+<p>目前分數 Score: <span id="totalScore">0</span> ⭐</p>
+<p style="font-size:12px;color:#888">yukiorz1013-cpu.github.io/my-game/</p>
 </div>
 
-<!-- GAME CANVAS -->
-<div id="playScreen" style="display:none">
-<canvas id="canvas" width="600" height="400"></canvas>
-<div id="joy"></div><div id="skill" onclick="useSkill()">⚡️</div>
-<div id="dialog"><b>Prof. Cell:</b> <span id="dialogText">Welcome! Solve math to zap germs!</span><br><button onclick="nextDialog()">NEXT / SPACE</button></div>
-<div id="mathBox" class="math-popup" style="display:none">
-<h2 id="mathQ">3 + 5 = ?</h2><input id="mathAns" type="number"><br><br><button onclick="checkMath()">Thunderbolt! ⚡️</button>
+<div id="playScreen" style="display:none;flex:1;flex-direction:column">
+<div class="header"><span>⚡️ Energy: <span id="energy">0</span>/3</span><span>⭐ <span id="score">0</span></span><span>⏱️ <span id="time">60</span>s</span></div>
+<canvas id="canvas" width="600" height="700"></canvas>
+<div class="controls">
+<div class="joy" id="joy"><div class="joy-stick" id="stick"></div></div>
+<div style="color:white;text-align:center;font-size:12px">拖動行路<br>DRAG TO MOVE</div>
+<div class="skill" id="skillBtn" onclick="trySkill()">⚡️</div>
+</div>
+<div id="dialog"><b>🧑‍🔬 皮卡教授 Prof. Pika:</b> <span id="dialogText">歡迎！食藍色波波，會出加法題，答啱先儲到電呀！</span><br><button class="btn" style="padding:6px 12px;font-size:14px" onclick="nextDialog()">OK / 空白鍵</button></div>
+<div id="mathBox" style="display:none">
+<div style="font-size:50px">🧮</div>
+<h2 id="mathQ">5 + 7 = ?</h2>
+<input id="mathAns" type="number" inputmode="numeric" placeholder="?"><br>
+<button class="btn" onclick="checkMath()">⚡️ 發電 Thunderbolt!</button>
+<p id="mathHint" style="font-size:14px;color:#666;margin-top:10px">答啱 +100分 +1能量</p>
 </div>
 </div>
 </div>
 
 <script>
-let score=0, world=1, stage=1, px=50, py=200, enemies=[], items=[], mathActive=false, curAns=0;
+let mode=1, score=0, energy=0, px=80, py=300, vx=0, vy=0, enemies=[], orbs=[], time=60, timer=null, dialogStep=0, mathActive=false, curAns=0;
 const canvas=document.getElementById('canvas'), ctx=canvas.getContext('2d');
-function startWorld(w){world=w;document.getElementById('mapScreen').style.display='none';document.getElementById('playScreen').style.display='block';initStage();}
+const totalScoreEl=document.getElementById('totalScore');
 
-function initStage(){
- enemies=[]; items=[];
- for(let i=0;i<5;i++) enemies.push({x:150+Math.random()*400,y:50+Math.random()*300,alive:true,type:Math.floor(Math.random()*10)});
- for(let i=0;i<8;i++) items.push({x:100+Math.random()*400,y:50+Math.random()*300,collected:false});
- showDialog("Welcome, Pikachu! I am Professor Cell. Today we explore the body AND do math! Collect the blue orbs!");
- requestAnimationFrame(loop);
+function startGame(m){mode=m; document.getElementById('mapScreen').style.display='none'; document.getElementById('playScreen').style.display='flex'; initLevel(); startTimer();}
+
+function initLevel(){
+ enemies=[]; orbs=[]; px=80; py=300; energy=0; time=60;
+ // P1 math: generate orbs 8
+ for(let i=0;i<8;i++) orbs.push({x:120+Math.random()*400, y:80+Math.random()*500, taken:false});
+ // 5 germs
+ for(let i=0;i<5;i++) enemies.push({x:200+Math.random()*300, y:60+Math.random()*500, alive:true, dx:(Math.random()-0.5)*1.5, dy:(Math.random()-0.5)*1.5});
+ dialogStep=0; document.getElementById('dialog').style.display='block'; updateUI();
+ requestAnimationFrame(gameLoop);
 }
-let dialogStep=0;
-function showDialog(t){document.getElementById('dialogText').innerText=t; document.getElementById('dialog').style.display='block';}
-function nextDialog(){
- dialogStep++;
- if(dialogStep==1) showDialog("Hairs and mucus trap dust. Hide behind the hairs or zap dust with Thunderbolt! BUT you need to solve math first!");
- else document.getElementById('dialog').style.display='none';
-}
-function loop(){
- ctx.fillStyle='#ffc8d0'; ctx.fillRect(0,0,600,400);
- // draw hairs (walls)
- ctx.fillStyle='#8d6e63'; for(let i=0;i<3;i++) for(let j=0;j<3;j++) ctx.fillRect(50+i*120, 20+j*100, 15, 40);
- // player
- ctx.fillStyle='#ffeb3b'; ctx.beginPath(); ctx.arc(px,py,12,0,Math.PI*2); ctx.fill(); ctx.fillStyle='#000'; ctx.fillText("Pika",px-12,py-15);
+
+function startTimer(){clearInterval(timer); timer=setInterval(()=>{time--; document.getElementById('time').innerText=time; if(time<=0){endGame();}},1000);}
+
+function gameLoop(){
+ // physics
+ px+=vx; py+=vy; px=Math.max(20,Math.min(580,px)); py=Math.max(20,Math.min(680,py));
+ vx*=0.9; vy*=0.9;
+ // draw
+ ctx.fillStyle='#ffcdd2'; ctx.fillRect(0,0,600,700);
+ // walls (nose hairs) - from your screenshot style
+ ctx.fillStyle='#795548'; for(let i=0;i<6;i++){ctx.fillRect(70+i*90, 30, 18, 80); ctx.fillRect(70+i*90, 250, 18, 80); ctx.fillRect(70+i*90, 470, 18, 80);}
+ // orbs
+ orbs.forEach(o=>{if(o.taken) return; ctx.fillStyle='#42a5f5'; ctx.beginPath(); ctx.ellipse(o.x,o.y,10,16,0,0,Math.PI*2); ctx.fill(); ctx.fillStyle='white'; ctx.beginPath(); ctx.ellipse(o.x-2,o.y-2,3,4,0,0,Math.PI*2); ctx.fill(); if(Math.hypot(px-o.x, py-o.y)<30){o.taken=true; askMath();}});
  // enemies
- enemies.forEach(e=>{if(!e.alive) return; ctx.fillStyle='#81c784'; ctx.beginPath(); ctx.arc(e.x,e.y,10,0,Math.PI*2); ctx.fill(); ctx.fillText(e.type,e.x-3,e.y+3);});
- // items
- items.forEach(it=>{if(it.collected) return; ctx.fillStyle='#64b5f6'; ctx.beginPath(); ctx.arc(it.x,it.y,8,0,Math.PI*2); ctx.fill();});
- // move simple
- // check collect
- items.forEach(it=>{if(!it.collected && Math.hypot(px-it.x, py-it.y)<20){it.collected=true; askMath();}});
- requestAnimationFrame(loop);
+ enemies.forEach(e=>{if(!e.alive) return; e.x+=e.dx; e.y+=e.dy; if(e.x<100||e.x>560) e.dx*=-1; if(e.y<30||e.y>670) e.dy*=-1;
+  ctx.fillStyle='#66bb6a'; ctx.beginPath(); ctx.ellipse(e.x,e.y,14,18,0,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle='#2e7d32'; ctx.beginPath(); ctx.arc(e.x-4,e.y-2,2,0,Math.PI*2); ctx.fill(); ctx.beginPath(); ctx.arc(e.x+4,e.y-2,2,0,Math.PI*2); ctx.fill();
+  if(Math.hypot(px-e.x, py-e.y)<28 && !mathActive){energy=Math.max(0,energy-1); e.x=500+Math.random()*50; showTip("撞到細菌扣能量！快食藍波補返！"); updateUI();}
+ });
+ // Pikachu - better sprite
+ ctx.font='32px serif'; ctx.fillText('⚡️', px-16, py+8); ctx.fillStyle='#ffeb3b'; ctx.beginPath(); ctx.arc(px,py,16,0,Math.PI*2); ctx.fill(); ctx.fillStyle='black'; ctx.beginPath(); ctx.arc(px-5,py-3,2,0,Math.PI*2); ctx.fill(); ctx.beginPath(); ctx.arc(px+5,py-3,2,0,Math.PI*2); ctx.fill();
+ ctx.fillStyle='#ff3d00'; ctx.beginPath(); ctx.arc(px-10,py+2,3,0,Math.PI*2); ctx.fill(); ctx.beginPath(); ctx.arc(px+10,py+2,3,0,Math.PI*2); ctx.fill();
+ 
+ if(!mathActive) requestAnimationFrame(gameLoop);
 }
+
 function askMath(){
  mathActive=true;
- let a=Math.floor(Math.random()*10)+1, b=Math.floor(Math.random()*10)+1;
- if(world==1){curAns=a+b; document.getElementById('mathQ').innerText=`${a} + ${b} = ?`;}
- else{curAns=a-b; if(curAns<0){curAns=b-a; document.getElementById('mathQ').innerText=`${b} - ${a} = ?`;} else document.getElementById('mathQ').innerText=`${a} - ${b} = ?`;}
+ let a,b;
+ if(mode==1){ // addition <=20
+  a=Math.floor(Math.random()*11)+2; b=Math.floor(Math.random()*(20-a-1))+2; curAns=a+b;
+  document.getElementById('mathQ').innerText=`${a} + ${b} = ?`;
+ }else{ // subtraction no negative <=20
+  a=Math.floor(Math.random()*11)+10; b=Math.floor(Math.random()*(a-1))+1; curAns=a-b;
+  document.getElementById('mathQ').innerText=`${a} - ${b} = ?`;
+ }
  document.getElementById('mathBox').style.display='block';
- document.getElementById('mathAns').value=''; document.getElementById('mathAns').focus();
+ document.getElementById('mathAns').value=''; setTimeout(()=>document.getElementById('mathAns').focus(),100);
 }
+
 function checkMath(){
- let ans=parseInt(document.getElementById('mathAns').value);
- if(ans===curAns){score+=100; document.getElementById('totalScore').innerText=score; document.getElementById('mathBox').style.display='none'; mathActive=false; useSkillAnim();
- if(items.filter(i=>!i.collected).length==0){alert(`Stage ${stage} Clear! Score ${score}`); document.getElementById('playScreen').style.display='none'; document.getElementById('mapScreen').style.display='block';}
- } else {alert('Try again! 加油!');}
+ let v=parseInt(document.getElementById('mathAns').value);
+ if(v===curAns){
+  score+=100; energy=Math.min(3,energy+1); document.getElementById('mathBox').style.display='none'; mathActive=false; updateUI();
+  showTip("答啱！+1能量 ⚡️"); 
+  // small zap anim
+  ctx.fillStyle='rgba(255,235,59,0.8)'; ctx.fillRect(0,0,600,700);
+  setTimeout(()=>{requestAnimationFrame(gameLoop);},150);
+  if(orbs.filter(o=>!o.taken).length==0){ win(); }
+  else {requestAnimationFrame(gameLoop);}
+ }else{
+  document.getElementById('mathHint').innerText='錯咗，試多次！💪 Try again!';
+  document.getElementById('mathHint').style.color='red';
+  setTimeout(()=>{document.getElementById('mathHint').innerText='答啱 +100分 +1能量'; document.getElementById('mathHint').style.color='#666';},1500);
+ }
 }
-function useSkill(){if(!mathActive) askMath();}
-function useSkillAnim(){ctx.fillStyle='yellow'; ctx.fillRect(0,0,600,400); setTimeout(()=>{},200);}
-// joystick
-let joyStart=null;
-canvas.addEventListener('touchmove',e=>{e.preventDefault(); let t=e.touches[0]; let rect=canvas.getBoundingClientRect(); px = (t.clientX-rect.left)/rect.width*600; py = (t.clientY-rect.top)/rect.height*400;},{passive:false});
-canvas.addEventListener('mousedown',e=>{let rect=canvas.getBoundingClientRect(); px = (e.clientX-rect.left)/rect.width*600; py = (e.clientY-rect.top)/rect.height*400; canvas.onmousemove=(ev)=>{px = (ev.clientX-rect.left)/rect.width*600; py = (ev.clientY-rect.top)/rect.height*400;}});
-canvas.onmouseup=()=>canvas.onmousemove=null;
-document.addEventListener('keydown',e=>{if(e.key==' ') nextDialog(); if(e.key=='ArrowUp') py-=10; if(e.key=='ArrowDown') py+=10; if(e.key=='ArrowLeft') px-=10; if(e.key=='ArrowRight') px+=10;});
+
+function trySkill(){
+ if(energy>=3){energy=0; enemies.forEach(e=>e.alive=false); score+=250; updateUI(); showTip("THUNDERBOLT!!! 清場！"); ctx.fillStyle='white'; ctx.fillRect(0,0,600,700); setTimeout(()=>{enemies=[];},300);}
+ else if(energy>0){showTip(`需要3能量先放到大絕，而家 ${energy}/3，繼續食藍波！`);}
+ else{showTip("未有能量，食藍波答數學題儲電！");}
+}
+
+function updateUI(){document.getElementById('energy').innerText=energy; document.getElementById('score').innerText=score; document.getElementById('totalScore').innerText=score; totalScoreEl.innerText=score;}
+
+function showTip(t){document.getElementById('dialogText').innerText=t; document.getElementById('dialog').style.display='block';}
+
+function nextDialog(){
+ dialogStep++;
+ if(dialogStep==1) showTip("加法小貼士：10以內加法可以用手指，12+5先計10+5=15再加2！");
+ else if(dialogStep==2) showTip("儲滿3個⚡️就可以按右下黃色掣放超級大絕，一次過電死晒啲細菌！");
+ else document.getElementById('dialog').style.display='none';
+}
+
+function win(){clearInterval(timer); alert(`🎉 過關！得分 ${score} ⭐⭐⭐\nGreat job! 20以內加減你識晒喇！`); document.getElementById('playScreen').style.display='none'; document.getElementById('mapScreen').style.display='block';}
+function endGame(){clearInterval(timer); alert(`時間到！Time's up! 得分 ${score}`); document.getElementById('playScreen').style.display='none'; document.getElementById('mapScreen').style.display='block';}
+
+// Joystick
+const joy=document.getElementById('joy'), stick=document.getElementById('stick');
+let dragging=false, joyCenter={x:0,y:0};
+function getJoyCenter(){let r=joy.getBoundingClientRect(); return {x:r.left+r.width/2, y:r.top+r.height/2};}
+joy.addEventListener('touchstart',e=>{dragging=true; joyCenter=getJoyCenter();},{passive:false});
+joy.addEventListener('touchmove',e=>{if(!dragging) return; e.preventDefault(); let t=e.touches[0]; let dx=t.clientX-joyCenter.x, dy=t.clientY-joyCenter.y; let dist=Math.min(35, Math.hypot(dx,dy)); let ang=Math.atan2(dy,dx); stick.style.left=30+Math.cos(ang)*dist+'px'; stick.style.top=30+Math.sin(ang)*dist+'px'; vx=Math.cos(ang)*dist*0.15; vy=Math.sin(ang)*dist*0.15;},{passive:false});
+joy.addEventListener('touchend',()=>{dragging=false; stick.style.left='30px'; stick.style.top='30px'; vx=0; vy=0;});
+joy.addEventListener('mousedown',e=>{dragging=true; joyCenter=getJoyCenter();});
+window.addEventListener('mousemove',e=>{if(!dragging) return; let dx=e.clientX-joyCenter.x, dy=e.clientY-joyCenter.y; let dist=Math.min(35, Math.hypot(dx,dy)); let ang=Math.atan2(dy,dx); stick.style.left=30+Math.cos(ang)*dist+'px'; stick.style.top=30+Math.sin(ang)*dist+'px'; vx=Math.cos(ang)*dist*0.15; vy=Math.sin(ang)*dist*0.15;});
+window.addEventListener('mouseup',()=>{if(dragging){dragging=false; stick.style.left='30px'; stick.style.top='30px'; vx=0; vy=0;}});
+document.addEventListener('keydown',e=>{if(e.key=='ArrowUp') vy=-4; if(e.key=='ArrowDown') vy=4; if(e.key=='ArrowLeft') vx=-4; if(e.key=='ArrowRight') vx=4; if(e.key==' ') nextDialog();});
+document.getElementById('mathAns').addEventListener('keydown',e=>{if(e.key=='Enter') checkMath();});
 </script>
 </body>
 </html>
