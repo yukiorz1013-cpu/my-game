@@ -1,162 +1,101 @@
-<!DOCTYPE html><html lang="zh-HK"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover"><title>V173 特效100寵</title>
+<!DOCTYPE html><html lang="zh-HK"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"><title>V177 直式封印芙蕾雅</title>
 <style>
 *{touch-action:none;user-select:none;box-sizing:border-box}
-body{margin:0;background:#000;display:flex;justify-content:center;font-family:-apple-system,sans-serif}
-#game{width:100%;max-width:430px;height:100vh;height:100dvh;background:#e6c87a;position:relative;overflow:hidden;display:flex;flex-direction:column}
-#top{height:48px;background:linear-gradient(#1a2a4a,#0e0e1a);border-bottom:2px solid #ffb300;display:flex;justify-content:space-between;align-items:center;padding:0 8px;color:#ffd54f;font-weight:900;font-size:10px}
-#mapWrap{flex:1;position:relative;overflow:hidden;background:#e6c87a}
-#map{position:absolute;left:0;top:0;width:4800px;height:4800px;background:#e6c87a}
-.tile{position:absolute;width:42px;height:42px;margin:-1px;background-color:#e6c87a;background-image:url('./tileset.png');background-size:420px 336px;image-rendering:pixelated}
-.desert{background-position:0px 0px}.grass{background-position:-180px 0px}.water{background-position:-300px 0px}.wall{background-position:-260px -80px}
-.house1{background-position:-60px -150px}.house2{background-position:-120px -150px}.market{background-position:-60px -235px}.well{background-position:-190px -235px}
-.town{border:3px solid #ffb300;z-index:2}.shop{border:3px solid #ff6f00;z-index:2}
-#player{position:absolute;left:50%;top:50%;width:48px;height:48px;margin:-24px 0 0 -24px;background:#fff;border:3px solid #ffb300;border-radius:50%;z-index:20;display:flex;align-items:center;justify-content:center;font-size:24px}
-#msg{position:absolute;left:6px;right:6px;bottom:88px;background:rgba(0,0,0,.88);border-left:4px solid #ffb300;color:#fff;border-radius:8px;padding:6px 10px;font-size:11px;font-weight:700;z-index:10}
-#controls{position:absolute;left:0;right:0;bottom:0;height:84px;background:linear-gradient(rgba(0,0,0,.92),#000);border-top:2px solid #ffb300;display:flex;justify-content:space-between;align-items:center;padding:0 8px 6px 8px;z-index:20;padding-bottom:max(6px,env(safe-area-inset-bottom))}
+body{margin:0;background:#0a2a4a;display:flex;justify-content:center;font-family:-apple-system,sans-serif}
+#game{width:100%;max-width:430px;height:100vh;height:100dvh;background:#0b3a5f;position:relative;overflow:hidden;display:flex;flex-direction:column}
+#top{height:50px;background:linear-gradient(#1a2a4a,#0e0e1a);border-bottom:2px solid #ffb300;display:flex;justify-content:space-between;align-items:center;padding:0 8px;color:#ffd54f;font-weight:900;font-size:10px;z-index:10}
+#mapWrap{flex:1;position:relative;overflow:hidden;background:#1a5a8a}
+#world{position:absolute;left:0;top:0;width:3000px;height:2250px;background-image:url('./IMG_9783.gif');background-size:3000px 2250px}
+#player{position:absolute;left:50%;top:50%;width:40px;height:40px;margin:-20px;background:#fff;border:3px solid #ffb300;border-radius:50%;z-index:20;display:flex;align-items:center;justify-content:center;font-size:22px;box-shadow:0 0 12px gold}
+#msg{position:absolute;left:6px;right:6px;bottom:90px;background:rgba(0,0,0,.88);border-left:4px solid #ffb300;color:#fff;border-radius:8px;padding:6px 10px;font-size:11px;font-weight:700;z-index:15}
+#controls{position:absolute;left:0;right:0;bottom:0;height:86px;background:linear-gradient(rgba(0,0,0,.9),#000);border-top:2px solid #ffb300;display:flex;justify-content:space-between;align-items:center;padding:0 8px 6px;z-index:20}
 #joy{width:72px;height:72px;background:rgba(255,255,255,.18);border:2px solid #ffb300;border-radius:50%;position:relative}#knob{position:absolute;left:50%;top:50%;width:34px;height:34px;background:#fff;border-radius:50%;transform:translate(-50%,-50%);border:2px solid #000}
 #skills{display:flex;gap:4px}.sbtn{width:50px;height:50px;border-radius:10px;border:2px solid #ffb300;background:#222;color:#ffd54f;font-weight:900;font-size:7px}.sbtn.seal{background:#e91e63;color:#fff}
 #battle{position:absolute;inset:0;background:radial-gradient(#1e3a5f,#0a0a14);z-index:30;display:none;flex-direction:column;color:#fff;overflow:hidden}
-#pop{position:fixed;inset:0;background:rgba(0,0,0,.9);display:none;align-items:center;justify-content:center;z-index:100;padding:12px}.box{background:linear-gradient(#fff8e0,#ffe0b2);border:3px solid #ffb300;border-radius:18px;padding:12px;width:100%;max-width:380px;color:#3e2723;text-align:center}
-@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}} .bob{animation:bob 0.7s infinite}
-@keyframes shake{0%,100%{transform:translate(0,0)}20%{transform:translate(-8px,4px)}40%{transform:translate(8px,-4px)}60%{transform:translate(-6px,-2px)}80%{transform:translate(6px,2px)}}
-@keyframes slash{0%{transform:translate(-100%,-100%) rotate(-20deg);opacity:0}20%{opacity:1}100%{transform:translate(100%,100%) rotate(-20deg);opacity:0}}
-@keyframes dmgPop{0%{transform:translateY(0) scale(0.5);opacity:0}20%{transform:translateY(-20px) scale(1.3);opacity:1}100%{transform:translateY(-60px) scale(1);opacity:0}}
-@keyframes sealThrow{0%{transform:translate(0,200px) scale(0.2) rotate(0deg)}60%{transform:translate(0,0) scale(1.2) rotate(720deg)}100%{transform:translate(0,0) scale(1) rotate(720deg)}}
-@keyframes sealSuccess{0%{transform:scale(1);filter:brightness(1)}30%{transform:scale(1.3);filter:brightness(2) drop-shadow(0 0 20px gold)}60%{transform:scale(0);filter:brightness(3)}100%{transform:scale(0)}}
-@keyframes sealFail{0%{transform:translateX(0)}25%{transform:translateX(-10px)}50%{transform:translateX(10px)}75%{transform:translateX(-10px)}100%{transform:translateX(0)}}
-@keyframes stars{0%{transform:scale(0);opacity:1}100%{transform:scale(3);opacity:0}}
-.shake{animation:shake 0.35s}
+#pop{position:fixed;inset:0;background:rgba(0,0,0,.92);display:none;align-items:center;justify-content:center;z-index:100;padding:12px}.box{background:linear-gradient(#fff8e0,#ffe0b2);border:3px solid #ffb300;border-radius:18px;padding:12px;width:100%;max-width:360px;color:#3e2723;text-align:center}
 .sprite{width:140px;height:140px;background-size:1000% 500%;image-rendering:pixelated;background-repeat:no-repeat;background-color:#fff;border-radius:12px}
 .spriteSmall{width:46px;height:46px;background-size:1000% 500%;image-rendering:pixelated;background-repeat:no-repeat;background-color:#fff;border-radius:6px;display:inline-block}
-#fxLayer{position:absolute;inset:0;pointer-events:none;z-index:50;display:none}
-.slashFx{position:absolute;left:0;top:0;width:100%;height:100%;background:linear-gradient(120deg,transparent 40%,rgba(255,255,255,0.9) 50%,#ffeb3b 51%,transparent 60%);animation:slash 0.35s ease-out}
-.dmg{position:absolute;left:50%;top:45%;font-weight:900;font-size:28px;color:#ff3d00;text-shadow:2px 2px 0 #fff, -1px -1px 0 #fff;animation:dmgPop 0.8s forwards;z-index:60}
-.sealCard{position:absolute;left:50%;top:50%;width:80px;height:80px;margin:-40px;background:#e91e63;border:3px solid #fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:36px;animation:sealThrow 0.6s ease-out}
-.successStars{position:absolute;left:50%;top:45%;width:200px;height:200px;margin:-100px;border:3px solid gold;border-radius:50%;animation:stars 0.8s ease-out}
+@keyframes dmgPop{0%{transform:translate(-50%,0) scale(.3);opacity:0}20%{transform:translate(-50%,-25px) scale(1.4);opacity:1}100%{transform:translate(-50%,-70px) scale(1);opacity:0}}
+.dmg{position:absolute;left:50%;top:40%;font-weight:900;font-size:32px;color:#ff3d00;text-shadow:2px 2px 0 #fff;animation:dmgPop .9s forwards;z-index:60}
+.miss{position:absolute;left:50%;top:40%;font-weight:900;font-size:22px;color:#ff5252;text-shadow:2px 2px 0 #fff;animation:dmgPop 1s forwards;z-index:70}
+/* 直式 */
+.vertical{font-family:monospace;font-weight:900;line-height:1.1;display:inline-block;text-align:right;background:#fff;border:3px solid #000;border-radius:12px;padding:10px 20px;min-width:110px}
+.vertical .row{font-size:28px;letter-spacing:2px}
+.vertical .op{float:left;margin-right:6px}
+.vertical .line{border-top:3px solid #000;margin:6px 0}
+.vertical .ansBox{font-size:32px;min-height:36px;color:#e91e63;border:2px dashed #ffb300;border-radius:8px;padding:2px 8px;margin-top:2px}
 </style></head><body>
-<div id="game"><div id="top"><span>⚔️V173特效100寵</span><span>💰<span id="gold">230</span> 🎀<span id="balls">30</span> <span id="cnt">0/100</span> 👣<span id="steps">0</span></span></div><div id="mapWrap"><div id="map"></div><div id="player">🧑‍🌾</div><div id="msg">V173加特效！攻擊有斬擊、封印有投擲動畫！</div><div id="controls"><div id="joy"><div id="knob"></div></div><div id="skills"><button class="sbtn" onclick="doAtk()">🏹攻擊</button><button class="sbtn" onclick="doAtk(true)">💥乾坤</button><button class="sbtn" onclick="openShop()">🏪商店</button><button class="sbtn" onclick="openDex()">📖100寵</button><button class="sbtn seal" onclick="trySeal()">🎀封印</button></div></div></div>
-<div id="battle"><div style="height:44px;background:#111;border-bottom:2px solid #ffb300;display:flex;justify-content:space-between;align-items:center;padding:0 10px;color:#ffd54f;font-weight:900"><span>⚔️ <span id="ename">寵物</span> <span id="ehpT">100%</span></span><button onclick="closeB()" style="background:#222;color:#ffd54f;border:1px solid #ffb300;border-radius:6px;padding:4px 8px">逃</button></div>
+<div id="game"><div id="top"><span>🗺️ Lv<span id="lv">1</span> 直式封印</span><span>💰<span id="gold">300</span> 🎀<span id="balls">30</span> 📖<span id="cnt">0/100</span></span></div><div id="mapWrap"><div id="world"></div><div id="player">🧑‍🌾</div><div id="msg">新：封印用直式！Lv1-10 30內加減，Lv11-20 50內混合</div><div id="controls"><div id="joy"><div id="knob"></div></div><div id="skills"><button class="sbtn" onclick="doAtk()">🏹攻擊</button><button class="sbtn" onclick="doAtk(true)">💥乾坤</button><button class="sbtn" onclick="openShop()">🏪商店</button><button class="sbtn" onclick="openDex()">📖圖鑑</button><button class="sbtn seal" onclick="trySeal()">🎀封印</button></div></div></div>
+<div id="battle"><div style="height:44px;background:#111;border-bottom:2px solid #ffb300;display:flex;justify-content:space-between;align-items:center;padding:0 10px;color:#ffd54f;font-weight:900"><span>⚔️ <span id="ename">寵物</span> Lv<span id="elv">1</span> <span id="ehpT">100%</span></span><button onclick="closeB()" style="background:#222;color:#ffd54f;border:1px solid #ffb300;border-radius:6px;padding:4px 8px">逃</button></div>
 <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative">
-<div id="eBox" class="bob" style="width:150px;height:150px;background:#fff;border:3px solid #ffb300;border-radius:20px;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative"><div id="eSprite" class="sprite"></div><div id="fxLayer"><div class="slashFx"></div></div></div>
-<div id="bmsg" style="margin-top:10px;background:rgba(0,0,0,.7);padding:6px 12px;border-radius:8px;font-size:11px">No.001</div>
+<div id="eBox" style="width:150px;height:150px;background:#fff;border:3px solid #ffb300;border-radius:20px;display:flex;align-items:center;justify-content:center;overflow:hidden"><div id="eSprite" class="sprite"></div></div>
+<div id="bmsg" style="margin-top:10px;background:rgba(0,0,0,.7);padding:6px 12px;border-radius:8px;font-size:11px;text-align:center">No.001</div>
 <div id="sealLayer" style="position:absolute;inset:0;pointer-events:none;display:none;z-index:40"></div>
+<div id="battleFlash" style="position:absolute;inset:0;display:none;pointer-events:none;z-index:45"></div>
 <div style="display:flex;gap:8px;width:92%;margin-top:10px"><button class="sbtn" style="flex:1;height:44px" onclick="doAtk()">攻擊</button><button class="sbtn seal" style="flex:1;height:44px" onclick="trySeal()">封印</button></div>
 </div></div><div id="pop"><div class="box" id="popBox"></div></div></div>
 <script>
 const namesA=["虎紋貓","黑魔貓","妖狐","白兔","棕熊","飛龍","史萊姆","幽靈","蝙蝠","蜘蛛","螳螂","石怪","哥布林","黃蜂","水蜥","灰狼","熊貓","企鵝","倉鼠","貓頭鷹","浣熊","松鼠","烏龜","青蛙","紫蛇","刺蝟","小羊","小牛","小豬","小猴","大象","鱷魚","蠍子","蝸牛","蝴蝶","甲蟲","梅花鹿","山羊","烏鴉","鳳凰","小馬","雪怪","蘑菇","水晶","羅剎","木乃伊","南瓜","鯊魚","海豹","六角龍"];
 const namesB=["九尾狐","白虎","黑貓魔","獅子王","熊貓魔","仙人掌","熔岩","水晶","雷龍","天使","紫惡魔","蘑菇人","樹精","沙魔","機械人","風妖","人魚","火鬼","毛熊","毒蛙","幽靈貓","骷髏","吸血蝠","狼人","牛頭","半人馬","獅鷲","獨角獸","天馬","雞蛇","青蛇","獅蛇","雙頭蛇","比蒙","海龍","章魚","雪怪王","骷髏王","喪屍","巫妖","女妖","魅魔","天使","墮天使","聖騎","邪眼","寶箱","骰子","卡牌"];
-let allNames=[...namesA,...namesB];
-let pets=[];for(let i=0;i<100;i++){pets.push({id:i+1,name:allNames[i],top:109+Math.floor(Math.random()*6),attr:["地3風7","水7火3","火7水3","地5風5"][i%4]})}
-let px=60,py=60,gold=230,balls=30,dex=new Array(100).fill(false),emy=28,emyHp=100,battle=false,ans=0,input="",mapSize=120,stepCount=0,lastBattleStep=-100;
-let map=[];for(let y=0;y<mapSize;y++){map[y]=[];for(let x=0;x<mapSize;x++){
-if(x==60&&y==60)map[y][x]=10;else if(x==62&&y==60)map[y][x]=11;else if(x==65&&y==60)map[y][x]=13;else if(x==60&&y==65)map[y][x]=14;
-else if(x%15==0&&y%15==0)map[y][x]=5;else if(x%12==1&&y%12==1)map[y][x]=6;else{let r=Math.random();if(r<0.06)map[y][x]=3;else if(r<0.14)map[y][x]=2;else if(r<0.20)map[y][x]=1;else map[y][x]=0;}
-}}
-const mapEl=document.getElementById('map');
-function build(){mapEl.innerHTML='';for(let y=0;y<mapSize;y++)for(let x=0;x<mapSize;x++){let d=document.createElement('div');d.className='tile';let t=map[y][x];
-if(t==0)d.classList.add('desert');if(t==1)d.classList.add('cactus');if(t==2)d.classList.add('grass');if(t==3)d.classList.add('water');if(t==4)d.classList.add('wall');
-if(t==10){d.classList.add('house1');d.classList.add('town');}if(t==11){d.classList.add('house2');d.classList.add('shop');}if(t==13){d.classList.add('market');d.classList.add('shop');}if(t==14){d.classList.add('well');d.classList.add('town');}
-d.style.left=x*40+'px';d.style.top=y*40+'px';mapEl.appendChild(d);}updateCam();}
-function updateCam(){let w=document.getElementById('mapWrap');let W=w.clientWidth||430,H=w.clientHeight||600;mapEl.style.left=(W/2-px*40-20)+'px';mapEl.style.top=(H/2-py*40-20)+'px';}
-function updateUI(){document.getElementById('gold').innerText=gold;document.getElementById('balls').innerText=balls;document.getElementById('cnt').innerText=dex.filter(x=>x).length+'/100';document.getElementById('steps').innerText=stepCount;}
-function move(dx,dy){
- if(battle)return;
- let nx=px+dx,ny=py+dy;
- if(nx<0||nx>=mapSize||ny<0||ny>=mapSize)return;
- if(map[ny][nx]==3)return;
- px=nx;py=ny;stepCount++;updateCam();updateUI();
- let isGrass = map[ny][nx]==2;
- let stepsSinceBattle = stepCount - lastBattleStep;
- if(stepsSinceBattle < 5) return;
- if(stepCount % 8 !== 0 && !isGrass) return;
- let rate = isGrass ? 0.15 : 0.07;
- if(Math.random() < rate) startB();
+let pets=[];for(let i=0;i<100;i++)pets.push({id:i+1,name:[...namesA,...namesB][i]});
+let px=1245,py=1070,gold=300,balls=30,dex=new Array(100).fill(false),emy=0,emyHp=100,battle=false,ans=0,input="",stepCount=0,lastBattle=-100,playerLv=1;
+function getPlayerLv(){let c=dex.filter(x=>x).length;return Math.min(20,Math.floor(c/5)+1);}
+function updateLvUI(){playerLv=getPlayerLv();document.getElementById('lv').innerText=playerLv;}
+function genQuestion(){
+ let a,b,op,tag;
+ if(playerLv<=10){
+   if(playerLv<=3){a=Math.floor(Math.random()*14)+1;b=Math.floor(Math.random()*14)+1;op='+';tag=`Lv${playerLv} 加數 30內`;}
+   else if(playerLv<=6){if(Math.random()<0.5){a=Math.floor(Math.random()*15)+1;b=Math.floor(Math.random()*15)+1;op='+';}else{a=Math.floor(Math.random()*20)+10;b=Math.floor(Math.random()*a);op='-';}tag=`Lv${playerLv} 加減 30內`;}
+   else{if(Math.random()<0.5){a=Math.floor(Math.random()*16)+5;b=Math.floor(Math.random()*16)+5;if(a+b>30){a=15;b=10;}op='+';}else{a=Math.floor(Math.random()*16)+15;b=Math.floor(Math.random()*14)+1;op='-';}tag=`Lv${playerLv} 加減 30內`;}
+ }else{
+   if(Math.random()<0.5){a=Math.floor(Math.random()*26)+10;b=Math.floor(Math.random()*21)+5;if(a+b>50){a=25;b=18;}op='+';}else{a=Math.floor(Math.random()*31)+20;b=Math.floor(Math.random()*20)+5;if(b>a)[a,b]=[b,a];op='-';}tag=`Lv${playerLv} 混合 50內`;
+ }
+ ans=(op==='+')?a+b:a-b;
+ return {a,b,op,tag,txt:`${a}${op}${b}=?`};
 }
-function getSpriteStyle(idx){
-  let file,col,row; 
-  if(idx<50){ file='./6f624645-2a9f-f819-cf87-700a2f37e77b.jpeg'; }else{ file='./41309d37-8713-e0a3-4015-0e51f44b1f6d.jpeg'; idx-=50; }
-  col=idx%10; row=Math.floor(idx/10);
-  let x = col*100/9, y = row*100/4;
-  return `background-image:url('${file}');background-position:${x}% ${y}%;`;
-}
-function startB(){
- emy=Math.floor(Math.random()*100);let p=pets[emy];emyHp=100;battle=true;lastBattleStep=stepCount;
- document.getElementById('battle').style.display='flex';
- document.getElementById('ename').innerText=p.name;document.getElementById('ehpT').innerText=emyHp+'%';
- document.getElementById('bmsg').innerText=`No.${String(p.id).padStart(3,'0')} ${p.name} ${p.attr} 頂${p.top}`;
- let sp=document.getElementById('eSprite'); 
- sp.setAttribute('style', getSpriteStyle(emy)+'width:140px;height:140px;background-size:1000% 500%;image-rendering:pixelated;background-repeat:no-repeat;background-color:#fff;border-radius:12px;');
-}
-function closeB(){document.getElementById('battle').style.display='none';battle=false;lastBattleStep=stepCount;}
-function playAttackFx(isBig){
-  let eBox=document.getElementById('eBox'), fx=document.getElementById('fxLayer');
-  eBox.classList.remove('shake'); void eBox.offsetWidth; eBox.classList.add('shake');
-  fx.style.display='block';
-  setTimeout(()=>fx.style.display='none',400);
-  let dmg=document.createElement('div'); dmg.className='dmg'; dmg.innerText=isBig?'-'+(35+Math.floor(Math.random()*15))+' 💥':'-'+(20+Math.floor(Math.random()*10));
-  document.querySelector('#battle > div:last-child').appendChild(dmg); // Actually attach to battle center
-  document.getElementById('eBox').parentElement.appendChild(dmg);
-  setTimeout(()=>dmg.remove(),800);
-  if(navigator.vibrate) navigator.vibrate(isBig?80:40);
-}
-function playSealFx(success){
-  let layer=document.getElementById('sealLayer'); layer.innerHTML=''; layer.style.display='block';
-  let card=document.createElement('div'); card.className='sealCard'; card.innerText='🎀';
-  layer.appendChild(card);
-  setTimeout(()=>{
-    if(success){
-      let sp=document.getElementById('eSprite');
-      sp.style.animation='sealSuccess 0.8s forwards';
-      let stars=document.createElement('div'); stars.className='successStars'; layer.appendChild(stars);
-      let txt=document.createElement('div'); txt.style.cssText='position:absolute;left:50%;top:30%;transform:translateX(-50%);font-size:32px;font-weight:900;color:gold;text-shadow:0 0 10px #fff;animation:dmgPop 1s forwards'; txt.innerText='✨封印成功！✨';
-      layer.appendChild(txt);
-      setTimeout(()=>{ sp.style.animation=''; layer.style.display='none'; layer.innerHTML=''; },1200);
-    }else{
-      let sp=document.getElementById('eBox');
-      sp.style.animation='sealFail 0.4s';
-      let txt=document.createElement('div'); txt.style.cssText='position:absolute;left:50%;top:30%;transform:translateX(-50%);font-size:24px;font-weight:900;color:#ff5252;text-shadow:0 0 6px #fff;animation:dmgPop 1s forwards'; txt.innerText='💨 失敗！逃走了！';
-      layer.appendChild(txt);
-      setTimeout(()=>{ sp.style.animation=''; layer.style.display='none'; layer.innerHTML=''; },1000);
-    }
-  },600);
+const world=document.getElementById('world');
+function updateCam(){let w=document.getElementById('mapWrap'),W=w.clientWidth||430,H=w.clientHeight||600;world.style.left=(W/2-px)+'px';world.style.top=(H/2-py)+'px';}
+function updateUI(){document.getElementById('gold').innerText=gold;document.getElementById('balls').innerText=balls;document.getElementById('cnt').innerText=dex.filter(x=>x).length+'/100';updateLvUI();}
+function move(dx,dy){if(battle)return;let nx=px+dx*18,ny=py+dy*18;if(nx<0||nx>3000||ny<0||ny>2250)return;px=nx;py=ny;stepCount++;updateCam();let s=stepCount-lastBattle;if(s<7)return;if(py<380||px<180)return;if(stepCount%7===0 && Math.random()<0.12) startB();}
+function getSpriteStyle(i){let f=i<50?'./6f624645-2a9f-f819-cf87-700a2f37e77b.jpeg':'./41309d37-8713-e0a3-4015-0e51f44b1f6d.jpeg';if(i>=50)i-=50;let c=i%10,r=Math.floor(i/10),x=c*100/9,y=r*100/4;return `background-image:url('${f}');background-position:${x}% ${y}%;`;}
+function startB(){emy=Math.floor(Math.random()*100);emyHp=100;battle=true;lastBattle=stepCount;updateLvUI();document.getElementById('battle').style.display='flex';document.getElementById('ename').innerText=pets[emy].name;document.getElementById('elv').innerText=playerLv;document.getElementById('ehpT').innerText='100%';let q=genQuestion();window._curQ=q;document.getElementById('bmsg').innerHTML=`No.${String(pets[emy].id).padStart(3,'0')} ${pets[emy].name}<br>${q.tag}`;document.getElementById('eSprite').setAttribute('style',getSpriteStyle(emy)+'width:140px;height:140px;background-size:1000% 500%;image-rendering:pixelated;background-repeat:no-repeat;background-color:#fff;border-radius:12px;');}
+function closeB(){document.getElementById('battle').style.display='none';battle=false;lastBattle=stepCount;}
+
+let curQ=null;
+function makeVerticalHTML(q,inputStr){
+ return `<div class="vertical"><div class="row">&nbsp;${q.a}</div><div class="row"><span class="op">${q.op}</span>${q.b}</div><div class="line"></div><div class="ansBox">${inputStr||'?'}</div></div>`;
 }
 function doAtk(isBig=false){
-  let a=Math.floor(Math.random()*12)+2,b=Math.floor(Math.random()*12)+2;ans=a+b;
-  pop(`<h3>⚔️ 攻擊 ${pets[emy].name} ${isBig?'乾坤一擲':''}</h3><h1>${a}+${b}=?</h1><div id=ab style="font-size:36px;border:2px solid #000;border-radius:10px;padding:6px">?</div><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:8px"><button onclick="addN('1')">1</button><button onclick="addN('2')">2</button><button onclick="addN('3')">3</button><button onclick="addN('4')">4</button><button onclick="addN('5')">5</button><button onclick="addN('6')">6</button><button onclick="addN('7')">7</button><button onclick="addN('8')">8</button><button onclick="addN('9')">9</button><button onclick="clrN()">⌫</button><button onclick="addN('0')">0</button><button style="background:#ffb300" onclick="chk(false,${isBig})">OK</button></div>`);input="";
+ curQ=genQuestion();
+ pop(`<h3>⚔️ Lv${playerLv} ${curQ.tag} 攻擊</h3>${makeVerticalHTML(curQ,'')}<div id="ab" style="display:none">?</div>
+ <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:10px"><button onclick="addN('1')">1</button><button onclick="addN('2')">2</button><button onclick="addN('3')">3</button><button onclick="addN('4')">4</button><button onclick="addN('5')">5</button><button onclick="addN('6')">6</button><button onclick="addN('7')">7</button><button onclick="addN('8')">8</button><button onclick="addN('9')">9</button><button onclick="clrN()">⌫</button><button onclick="addN('0')">0</button><button style="background:#ffb300;font-weight:900" onclick="chk(false,${isBig})">OK</button></div><div style="margin-top:6px;font-size:10px;color:#666">直式計完撳OK</div>`);input="";
 }
 function trySeal(){
-  if(balls<=0){pop('<h3>無封印卡</h3><p>去商店買！</p><button onclick="closePop()">OK</button>');return;}
-  if(emyHp>60){document.getElementById('bmsg').innerText='仲有'+emyHp+'%血！打到60%以下先封到！';playAttackFx(false);return;}
-  let a=Math.floor(Math.random()*10)+1,b=Math.floor(Math.random()*10)+1;ans=a+b;
-  pop(`<h3>🎀 封印 ${pets[emy].name}</h3><h1>${a}+${b}=?</h1><div id=ab style="font-size:36px;border:2px solid #000;border-radius:10px;padding:6px">?</div><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:8px"><button onclick="addN('1')">1</button><button onclick="addN('2')">2</button><button onclick="addN('3')">3</button><button onclick="addN('4')">4</button><button onclick="addN('5')">5</button><button onclick="addN('6')">6</button><button onclick="addN('7')">7</button><button onclick="addN('8')">8</button><button onclick="addN('9')">9</button><button onclick="clrN()">⌫</button><button onclick="addN('0')">0</button><button style="background:#e91e63;color:white" onclick="chk(true,false)">封印</button></div>`);input="";
+ if(balls<=0){pop('<h3>無卡</h3>');return;}if(emyHp>60){document.getElementById('bmsg').innerText='仲有'+emyHp+'%血！打到60%以下！';return;}
+ curQ=genQuestion();
+ pop(`<h3>🎀 Lv${playerLv} ${curQ.tag}<br>直式封印 ${pets[emy].name}</h3>${makeVerticalHTML(curQ,'')}<div id="ab" style="display:none">?</div>
+ <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:10px"><button onclick="addN('1')">1</button><button onclick="addN('2')">2</button><button onclick="addN('3')">3</button><button onclick="addN('4')">4</button><button onclick="addN('5')">5</button><button onclick="addN('6')">6</button><button onclick="addN('7')">7</button><button onclick="addN('8')">8</button><button onclick="addN('9')">9</button><button onclick="clrN()">⌫</button><button onclick="addN('0')">0</button><button style="background:#e91e63;color:white;font-weight:900" onclick="chk(true)">封印</button></div>`);input="";
 }
-function addN(n){input+=n;let el=document.getElementById('ab'); if(el) el.innerText=input;}function clrN(){input=input.slice(0,-1);let el=document.getElementById('ab'); if(el) el.innerText=input||'?';}
+function addN(n){input+=n;document.querySelectorAll('.ansBox').forEach(el=>el.innerText=input);let ab=document.getElementById('ab');if(ab)ab.innerText=input;}
+function clrN(){input=input.slice(0,-1);document.querySelectorAll('.ansBox').forEach(el=>el.innerText=input||'?');let ab=document.getElementById('ab');if(ab)ab.innerText=input||'?';}
 function chk(isSeal,isBig){
-  let v=parseInt(input);if(isNaN(v))return;closePop();
-  if(v===ans){
-    if(isSeal){
-      balls--;updateUI();
-      let success = Math.random()<0.85;
-      playSealFx(success);
-      setTimeout(()=>{
-        if(success){dex[emy]=true;gold+=35;msg('🎉捉到 '+pets[emy].name+'！閃光特效！');closeB();}else msg('💨 走甩咗！再試！');
-        updateUI();
-      },900);
-    }else{
-      playAttackFx(isBig);
-      emyHp=Math.max(0,emyHp-(isBig?45:35));
-      document.getElementById('ehpT').innerText=emyHp+'%';
-      if(emyHp<=0)document.getElementById('bmsg').innerText='💀 倒下！快封印！';
-    }
-  }else msg('❌ 答錯！正解'+ans);
+ let v=parseInt(input);if(isNaN(v))return;closePop();let layer=document.getElementById('sealLayer'),flash=document.getElementById('battleFlash');
+ if(v===ans){
+  if(isSeal){balls--;let ok=Math.random()<0.85;layer.style.display='block';layer.innerHTML='<div style="position:absolute;left:50%;top:50%;width:90px;height:90px;margin:-45px;background:radial-gradient(#ff80ab,#e91e63);border:3px solid #fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:40px">🎀</div>';setTimeout(()=>{layer.innerHTML=ok?`<div style="position:absolute;left:50%;top:25%;transform:translateX(-50%);font-size:26px;color:gold;font-weight:900;animation:dmgPop 1s forwards">✨直式答啱！成功！</div>`:`<div style="position:absolute;left:50%;top:25%;transform:translateX(-50%);font-size:22px;color:#f55;font-weight:900;animation:dmgPop 1s forwards">💨失敗！</div>`;if(ok){dex[emy]=true;gold+=35;closeB();}updateUI();setTimeout(()=>layer.style.display='none',900);},600);}
+  else{emyHp=Math.max(0,emyHp-(isBig?50:35));document.getElementById('ehpT').innerText=emyHp+'%';let d=document.createElement('div');d.className='dmg';d.innerText='-'+(isBig?50:35)+' ✅';document.getElementById('eBox').parentElement.appendChild(d);setTimeout(()=>d.remove(),900);if(emyHp<=0)document.getElementById('bmsg').innerText='💀倒下！快用直式封印！';}
+ }else{
+  flash.style.display='block';flash.innerHTML='<div style="position:absolute;inset:0;background:rgba(255,0,0,.55)"></div>';setTimeout(()=>flash.style.display='none',500);
+  let m=document.createElement('div');m.className='miss';m.innerText=`❌ MISS! ${curQ.a}${curQ.op}${curQ.b}=${ans}`;document.getElementById('eBox').parentElement.appendChild(m);setTimeout(()=>m.remove(),1300);
+  document.getElementById('msg').innerText=`❌ 直式答錯！${curQ.a} ${curQ.op} ${curQ.b} = ${ans}`;
+  if(isSeal){balls--;updateUI();}
+ }
 }
-function msg(t){document.getElementById('msg').innerText=t;}
 function pop(h){document.getElementById('popBox').innerHTML=h;document.getElementById('pop').style.display='flex';}function closePop(){document.getElementById('pop').style.display='none';}
-function openShop(){pop(`<h3>🏪商店</h3><button onclick="if(gold>=20){gold-=20;balls++;updateUI();closePop();}" style="width:100%;padding:10px;background:#ffb300;border-radius:10px">買封印卡 20金 🎀</button><button onclick="closePop()" style="width:100%;margin-top:6px">關</button>`);}
-function openDex(){let h='<h3>📖100寵圖鑑 '+dex.filter(x=>x).length+'/100</h3><div style="max-height:360px;overflow:auto;display:grid;grid-template-columns:repeat(5,1fr);gap:4px">';pets.forEach((p,i)=>{ h+=`<div style="border:2px solid ${dex[i]?'#ffb300':'#aaa'};border-radius:8px;padding:2px;background:${dex[i]?'#fff8e0':'#eee'};text-align:center"><div class="spriteSmall" style="${getSpriteStyle(i)}"></div><div style="font-size:7px;font-weight:900;white-space:nowrap;overflow:hidden">${String(p.id).padStart(3,'0')} ${p.name} ${dex[i]?'✅':''}</div></div>`});h+='</div><button onclick="closePop()" style="margin-top:8px">關閉</button>';pop(h);}
+function openShop(){pop(`<h3>🏪法蘭城商店 Lv${playerLv}</h3><p style="font-size:11px">Lv1-10 30內直式加減<br>Lv11-20 50內直式混合</p><button onclick="if(gold>=20){gold-=20;balls++;updateUI();closePop();}" style="width:100%;padding:12px;background:#ffb300;border-radius:10px">買封印卡 20金 🎀</button><button onclick="closePop()" style="width:100%;margin-top:6px">關</button>`);}
+function openDex(){let h=`<h3>📖100寵圖鑑 ${dex.filter(x=>x).length}/100 Lv${playerLv}</h3><div style="max-height:360px;overflow:auto;display:grid;grid-template-columns:repeat(5,1fr);gap:4px">`;pets.forEach((p,i)=>{h+=`<div style="border:2px solid ${dex[i]?'#ffb300':'#aaa'};border-radius:8px;padding:2px;background:${dex[i]?'#fff8e0':'#eee'};text-align:center"><div class="spriteSmall" style="${getSpriteStyle(i)}"></div><div style="font-size:7px;font-weight:900">${String(p.id).padStart(3,'0')} ${p.name}</div></div>`});h+='</div><button onclick="closePop()" style="margin-top:8px">關</button>';pop(h);}
 let joy=document.getElementById('joy'),knob=document.getElementById('knob'),drag=false,last=0;
 joy.addEventListener('touchstart',e=>{drag=true;e.preventDefault();});
 window.addEventListener('touchend',()=>{drag=false;knob.style.transform='translate(-50%,-50%)';});
-window.addEventListener('touchmove',e=>{if(!drag||battle)return;let r=joy.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2,x=e.touches[0].clientX-cx,y=e.touches[0].clientY-cy,d=Math.min(Math.sqrt(x*x+y*y),32),a=Math.atan2(y,x),nx=Math.cos(a)*d,ny=Math.sin(a)*d;knob.style.transform=`translate(calc(-50% + ${nx}px), calc(-50% + ${ny}px))`;let now=Date.now();if(now-last<120)return;last=now;let dx=Math.abs(nx)>14?(nx>0?1:-1):0,dy=Math.abs(ny)>14?(ny>0?1:-1):0;if(dx||dy)move(dx,dy);},{passive:false});
-window.addEventListener('resize',updateCam);build();updateUI();
+window.addEventListener('touchmove',e=>{if(!drag||battle)return;let r=joy.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2,x=e.touches[0].clientX-cx,y=e.touches[0].clientY-cy,d=Math.min(Math.sqrt(x*x+y*y),32),a=Math.atan2(y,x),nx=Math.cos(a)*d,ny=Math.sin(a)*d;knob.style.transform=`translate(calc(-50% + ${nx}px), calc(-50% + ${ny}px))`;let now=Date.now();if(now-last<110)return;last=now;let dx=Math.abs(nx)>14?(nx>0?1:-1):0,dy=Math.abs(ny)>14?(ny>0?1:-1):0;if(dx||dy)move(dx,dy);},{passive:false});
+window.addEventListener('resize',updateCam);updateCam();updateUI();
 </script></body></html>
