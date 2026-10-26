@@ -1,69 +1,87 @@
-<!DOCTYPE html><html lang="zh-HK"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>V72 清低音行軍</title>
-<style>body{margin:0;background:#0f0f23;display:flex;justify-content:center;font-family:-apple-system,sans-serif;-webkit-tap-highlight-color:transparent}#game{width:100%;max-width:440px;background:linear-gradient(#2c3e50,#34495e);min-height:100vh;padding:14px;box-sizing:border-box;text-align:center;position:relative;color:white}.card{background:white;color:#222;border-radius:22px;padding:14px;margin:10px 0}.pet-wrap{height:280px;display:flex;align-items:flex-end;justify-content:center}.pet-img{object-fit:contain;display:block;transition:width 0.6s,height 0.6s}.stage-badge{display:inline-block;background:#2c3e50;color:white;border:2px solid #34495e;padding:6px 16px;border-radius:20px;font-size:13px;font-weight:bold;margin:8px 0}.btn{width:100%;padding:14px;border:none;border-radius:14px;font-size:18px;font-weight:bold;margin:5px 0;cursor:pointer;touch-action:manipulation}.btn-go{background:#e67e22;color:white}.btn-leader{background:linear-gradient(135deg,#2c3e50,#e67e22);color:white}.btn-evo{background:gold;display:none;color:#222}.timer{font-size:20px;font-weight:bold;color:#e67e22;background:#fff3e0;padding:6px 14px;border-radius:20px;display:inline-block;margin-top:6px}.prog-bg{background:#eee;border-radius:12px;height:22px;overflow:hidden;margin:10px 0;position:relative}.prog-fill{height:100%;background:linear-gradient(90deg,#e67e22,#2c3e50);transition:width 0.5s}.prog-text{position:absolute;width:100%;top:3px;font-weight:bold;font-size:12px;text-align:center;color:#222}#mathBox,#leadBox,#musicBox{position:fixed;inset:0;background:rgba(0,0,0,.85);display:none;align-items:center;justify-content:center;z-index:9999;padding:14px}.box{background:white;color:#222;width:100%;max-width:380px;border-radius:24px;padding:20px;text-align:center;border:4px solid #e67e22;pointer-events:auto}.box input{font-size:32px;padding:14px;border:3px solid #e67e22;border-radius:14px;width:85%;margin:8px 0;text-align:center;font-weight:bold;pointer-events:auto;-webkit-user-select:text;user-select:text;outline:none;background:#fffaf0}.num-pad{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:12px 0}.num-key{padding:14px;font-size:22px;font-weight:bold;background:#fff3e0;border:2px solid #e67e22;border-radius:12px;cursor:pointer;touch-action:manipulation}.num-key:active{background:#e67e22;color:white}#toast{position:fixed;top:38%;left:50%;transform:translate(-50%,-50%);padding:14px 22px;border-radius:20px;font-size:18px;font-weight:bold;z-index:10001;display:none;color:white}.lead-row{display:flex;justify-content:space-between;padding:10px;border-bottom:1px solid #eee;font-size:13px}.music-btn{position:absolute;top:10px;right:10px;background:white;border-radius:50%;width:40px;height:40px;border:none;font-size:20px;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.2)}.music-opt{padding:10px;margin:6px 0;border:2px solid #eee;border-radius:12px;cursor:pointer;text-align:left}.music-opt.active{border-color:#e67e22;background:#fff3e0}@keyframes pop{0%{transform:scale(1)}30%{transform:scale(1.35)}100%{transform:scale(1)}}@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}</style></head><body>
-<div id="game"><button class="music-btn" onclick="openMusic()">🎵</button><h2>🦖 數學霸恐龍王 - 勇者行軍</h2><div class="card"><div class="pet-wrap"><img id="petImg" class="pet-img" src="./dino1.png.jpg" style="animation:bounce 0.85s infinite"></div><h3 id="petName"></h3><div class="stage-badge" id="stageBadge"></div><br><div class="timer">⏱️ <span id="timer">00:00</span></div><div class="prog-bg"><div id="progBar" class="prog-fill"></div><div id="progText" class="prog-text"></div></div><p style="font-size:13px"><b id="solved">0</b>題 | <b id="score">0</b>分</p></div><button class="btn btn-go" onclick="startQ()">▶️ 出發冒險</button><button class="btn btn-evo" id="evoBtn" onclick="doEvo()">⚡️ 進化</button><button class="btn btn-leader" onclick="openLeader()">👑 霸主榜</button></div>
-<div id="mathBox"><div class="box"><h1 id="mQ" style="font-size:38px;margin:10px 0"></h1><input id="mAns" type="number" inputmode="numeric" pattern="[0-9]*" autocomplete="off" placeholder="?" autofocus><div class="num-pad"><button class="num-key" onclick="addNum('1')">1</button><button class="num-key" onclick="addNum('2')">2</button><button class="num-key" onclick="addNum('3')">3</button><button class="num-key" onclick="addNum('4')">4</button><button class="num-key" onclick="addNum('5')">5</button><button class="num-key" onclick="addNum('6')">6</button><button class="num-key" onclick="addNum('7')">7</button><button class="num-key" onclick="addNum('8')">8</button><button class="num-key" onclick="addNum('9')">9</button><button class="num-key" onclick="clearNum()">⌫</button><button class="num-key" onclick="addNum('0')">0</button><button class="num-key" style="background:#e67e22;color:white" onclick="checkAns()">OK</button></div><button class="btn" style="background:#e67e22;color:white" onclick="checkAns()">確定</button><button class="btn" style="background:#eee" onclick="hideMath()">取消</button></div></div>
-<div id="leadBox"><div class="box"><h2>👑 霸主榜</h2><div id="leadList"></div><div style="margin-top:10px;border-top:3px dashed #e67e22;padding-top:10px"><input id="playerName" placeholder="霸主名號"><input id="playerPwd" type="password" placeholder="4位密碼"><button class="btn" style="background:#e67e22;color:white" onclick="uploadScore()">🔒 登榜</button><button class="btn" style="background:#eee" onclick="closeLeader()">關閉</button></div></div></div>
-<div id="musicBox"><div class="box"><h2>🎵 背景音樂</h2><div class="music-opt active" onclick="setMusic('marchclear',this)">⚔️ 勇者行軍 清低音版 (新)</div><div class="music-opt" onclick="setMusic('mute',this)">🔇 靜音</div><button class="btn" style="background:#eee;margin-top:10px" onclick="closeMusic()">完成</button></div></div><div id="toast"></div>
+<!DOCTYPE html><html lang="zh-HK"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>V73 長笛單簧管</title>
+<style>body{margin:0;background:#0f0f23;display:flex;justify-content:center;font-family:-apple-system,sans-serif;-webkit-tap-highlight-color:transparent}#game{width:100%;max-width:440px;background:linear-gradient(#e0f2f1,#f1f8e9);min-height:100vh;padding:14px;box-sizing:border-box;text-align:center;position:relative}.card{background:white;border-radius:22px;padding:14px;margin:10px 0}.pet-wrap{height:280px;display:flex;align-items:flex-end;justify-content:center}.pet-img{object-fit:contain;display:block;transition:width 0.6s,height 0.6s}.stage-badge{display:inline-block;background:#e0f2f1;color:#00695c;border:2px solid #80cbc4;padding:6px 16px;border-radius:20px;font-size:13px;font-weight:bold;margin:8px 0}.btn{width:100%;padding:14px;border:none;border-radius:14px;font-size:18px;font-weight:bold;margin:5px 0;cursor:pointer;touch-action:manipulation}.btn-go{background:#00897b;color:white}.btn-leader{background:linear-gradient(135deg,#80cbc4,#00695c);color:white}.btn-evo{background:gold;display:none}.timer{font-size:20px;font-weight:bold;color:#00695c;background:#e0f2f1;padding:6px 14px;border-radius:20px;display:inline-block;margin-top:6px}.prog-bg{background:#eee;border-radius:12px;height:22px;overflow:hidden;margin:10px 0;position:relative}.prog-fill{height:100%;background:linear-gradient(90deg,#80cbc4,#00695c);transition:width 0.5s}.prog-text{position:absolute;width:100%;top:3px;font-weight:bold;font-size:12px;text-align:center}#mathBox,#leadBox,#musicBox{position:fixed;inset:0;background:rgba(0,0,0,.78);display:none;align-items:center;justify-content:center;z-index:9999;padding:14px}.box{background:white;width:100%;max-width:380px;border-radius:24px;padding:20px;text-align:center;border:4px solid #80cbc4;pointer-events:auto}.box input{font-size:32px;padding:14px;border:3px solid #00897b;border-radius:14px;width:85%;margin:8px 0;text-align:center;font-weight:bold;pointer-events:auto;-webkit-user-select:text;user-select:text;outline:none;background:#f9fff9}.num-pad{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:12px 0}.num-key{padding:14px;font-size:22px;font-weight:bold;background:#e0f2f1;border:2px solid #80cbc4;border-radius:12px;cursor:pointer;touch-action:manipulation}.num-key:active{background:#00897b;color:white}#toast{position:fixed;top:38%;left:50%;transform:translate(-50%,-50%);padding:14px 22px;border-radius:20px;font-size:18px;font-weight:bold;z-index:10001;display:none;color:white}.lead-row{display:flex;justify-content:space-between;padding:10px;border-bottom:1px solid #e8f5e9;font-size:13px}.music-btn{position:absolute;top:10px;right:10px;background:white;border-radius:50%;width:40px;height:40px;border:none;font-size:20px;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.2)}.music-opt{padding:10px;margin:6px 0;border:2px solid #e8f5e9;border-radius:12px;cursor:pointer;text-align:left}.music-opt.active{border-color:#00897b;background:#e0f2f1}@keyframes pop{0%{transform:scale(1)}30%{transform:scale(1.35)}100%{transform:scale(1)}}@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}</style></head><body>
+<div id="game"><button class="music-btn" onclick="openMusic()">🎵</button><h2>🦖 數學霸恐龍王</h2><div class="card"><div class="pet-wrap"><img id="petImg" class="pet-img" src="./dino1.png.jpg" style="animation:bounce 0.85s infinite"></div><h3 id="petName"></h3><div class="stage-badge" id="stageBadge"></div><br><div class="timer">⏱️ <span id="timer">00:00</span></div><div class="prog-bg"><div id="progBar" class="prog-fill"></div><div id="progText" class="prog-text"></div></div><p style="font-size:13px"><b id="solved">0</b>題 | <b id="score">0</b>分</p></div><button class="btn btn-go" onclick="startQ()">▶️ 出發</button><button class="btn btn-evo" id="evoBtn" onclick="doEvo()">⚡️ 進化</button><button class="btn btn-leader" onclick="openLeader()">👑 霸主榜</button></div>
+<div id="mathBox"><div class="box"><h1 id="mQ" style="font-size:38px;margin:10px 0"></h1><input id="mAns" type="number" inputmode="numeric" pattern="[0-9]*" autocomplete="off" placeholder="?" autofocus><div class="num-pad"><button class="num-key" onclick="addNum('1')">1</button><button class="num-key" onclick="addNum('2')">2</button><button class="num-key" onclick="addNum('3')">3</button><button class="num-key" onclick="addNum('4')">4</button><button class="num-key" onclick="addNum('5')">5</button><button class="num-key" onclick="addNum('6')">6</button><button class="num-key" onclick="addNum('7')">7</button><button class="num-key" onclick="addNum('8')">8</button><button class="num-key" onclick="addNum('9')">9</button><button class="num-key" onclick="clearNum()">⌫</button><button class="num-key" onclick="addNum('0')">0</button><button class="num-key" style="background:#00897b;color:white" onclick="checkAns()">OK</button></div><button class="btn" style="background:#00897b;color:white" onclick="checkAns()">確定</button><button class="btn" style="background:#eee" onclick="hideMath()">取消</button></div></div>
+<div id="leadBox"><div class="box"><h2>👑 霸主榜</h2><div id="leadList"></div><div style="margin-top:10px;border-top:3px dashed #80cbc4;padding-top:10px"><input id="playerName" placeholder="霸主名號"><input id="playerPwd" type="password" placeholder="4位密碼"><button class="btn" style="background:#00897b;color:white" onclick="uploadScore()">🔒 登榜</button><button class="btn" style="background:#eee" onclick="closeLeader()">關閉</button></div></div></div>
+<div id="musicBox"><div class="box"><h2>🎵 背景音樂</h2><div class="music-opt active" onclick="setMusic('woodwind',this)">🪈 長笛+單簧管 木管行軍 (新)</div><div class="music-opt" onclick="setMusic('mute',this)">🔇 靜音</div><button class="btn" style="background:#eee;margin-top:10px" onclick="closeMusic()">完成</button></div></div><div id="toast"></div>
 <script>
 const BUCKET_ID="9xrLimS38pHRafoTWwqfSP",KEY="yuki_leaderboard";
 const pets=[{img:"./dino1.png.jpg",name:"Lv.1 蛋蛋龍",total:20},{img:"./dino2.png.jpg",name:"Lv.2 BB龍",total:20},{img:"./dino3.png.WEBP",name:"Lv.3 火焰龍",total:20},{img:"./dino4.png.jpg",name:"Lv.4 霸王龍",total:20}];
-let petIdx=0,solvedLv=0,total=0,score=0,ans=0,ac,startTime=0,timerInterval=null,bgmTimer=null;let currentMusic='marchclear',masterVol=0.08;
-let saved=JSON.parse(localStorage.getItem('yuki_v72')||'{}');if(saved.petIdx!=null){petIdx=saved.petIdx;solvedLv=saved.solvedLv;total=saved.total;score=saved.score;}
-function save(){localStorage.setItem('yuki_v72',JSON.stringify({petIdx,solvedLv,total,score,startTime,currentMusic}));}
+let petIdx=0,solvedLv=0,total=0,score=0,ans=0,ac,startTime=0,timerInterval=null,bgmTimer=null;let currentMusic='woodwind',masterVol=0.10;
+let saved=JSON.parse(localStorage.getItem('yuki_v73')||'{}');if(saved.petIdx!=null){petIdx=saved.petIdx;solvedLv=saved.solvedLv;total=saved.total;score=saved.score;}
+function save(){localStorage.setItem('yuki_v73',JSON.stringify({petIdx,solvedLv,total,score,startTime,currentMusic}));}
 function showToast(t,c){let e=document.getElementById('toast');e.innerText=t;e.style.background=c;e.style.display='block';setTimeout(()=>e.style.display='none',1500);}
 function formatTime(ms){let s=Math.floor(ms/1000),m=Math.floor(s/60);s%=60;return (m<10?'0':'')+m+':'+(s<10?'0':'')+s;}
 function getElapsed(){return startTime==0?0:Date.now()-startTime;}
 function update(){let p=pets[petIdx];document.getElementById('petImg').src=p.img;document.getElementById('petName').innerText=p.name;let base=40,max=260;let size=base+(solvedLv/p.total)*(max-base);let img=document.getElementById('petImg');img.style.width=size+'px';img.style.height=size+'px';document.getElementById('stageBadge').innerText='✨ 長大 '+(solvedLv+1<=p.total?solvedLv+1:p.total)+'/20 段';if(solvedLv>=p.total)document.getElementById('stageBadge').innerText='🎉 20/20 滿級！可進化';let pct=Math.round(solvedLv/p.total*100);document.getElementById('progBar').style.width=pct+'%';document.getElementById('progText').innerText=solvedLv+'/20 段';document.getElementById('solved').innerText=total;document.getElementById('score').innerText=score;document.getElementById('evoBtn').style.display=solvedLv>=p.total?'block':'none';document.getElementById('timer').innerText=formatTime(getElapsed());save();}
 function ensureAudio(){try{if(!ac)ac=new(window.AudioContext||window.webkitAudioContext)();if(ac.state==='suspended')ac.resume();}catch(e){}}
-function playBrass(freq,dur,vol,isBass){
+// 長笛：sine + 少少三角，輕微顫音，像吹氣
+function playFlute(freq,dur,vol){
   try{
     ensureAudio();let t0=ac.currentTime;
-    let types = isBass ? ['triangle'] : ['square','triangle'];
-    types.forEach((tp,idx)=>{
-      let filter=ac.createBiquadFilter();filter.type='lowpass';filter.frequency.value=isBass?520: (tp==='square'?850:680);
-      let o=ac.createOscillator(),g=ac.createGain();o.type=tp; o.frequency.value=freq*(idx==0?1:1.005);
-      let v = vol*(idx==0? (isBass?1:0.65) :0.35);
-      g.gain.setValueAtTime(0,t0); g.gain.linearRampToValueAtTime(v,t0+0.018); g.gain.linearRampToValueAtTime(v*0.65,t0+dur*0.5); g.gain.exponentialRampToValueAtTime(0.001,t0+dur);
-      o.connect(g); g.connect(filter); filter.connect(ac.destination); o.start(t0); o.stop(t0+dur);
-    });
+    let o=ac.createOscillator(),o2=ac.createOscillator(),g=ac.createGain(),filter=ac.createBiquadFilter();
+    filter.type='lowpass'; filter.frequency.value=1200; filter.Q.value=0.5;
+    o.type='sine'; o.frequency.value=freq;
+    o2.type='triangle'; o2.frequency.value=freq*2.01; // 泛音少少
+    // 輕微顫音 5Hz
+    let vib=ac.createOscillator(),vibG=ac.createGain(); vib.frequency.value=5; vibG.gain.value=4; vib.connect(vibG); vibG.connect(o.frequency);
+    g.gain.setValueAtTime(0,t0); g.gain.linearRampToValueAtTime(vol*0.75,t0+0.05); g.gain.linearRampToValueAtTime(vol*0.55,t0+dur*0.6); g.gain.exponentialRampToValueAtTime(0.001,t0+dur);
+    let g2=ac.createGain(); g2.gain.value=vol*0.18;
+    o.connect(g); o2.connect(g2); g.connect(filter); g2.connect(filter); filter.connect(ac.destination);
+    o.start(t0); o2.start(t0); vib.start(t0); o.stop(t0+dur); o2.stop(t0+dur); vib.stop(t0+dur);
   }catch(e){}
 }
-function playMarchClear(){
+// 單簧管：方波濾到剩奇數諧波，暖木管，低通600
+function playClarinet(freq,dur,vol,isBass){
+  try{
+    ensureAudio();let t0=ac.currentTime;
+    let filter=ac.createBiquadFilter(); filter.type='lowpass'; filter.frequency.value=isBass?480:650; filter.Q.value=0.8;
+    let o=ac.createOscillator(),g=ac.createGain(); o.type='square'; o.frequency.value=freq;
+    g.gain.setValueAtTime(0,t0); g.gain.linearRampToValueAtTime(vol,t0+0.025); g.gain.linearRampToValueAtTime(vol*0.65,t0+dur*0.5); g.gain.exponentialRampToValueAtTime(0.001,t0+dur);
+    o.connect(g); g.connect(filter); filter.connect(ac.destination); o.start(t0); o.stop(t0+dur);
+  }catch(e){}
+}
+function playWoodwindMarch(){
   if(bgmTimer)clearTimeout(bgmTimer);
-  // 清低音：之前b 65Hz→130Hz，音量0.55→0.28斬半，唔再轟
   let seq=[
-    {m:130.81,b:130.81,h:164.81,d:0.40,a:1},
-    {m:146.83,b:0,h:0,d:0.20,a:0},
-    {m:164.81,b:164.81,h:0,d:0.20,a:0},
-    {m:196.00,b:196.00,h:246.94,d:0.40,a:1},
-    {m:164.81,b:0,h:0,d:0.20,a:0},
-    {m:146.83,b:0,h:0,d:0.20,a:0},
-    
-    {m:130.81,b:130.81,h:164.81,d:0.40,a:1},
-    {m:130.81,b:0,h:0,d:0.20,a:0},
-    {m:164.81,b:164.81,h:0,d:0.20,a:0},
-    {m:130.81,b:130.81,h:130.81,d:0.60,a:1},
-    {m:98.00,b:98.00,h:0,d:0.20,a:0},
-    {m:110.00,b:110.00,h:0,d:0.20,a:0},
+    {m:261.63,b:130.81,h:196.00,d:0.40,a:1},
+    {m:293.66,b:0,h:0,d:0.20,a:0},
+    {m:329.63,b:164.81,h:0,d:0.20,a:0},
+    {m:392.00,b:196.00,h:246.94,d:0.40,a:1},
+    {m:329.63,b:0,h:0,d:0.20,a:0},
+    {m:293.66,b:0,h:0,d:0.20,a:0},
+    {m:261.63,b:130.81,h:196.00,d:0.55,a:1},
+    {m:293.66,b:0,h:0,d:0.20,a:0},
+    {m:329.63,b:0,h:0,d:0.20,a:0},
 
-    {m:196.00,b:196.00,h:246.94,d:0.40,a:1},
-    {m:220.00,b:0,h:0,d:0.20,a:0},
-    {m:246.94,b:0,h:0,d:0.20,a:0},
-    {m:261.63,b:261.63,h:329.63,d:0.40,a:1},
-    {m:246.94,b:0,h:0,d:0.20,a:0},
-    {m:220.00,b:0,h:0,d:0.20,a:0},
-    {m:196.00,b:196.00,h:246.94,d:0.40,a:1},
-    {m:196.00,b:0,h:0,d:0.20,a:0},
-    {m:164.81,b:164.81,h:0,d:0.20,a:0},
-    {m:130.81,b:130.81,h:164.81,d:0.70,a:1},
+    {m:440.00,b:146.83,h:220.00,d:0.40,a:1},
+    {m:493.88,b:0,h:0,d:0.20,a:0},
+    {m:523.25,b:0,h:0,d:0.20,a:0},
+    {m:523.25,b:174.61,h:261.63,d:0.40,a:1},
+    {m:392.00,b:0,h:0,d:0.20,a:0},
+    {m:329.63,b:0,h:0,d:0.20,a:0},
+    {m:392.00,b:130.81,h:196.00,d:0.55,a:1},
+    {m:349.23,b:0,h:0,d:0.20,a:0},
+    {m:329.63,b:0,h:0,d:0.20,a:0},
+
+    {m:261.63,b:130.81,h:196.00,d:0.30,a:0},
+    {m:293.66,b:146.83,h:0,d:0.30,a:0},
+    {m:329.63,b:164.81,h:246.94,d:0.30,a:1},
+    {m:392.00,b:174.61,h:0,d:0.30,a:1},
+    {m:440.00,b:155.56,h:0,d:0.40,a:1},
+    {m:392.00,b:130.81,h:0,d:0.30,a:0},
+    {m:329.63,b:130.81,h:0,d:0.30,a:0},
+    {m:261.63,b:130.81,h:196.00,d:0.70,a:1},
   ];
   let i=0;
   function tick(){
     let n=seq[i%seq.length];
     let base=masterVol;
-    if(n.b>0) playBrass(n.b, n.d*0.78, base*0.28, true); // 之前0.55→0.28，低音斬半，唔再轟
-    if(n.h>0) playBrass(n.h, n.d*0.62, base*0.22, false);
-    playBrass(n.m, n.d*0.78, base*(n.a?1.0:0.78), false);
+    // 低音單簧管 C3，清唔轟
+    if(n.b>0) playClarinet(n.b, n.d*0.82, base*0.32, true);
+    if(n.h>0) playClarinet(n.h, n.d*0.65, base*0.20, false);
+    // 主旋律長笛，圓潤
+    playFlute(n.m, n.d*0.78, base*(n.a?0.85:0.60));
     i++;
     bgmTimer=setTimeout(tick, n.d*1000+75);
   }
@@ -71,16 +89,16 @@ function playMarchClear(){
 }
 function sfxCorrect(){
   try{
-    ensureAudio();let t0=ac.currentTime;if(bgmTimer){clearTimeout(bgmTimer);bgmTimer=null;setTimeout(()=>{if(currentMusic!=='mute') playMarchClear();},700);}
-    [261.63,329.63,392.00,523.25].forEach((f,idx)=>{
-      let o=ac.createOscillator(),g=ac.createGain();o.type='square';o.frequency.value=f;
-      g.gain.setValueAtTime(0,t0+idx*0.09);g.gain.linearRampToValueAtTime(0.16,t0+idx*0.09+0.01);g.gain.exponentialRampToValueAtTime(0.001,t0+idx*0.09+0.38);
-      o.connect(g);g.connect(ac.destination);o.start(t0+idx*0.09);o.stop(t0+idx*0.09+0.38);
+    ensureAudio();let t0=ac.currentTime;if(bgmTimer){clearTimeout(bgmTimer);bgmTimer=null;setTimeout(()=>{if(currentMusic!=='mute') playWoodwindMarch();},700);}
+    [523.25,659.25,783.99].forEach((f,idx)=>{
+      let o=ac.createOscillator(),g=ac.createGain();o.type='sine';o.frequency.value=f;
+      g.gain.setValueAtTime(0,t0+idx*0.10);g.gain.linearRampToValueAtTime(0.20,t0+idx*0.10+0.02);g.gain.exponentialRampToValueAtTime(0.001,t0+idx*0.10+0.4);
+      o.connect(g);g.connect(ac.destination);o.start(t0+idx*0.10);o.stop(t0+idx*0.10+0.4);
     });
   }catch(e){}
 }
 function sfxWrong(){try{ensureAudio();let t0=ac.currentTime;let o=ac.createOscillator(),g=ac.createGain();o.type='triangle';o.frequency.setValueAtTime(120,t0);o.frequency.linearRampToValueAtTime(70,t0+0.3);g.gain.setValueAtTime(0.16,t0);g.gain.exponentialRampToValueAtTime(0.001,t0+0.35);o.connect(g);g.connect(ac.destination);o.start(t0);o.stop(t0+0.35);}catch(e){}}
-function playCurrent(){if(currentMusic==='marchclear')playMarchClear();else if(bgmTimer){clearTimeout(bgmTimer);bgmTimer=null;}}
+function playCurrent(){if(currentMusic==='woodwind')playWoodwindMarch();else if(bgmTimer){clearTimeout(bgmTimer);bgmTimer=null;}}
 function setMusic(url,el){currentMusic=url;document.querySelectorAll('.music-opt').forEach(o=>o.classList.remove('active'));if(el)el.classList.add('active');save();if(bgmTimer){clearTimeout(bgmTimer);bgmTimer=null;}if(startTime!=0)playCurrent();closeMusic();}
 function focusAns(){let el=document.getElementById('mAns'); setTimeout(()=>{el.focus(); el.click();},80);}
 function addNum(n){let el=document.getElementById('mAns'); el.value=(el.value||'')+n; el.focus();}
