@@ -1,83 +1,80 @@
-<!DOCTYPE html><html lang="zh-HK"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>V55 雪糕車和弦版</title>
-<style>body{margin:0;background:#0f0f23;display:flex;justify-content:center;font-family:-apple-system,sans-serif}#game{width:100%;max-width:440px;background:linear-gradient(#fff3e0,#e1f5fe);min-height:100vh;padding:14px;box-sizing:border-box;text-align:center;position:relative}.card{background:white;border-radius:22px;padding:14px;margin:10px 0}.pet-wrap{height:280px;display:flex;align-items:flex-end;justify-content:center}.pet-img{object-fit:contain;display:block;transition:width 0.6s,height 0.6s}.stage-badge{display:inline-block;background:#fff3e0;color:#e65100;border:2px solid #ffcc80;padding:6px 16px;border-radius:20px;font-size:13px;font-weight:bold;margin:8px 0}.btn{width:100%;padding:14px;border:none;border-radius:14px;font-size:18px;font-weight:bold;margin:5px 0;cursor:pointer}.btn-go{background:#66bb6a;color:white}.btn-leader{background:linear-gradient(135deg,#ffcc80,#e65100);color:white}.btn-evo{background:gold;display:none}.timer{font-size:20px;font-weight:bold;color:#e65100;background:#fff3e0;padding:6px 14px;border-radius:20px;display:inline-block;margin-top:6px}.prog-bg{background:#eee;border-radius:12px;height:22px;overflow:hidden;margin:10px 0;position:relative}.prog-fill{height:100%;background:linear-gradient(90deg,#ffcc80,#e65100);transition:width 0.5s}.prog-text{position:absolute;width:100%;top:3px;font-weight:bold;font-size:12px;text-align:center}#mathBox,#leadBox,#musicBox{position:fixed;inset:0;background:rgba(0,0,0,.8);display:none;align-items:center;justify-content:center;z-index:9999;padding:14px}.box{background:white;width:100%;max-width:380px;border-radius:24px;padding:20px;text-align:center;border:4px solid #ffcc80}.box input{font-size:18px;padding:10px;border:3px solid #ffcc80;border-radius:12px;width:85%;margin:5px 0;text-align:center;font-weight:bold}#toast{position:fixed;top:38%;left:50%;transform:translate(-50%,-50%);padding:14px 22px;border-radius:20px;font-size:18px;font-weight:bold;z-index:10001;display:none;color:white}.lead-row{display:flex;justify-content:space-between;padding:10px;border-bottom:1px solid #fff3e0;font-size:13px}.music-btn{position:absolute;top:10px;right:10px;background:white;border-radius:50%;width:40px;height:40px;border:none;font-size:20px;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.2)}.music-opt{padding:10px;margin:6px 0;border:2px solid #fff3e0;border-radius:12px;cursor:pointer;text-align:left}.music-opt.active{border-color:#ff9800;background:#fff3e0}@keyframes pop{0%{transform:scale(1)}30%{transform:scale(1.3)}100%{transform:scale(1)}}</style></head><body>
+<!DOCTYPE html><html lang="zh-HK"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>V56 開朗雪糕車</title>
+<style>body{margin:0;background:#0f0f23;display:flex;justify-content:center;font-family:-apple-system,sans-serif}#game{width:100%;max-width:440px;background:linear-gradient(#fff3e0,#e8f5e9);min-height:100vh;padding:14px;box-sizing:border-box;text-align:center;position:relative}.card{background:white;border-radius:22px;padding:14px;margin:10px 0}.pet-wrap{height:280px;display:flex;align-items:flex-end;justify-content:center}.pet-img{object-fit:contain;display:block;transition:width 0.6s,height 0.6s}.stage-badge{display:inline-block;background:#e8f5e9;color:#2e7d32;border:2px solid #a5d6a7;padding:6px 16px;border-radius:20px;font-size:13px;font-weight:bold;margin:8px 0}.btn{width:100%;padding:14px;border:none;border-radius:14px;font-size:18px;font-weight:bold;margin:5px 0;cursor:pointer}.btn-go{background:#66bb6a;color:white}.btn-leader{background:linear-gradient(135deg,#a5d6a7,#2e7d32);color:white}.btn-evo{background:gold;display:none}.timer{font-size:20px;font-weight:bold;color:#2e7d32;background:#e8f5e9;padding:6px 14px;border-radius:20px;display:inline-block;margin-top:6px}.prog-bg{background:#eee;border-radius:12px;height:22px;overflow:hidden;margin:10px 0;position:relative}.prog-fill{height:100%;background:linear-gradient(90deg,#a5d6a7,#2e7d32);transition:width 0.5s}.prog-text{position:absolute;width:100%;top:3px;font-weight:bold;font-size:12px;text-align:center}#mathBox,#leadBox,#musicBox{position:fixed;inset:0;background:rgba(0,0,0,.8);display:none;align-items:center;justify-content:center;z-index:9999;padding:14px}.box{background:white;width:100%;max-width:380px;border-radius:24px;padding:20px;text-align:center;border:4px solid #a5d6a7}.box input{font-size:18px;padding:10px;border:3px solid #a5d6a7;border-radius:12px;width:85%;margin:5px 0;text-align:center;font-weight:bold}#toast{position:fixed;top:38%;left:50%;transform:translate(-50%,-50%);padding:14px 22px;border-radius:20px;font-size:18px;font-weight:bold;z-index:10001;display:none;color:white}.lead-row{display:flex;justify-content:space-between;padding:10px;border-bottom:1px solid #e8f5e9;font-size:13px}.music-btn{position:absolute;top:10px;right:10px;background:white;border-radius:50%;width:40px;height:40px;border:none;font-size:20px;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.2)}.music-opt{padding:10px;margin:6px 0;border:2px solid #e8f5e9;border-radius:12px;cursor:pointer;text-align:left}.music-opt.active{border-color:#66bb6a;background:#e8f5e9}@keyframes pop{0%{transform:scale(1)}30%{transform:scale(1.3)}100%{transform:scale(1)}}</style></head><body>
 <div id="game"><button class="music-btn" onclick="openMusic()">🎵</button><h2>🦖 數學霸恐龍王</h2><div class="card"><div class="pet-wrap"><img id="petImg" class="pet-img" src="./dino1.png.jpg"></div><h3 id="petName"></h3><div class="stage-badge" id="stageBadge"></div><br><div class="timer">⏱️ <span id="timer">00:00</span></div><div class="prog-bg"><div id="progBar" class="prog-fill"></div><div id="progText" class="prog-text"></div></div><p style="font-size:13px"><b id="solved">0</b>題 | <b id="score">0</b>分</p></div><button class="btn btn-go" onclick="startQ()">▶️ 開始做題</button><button class="btn btn-evo" id="evoBtn" onclick="doEvo()">⚡️ 進化</button><button class="btn btn-leader" onclick="openLeader()">👑 霸主榜</button></div>
-<div id="mathBox"><div class="box"><h1 id="mQ" style="font-size:36px"></h1><input id="mAns" type="tel"><br><br><button class="btn" style="background:#ff9800;color:white" onclick="checkAns()">確定</button><button class="btn" style="background:#eee" onclick="hideMath()">取消</button></div></div>
-<div id="leadBox"><div class="box"><h2>👑 霸主榜</h2><div id="leadList"></div><div style="margin-top:10px;border-top:3px dashed #ffcc80;padding-top:10px"><input id="playerName" placeholder="霸主名號"><input id="playerPwd" type="password" placeholder="4位密碼"><button class="btn" style="background:#66bb6a;color:white" onclick="uploadScore()">🔒 登榜</button><button class="btn" style="background:#eee" onclick="closeLeader()">關閉</button></div></div></div>
-<div id="musicBox"><div class="box"><h2>🎵 背景音樂</h2><div class="music-opt active" onclick="setMusic('icecream_chord',this)">🍦 雪糕車和弦版 快返唔刺 (新)</div><div class="music-opt" onclick="setMusic('icecream',this)">🍦 單音慢版</div><div class="music-opt" onclick="setMusic('mute',this)">🔇 靜音</div><button class="btn" style="background:#eee;margin-top:10px" onclick="closeMusic()">完成</button></div></div><div id="toast"></div>
+<div id="mathBox"><div class="box"><h1 id="mQ" style="font-size:36px"></h1><input id="mAns" type="tel"><br><br><button class="btn" style="background:#66bb6a;color:white" onclick="checkAns()">確定</button><button class="btn" style="background:#eee" onclick="hideMath()">取消</button></div></div>
+<div id="leadBox"><div class="box"><h2>👑 霸主榜</h2><div id="leadList"></div><div style="margin-top:10px;border-top:3px dashed #a5d6a7;padding-top:10px"><input id="playerName" placeholder="霸主名號"><input id="playerPwd" type="password" placeholder="4位密碼"><button class="btn" style="background:#66bb6a;color:white" onclick="uploadScore()">🔒 登榜</button><button class="btn" style="background:#eee" onclick="closeLeader()">關閉</button></div></div></div>
+<div id="musicBox"><div class="box"><h2>🎵 背景音樂</h2><div class="music-opt active" onclick="setMusic('cheerful',this)">🍦 開朗雪糕車 寶可夢綠 (新)</div><div class="music-opt" onclick="setMusic('icecream_chord',this)">🍦 低音和弦版</div><div class="music-opt" onclick="setMusic('mute',this)">🔇 靜音</div><button class="btn" style="background:#eee;margin-top:10px" onclick="closeMusic()">完成</button></div></div><div id="toast"></div>
 <script>
 const BUCKET_ID="9xrLimS38pHRafoTWwqfSP",KEY="yuki_leaderboard";
 const pets=[{img:"./dino1.png.jpg",name:"Lv.1 蛋蛋龍",total:20},{img:"./dino2.png.jpg",name:"Lv.2 BB龍",total:20},{img:"./dino3.png.WEBP",name:"Lv.3 火焰龍",total:20},{img:"./dino4.png.jpg",name:"Lv.4 霸王龍",total:20}];
-let petIdx=0,solvedLv=0,total=0,score=0,ans=0,ac,startTime=0,timerInterval=null,bgmTimer=null;let currentMusic='icecream_chord',masterVol=0.14;
-let saved=JSON.parse(localStorage.getItem('yuki_v55')||'{}');if(saved.petIdx!=null){petIdx=saved.petIdx;solvedLv=saved.solvedLv;total=saved.total;score=saved.score;}
-function save(){localStorage.setItem('yuki_v55',JSON.stringify({petIdx,solvedLv,total,score,startTime,currentMusic}));}
+let petIdx=0,solvedLv=0,total=0,score=0,ans=0,ac,startTime=0,timerInterval=null,bgmTimer=null;let currentMusic='cheerful',masterVol=0.16;
+let saved=JSON.parse(localStorage.getItem('yuki_v56')||'{}');if(saved.petIdx!=null){petIdx=saved.petIdx;solvedLv=saved.solvedLv;total=saved.total;score=saved.score;}
+function save(){localStorage.setItem('yuki_v56',JSON.stringify({petIdx,solvedLv,total,score,startTime,currentMusic}));}
 function showToast(t,c){let e=document.getElementById('toast');e.innerText=t;e.style.background=c;e.style.display='block';setTimeout(()=>e.style.display='none',1500);}
 function formatTime(ms){let s=Math.floor(ms/1000),m=Math.floor(s/60);s%=60;return (m<10?'0':'')+m+':'+(s<10?'0':'')+s;}
 function getElapsed(){return startTime==0?0:Date.now()-startTime;}
 function update(){let p=pets[petIdx];document.getElementById('petImg').src=p.img;document.getElementById('petName').innerText=p.name;let base=40,max=260;let size=base+(solvedLv/p.total)*(max-base);let img=document.getElementById('petImg');img.style.width=size+'px';img.style.height=size+'px';document.getElementById('stageBadge').innerText='✨ 長大 '+(solvedLv+1<=p.total?solvedLv+1:p.total)+'/20 段';if(solvedLv>=p.total)document.getElementById('stageBadge').innerText='🎉 20/20 滿級！可進化';let pct=Math.round(solvedLv/p.total*100);document.getElementById('progBar').style.width=pct+'%';document.getElementById('progText').innerText=solvedLv+'/20 段';document.getElementById('solved').innerText=total;document.getElementById('score').innerText=score;document.getElementById('evoBtn').style.display=solvedLv>=p.total?'block':'none';document.getElementById('timer').innerText=formatTime(getElapsed());save();}
 function ensureAudio(){try{if(!ac)ac=new(window.AudioContext||window.webkitAudioContext)();if(ac.state==='suspended')ac.resume();}catch(e){}}
-function softNote(freq,dur,volScale=1,isHarmony=false){
+function cheerNote(freq,dur,volScale=1,isHarm=false){
   try{
-    ensureAudio();let t0=ac.currentTime;let vol=masterVol*volScale*(isHarmony?0.6:1);
-    let filter=ac.createBiquadFilter();filter.type='lowpass';filter.frequency.value=isHarmony?800:950;filter.Q.value=0.7;
+    ensureAudio();let t0=ac.currentTime;let vol=masterVol*volScale*(isHarm?0.55:1);
+    let filter=ac.createBiquadFilter();filter.type='lowpass';filter.frequency.value=isHarm?1000:1150;filter.Q.value=0.6;
     let o=ac.createOscillator(),g=ac.createGain();o.type='sine';o.frequency.value=freq;
-    // 超慢attack 120ms，唔刺
-    g.gain.setValueAtTime(0,t0);g.gain.linearRampToValueAtTime(vol,t0+0.12);g.gain.exponentialRampToValueAtTime(0.001,t0+dur);
+    g.gain.setValueAtTime(0,t0);g.gain.linearRampToValueAtTime(vol,t0+0.09);g.gain.exponentialRampToValueAtTime(0.001,t0+dur);
     o.connect(g);g.connect(filter);filter.connect(ac.destination);o.start(t0);o.stop(t0+dur);
   }catch(e){}
 }
-function playChordIceCream(){
+function playCheerful(){
   if(bgmTimer)clearInterval(bgmTimer);
-  // 寶可夢綠旋律降八度 + 和弦伴奏
+  // 寶可夢綠開朗版 - 中高音 C4-G5，大調，彈跳感
   let melody=[
-    {root:196.00, harm:246.94}, // G3 + B3
-    {root:261.63, harm:329.63}, // C4 + E4
-    {root:329.63, harm:392.00}, // E4 + G4
-    {root:261.63, harm:329.63},
-    {root:196.00, harm:246.94},
-    {root:261.63, harm:329.63},
-    {root:329.63, harm:415.30}, // E4 + G#4
-    {root:293.66, harm:369.99}, // D4 + F#4
-    {root:329.63, harm:392.00},
-    {root:392.00, harm:493.88}, // G4 + B4 但濾走高頻
-    {root:329.63, harm:415.30},
-    {root:261.63, harm:329.63},
-    {root:293.66, harm:349.23},
-    {root:261.63, harm:329.63},
-    {root:196.00, harm:246.94},
-    {root:261.63, harm:329.63},
-    {root:329.63, harm:392.00},
-    {root:261.63, harm:329.63},
-    {root:196.00, harm:246.94},
-    {root:261.63, harm:293.66},
-    {root:220.00, harm:261.63}, // A3 + C4
-    {root:220.00, harm:261.63},
-    {root:261.63, harm:329.63},
-    {root:329.63, harm:392.00},
-    {root:261.63, harm:329.63},
-    {root:196.00, harm:220.00},
-    {root:220.00, harm:261.63},
-    {root:196.00, harm:246.94},
+    {r:261.63,h:329.63}, // C4 E4
+    {r:329.63,h:415.30}, // E4 G#4
+    {r:392.00,h:523.25}, // G4 C5
+    {r:523.25,h:659.25}, // C5 E5 開朗跳高
+    {r:392.00,h:493.88}, // G4 B4
+    {r:329.63,h:415.30},
+    {r:392.00,h:523.25},
+    {r:440.00,h:554.37}, // A4 C#5
+    {r:493.88,h:659.25}, // B4 E5
+    {r:523.25,h:783.99}, // C5 G5 最開朗
+    {r:392.00,h:523.25},
+    {r:329.63,h:415.30},
+    {r:392.00,h:493.88},
+    {r:329.63,h:392.00},
+    {r:261.63,h:329.63},
+    {r:329.63,h:415.30},
+    {r:392.00,h:523.25},
+    {r:329.63,h:415.30},
+    {r:261.63,h:329.63},
+    {r:329.63,h:392.00},
+    {r:293.66,h:369.99}, // D4 F#4
+    {r:329.63,h:415.30},
+    {r:392.00,h:523.25},
+    {r:523.25,h:659.25},
+    {r:392.00,h:493.88},
+    {r:329.63,h:392.00},
+    {r:349.23,h:440.00}, // F4 A4
+    {r:329.63,h:415.30},
   ];
   let i=0;
   function tick(){
     let n=melody[i%melody.length];
-    // 主音
-    softNote(n.root,1.4,1.0,false);
-    // 和弦晚80ms出現，好似兩個人彈
-    setTimeout(()=>softNote(n.harm,1.2,0.75,true),80);
-    // 每4個音加個低音鼓點
-    if(i%4==0){setTimeout(()=>softNote(n.root*0.5,0.9,0.5,false),10);}
+    cheerNote(n.r,1.1,1.0,false);
+    setTimeout(()=>cheerNote(n.h,0.9,0.7,true),70);
+    // 每2拍加個中音伴奏，唔沉
+    if(i%2==0){setTimeout(()=>cheerNote(n.r*0.5,0.7,0.35,true),15);}
     i++;
   }
   tick();
-  bgmTimer=setInterval(tick,850);
+  bgmTimer=setInterval(tick,800);
 }
-function playOld(){if(bgmTimer)clearInterval(bgmTimer);let m=[392.00,523.25,659.25];let i=0;bgmTimer=setInterval(()=>{softNote(m[i%m.length],1.6,0.8);i++;},1350);}
-function playCurrent(){if(currentMusic==='icecream_chord')playChordIceCream();else if(currentMusic==='icecream')playOld();else if(bgmTimer)clearInterval(bgmTimer);}
+function playOld(){if(bgmTimer)clearInterval(bgmTimer);let m=[196,261.63,329.63];let i=0;bgmTimer=setInterval(()=>{cheerNote(m[i%m.length],1.4,0.7);i++;},850);}
+function playCurrent(){if(currentMusic==='cheerful')playCheerful();else if(currentMusic==='icecream_chord')playOld();else if(bgmTimer)clearInterval(bgmTimer);}
 function setMusic(url,el){currentMusic=url;document.querySelectorAll('.music-opt').forEach(o=>o.classList.remove('active'));if(el)el.classList.add('active');save();if(startTime!=0)playCurrent();closeMusic();}
 function startQ(){ensureAudio();if(startTime==0){startTime=Date.now();timerInterval=setInterval(()=>document.getElementById('timer').innerText=formatTime(getElapsed()),1000);}playCurrent();let a,b,q;if(petIdx==0){a=Math.floor(Math.random()*26);b=Math.floor(Math.random()*(51-a));ans=a+b;q=a+' + '+b+' = ?';}else if(petIdx==1){a=Math.floor(Math.random()*50)+1;b=Math.floor(Math.random()*(a+1));ans=a-b;q=a+' - '+b+' = ?';}else if(petIdx==2){a=Math.floor(Math.random()*9)+1;b=Math.floor(Math.random()*9)+1;ans=a*b;q=a+' × '+b+' = ?';}else{b=Math.floor(Math.random()*9)+2;ans=Math.floor(Math.random()*9)+1;a=b*ans;q=a+' ÷ '+b+' = ?';}document.getElementById('mQ').innerText=q;document.getElementById('mathBox').style.display='flex';document.getElementById('mAns').value='';}
 function hideMath(){document.getElementById('mathBox').style.display='none';}
-function checkAns(){let v=parseInt(document.getElementById('mAns').value);if(v===ans){solvedLv++;total++;score+=10;softNote(523.25,0.6,1.0);setTimeout(()=>softNote(659.25,0.8,1.0),150);let img=document.getElementById('petImg');img.style.animation='pop 0.4s';setTimeout(()=>img.style.animation='',400);hideMath();update();}else{softNote(110,0.5,0.4);showToast('❌ 再諗下','#ff5252');document.getElementById('mAns').value='';}}
+function checkAns(){let v=parseInt(document.getElementById('mAns').value);if(v===ans){solvedLv++;total++;score+=10;cheerNote(659.25,0.5,1.0);setTimeout(()=>cheerNote(783.99,0.7,1.0),120);let img=document.getElementById('petImg');img.style.animation='pop 0.4s';setTimeout(()=>img.style.animation='',400);hideMath();update();}else{cheerNote(110,0.5,0.3);showToast('❌ 再諗下','#ff5252');document.getElementById('mAns').value='';}}
 function doEvo(){if(solvedLv>=pets[petIdx].total&&petIdx<3){petIdx++;solvedLv=0;update();showToast('⚡️ 進化！','#ff9800');}else openLeader();}
 async function loadLeaderboard(){let el=document.getElementById('leadList');el.innerHTML='⏳...';let c=[];try{let r=await fetch(`https://kvdb.io/${BUCKET_ID}/${KEY}?t=${Date.now()}`,{cache:'no-store'});if(r.ok){let t=await r.text();if(t)c=c.concat(JSON.parse(t));}}catch(e){}if(!c.length){el.innerHTML='未有霸主';return;}let m={};c.forEach(x=>{let k=x.name.toLowerCase();if(!m[k]||x.score>m[k].score)m[k]=x;});let u=Object.values(m).sort((a,b)=>b.score-a.score).slice(0,20);el.innerHTML=u.map((r,i)=>`<div class="lead-row"><span>${i+1}. ${r.name}</span><span>${r.score}分 | ⏱️${r.timeStr}</span></div>`).join('');}
 async function uploadScore(){let n=document.getElementById('playerName').value.trim(),p=document.getElementById('playerPwd').value.trim();if(!n||!p){showToast('名+密碼必填','#ff9800');return;}let e={name:n,score,timeMs:getElapsed(),timeStr:formatTime(getElapsed()),pwd:p};try{let r=await fetch(`https://kvdb.io/${BUCKET_ID}/${KEY}?t=${Date.now()}`);let d=[];if(r.ok){let t=await r.text();if(t)d=JSON.parse(t);}d=d.filter(x=>x.name.toLowerCase()!=n.toLowerCase());d.push(e);d.sort((a,b)=>b.score-a.score);await fetch(`https://kvdb.io/${BUCKET_ID}/${KEY}`,{method:'POST',body:JSON.stringify(d)});showToast('👑 上榜','#66bb6a');}catch(e){}loadLeaderboard();}
