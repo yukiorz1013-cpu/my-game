@@ -1,94 +1,54 @@
-<!DOCTYPE html><html lang="zh-HK"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"><title>V187 自選顏色</title>
+<!DOCTYPE html><html lang="zh-HK"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"><title>V190 乾淨地圖</title>
 <style>
-*{touch-action:none;user-select:none;box-sizing:border-box}
-body{margin:0;background:#0a2a4a;display:flex;justify-content:center;font-family:-apple-system,sans-serif}
+*{touch-action:none;user-select:none;box-sizing:border-box}body{margin:0;background:#0a2a4a;display:flex;justify-content:center;font-family:-apple-system,sans-serif}
 #game{width:100%;max-width:430px;height:100vh;height:100dvh;background:#0b3a5f;position:relative;overflow:hidden;display:flex;flex-direction:column;transition:max-width .25s}#game.ipad{max-width:1024px}
 #top{height:52px;background:linear-gradient(#1a2a4a,#0e0e1a);border-bottom:2px solid #ffb300;display:flex;justify-content:space-between;align-items:center;padding:0 8px;color:#ffd54f;font-weight:900;font-size:11px;z-index:10}
 #mapWrap{flex:1;position:relative;overflow:hidden;background:#1a5a8a}#world{position:absolute;left:0;top:0;width:3000px;height:2250px;background-image:url('./IMG_9783.gif');background-size:3000px 2250px}
-#player{position:absolute;left:50%;top:50%;width:56px;height:74px;margin:-37px -28px;background-size:400% 300%;image-rendering:pixelated;z-index:20;border:2px solid gold;border-radius:10px;box-shadow:0 0 10px gold;background-color:#fff;transition:filter .2s}
+#player{position:absolute;left:50%;top:50%;width:58px;height:76px;transform:translate(-50%,-50%);background-size:400% 300%;image-rendering:pixelated;z-index:20;border:3px solid gold;border-radius:12px;box-shadow:0 0 12px gold;background-color:#fff;display:flex;align-items:center;justify-content:center;font-size:28px}
 #posBox{position:absolute;right:8px;top:8px;background:rgba(0,0,0,.65);color:#ffd54f;border:1px solid #ffb300;border-radius:8px;padding:4px 8px;font-size:10px;font-weight:900;z-index:15}
-#msg{position:absolute;left:8px;right:8px;bottom:100px;background:rgba(0,0,0,.75);border-left:4px solid #ffb300;color:#fff;border-radius:8px;padding:6px 10px;font-size:11px;font-weight:700;z-index:15}
+#msg{position:absolute;left:8px;right:8px;bottom:100px;background:rgba(0,0,0,.65);border-left:4px solid #ffb300;color:#fff;border-radius:8px;padding:6px 10px;font-size:11px;font-weight:700;z-index:15}
 #controls{position:absolute;left:0;right:0;bottom:0;height:96px;background:linear-gradient(rgba(0,0,0,.9),#000);border-top:2px solid #ffb300;display:flex;justify-content:space-between;align-items:center;padding:0 10px 8px;z-index:20}
 #joy{width:72px;height:72px;background:rgba(255,255,255,.22);border:3px solid #ffb300;border-radius:50%;position:relative}#knob{position:absolute;left:50%;top:50%;width:36px;height:36px;background:#fff;border-radius:50%;transform:translate(-50%,-50%);border:2px solid #000}
 #game.ipad #joy{width:110px;height:110px}#game.ipad #knob{width:56px;height:56px}
 #skills{display:flex;gap:6px}.sbtn{width:52px;height:52px;border-radius:12px;border:2px solid #ffb300;background:#222;color:#ffd54f;font-weight:900;font-size:8px}.sbtn.seal{background:#e91e63;color:#fff}
-#game.ipad .sbtn{width:78px;height:78px;font-size:10px}
 #battle{position:absolute;inset:0;background:radial-gradient(#1e3a5f,#0a0a14);z-index:30;display:none;flex-direction:column;color:#fff;overflow:hidden}
 #pop{position:fixed;inset:0;background:rgba(0,0,0,.92);display:none;align-items:center;justify-content:center;z-index:100;padding:12px}.box{background:linear-gradient(#fff8e0,#ffe0b2);border:3px solid #ffb300;border-radius:18px;padding:14px;width:100%;max-width:560px;color:#3e2723;text-align:center}
 .charGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:10px 0}.charCard{border:3px solid #aaa;border-radius:12px;background:#fff;padding:6px;cursor:pointer}.charCard.sel{border-color:#ffb300;background:#fff8e0;transform:scale(1.05);box-shadow:0 0 10px gold}
 .charIcon{width:68px;height:80px;margin:0 auto;background-size:400% 300%;image-rendering:pixelated;border:2px solid #000;border-radius:8px;transition:filter .2s}
-.palette{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin:10px 0}
-.colorBtn{width:32px;height:32px;border-radius:50%;border:3px solid #fff;box-shadow:0 0 0 2px #000;cursor:pointer}
-.colorBtn.sel{box-shadow:0 0 0 3px #ffb300,0 0 10px gold;transform:scale(1.2)}
+.palette{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin:10px 0}.colorBtn{width:32px;height:32px;border-radius:50%;border:3px solid #fff;box-shadow:0 0 0 2px #000;cursor:pointer}.colorBtn.sel{box-shadow:0 0 0 3px #ffb300,0 0 10px gold;transform:scale(1.2)}
 .sprite{width:150px;height:150px;background-size:1000% 500%;image-rendering:pixelated;background-repeat:no-repeat;background-color:#fff;border-radius:12px}.spriteSmall{width:48px;height:48px;background-size:1000% 500%;image-rendering:pixelated;background-repeat:no-repeat;background-color:#fff;border-radius:6px;display:inline-block}
-@keyframes dmgPop{0%{transform:translate(-50%,0) scale(.3);opacity:0}20%{transform:translate(-50%,-25px) scale(1.4);opacity:1}100%{transform:translate(-50%,-70px) scale(1);opacity:0}}.dmg{position:absolute;left:50%;top:35%;font-weight:900;font-size:32px;color:#ff3d00;text-shadow:2px 2px 0 #fff;animation:dmgPop .9s forwards;z-index:60}.miss{position:absolute;left:50%;top:35%;font-weight:900;font-size:20px;color:#ff5252;text-shadow:2px 2px 0 #fff;animation:dmgPop 1s forwards;z-index:70}
 .vertical{font-family:monospace;font-weight:900;line-height:1.15;display:inline-block;text-align:right;background:#fff;border:3px solid #000;border-radius:14px;padding:10px 20px;min-width:120px}.vertical .row{font-size:32px}.vertical .op{float:left}.vertical .line{border-top:3px solid #000;margin:6px 0}.vertical .ansBox{font-size:34px;min-height:38px;color:#e91e63;border:2px dashed #ffb300;border-radius:8px;padding:2px 8px}
-.numpad{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:10px}.numpad button{height:52px;font-size:19px;font-weight:900;border-radius:12px;border:2px solid #000;background:#fff}#game.ipad .numpad button{height:62px}.numpad button.ok{background:#ffb300}.sizeBtn{background:#222;border:1px solid #ffb300;color:#ffd54f;border-radius:8px;padding:4px 8px;font-weight:900;font-size:10px}
-input[type=color]{width:40px;height:40px;border-radius:50%;border:3px solid #000;padding:0;cursor:pointer}
+.numpad{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:10px}.numpad button{height:52px;font-size:19px;font-weight:900;border-radius:12px;border:2px solid #000;background:#fff}.numpad button.ok{background:#ffb300}.sizeBtn{background:#222;border:1px solid #ffb300;color:#ffd54f;border-radius:8px;padding:4px 8px;font-weight:900;font-size:10px}
 </style></head><body>
-<div id="game"><div id="top"><span>📏 <button class="sizeBtn" onclick="toggleSize()" id="sizeBtn">📱手機</button> Lv<span id="lv">1</span> <span id="coordTop">451,163</span> <span id="jobTag">自選色</span></span><span>💰<span id="gold">300</span> 🎀<span id="balls">30</span> 📖<span id="cnt">0/100</span></span></div>
-<div id="mapWrap"><div id="world"></div><div id="player"></div><div id="posBox">📍 <span id="posXY">451,163</span></div><div id="msg">顏色由你揀！撳👤人物→揀職業→再撳下面顏色，即時變色！</div><div id="controls"><div id="joy"><div id="knob"></div></div><div id="skills"><button class="sbtn" onclick="doAtk()">攻擊</button><button class="sbtn" onclick="doAtk(true)">必殺</button><button class="sbtn" onclick="openChar()">👤人物</button><button class="sbtn" onclick="openDex()">📖圖鑑</button><button class="sbtn seal" onclick="trySeal()">🎀封印</button></div></div></div>
+<div id="game"><div id="top"><span>📏 <button class="sizeBtn" onclick="toggleSize()" id="sizeBtn">📱手機</button> Lv<span id="lv">1</span> <span id="coordTop">453,175</span> <span id="jobTag">自選色</span></span><span>💰<span id="gold">300</span> 🎀<span id="balls">30</span> 📖<span id="cnt">0/100</span></span></div>
+<div id="mapWrap"><div id="world"></div><div id="player">🧑</div><div id="posBox">📍 <span id="posXY">453,175</span></div><div id="msg">地圖已乾淨，無文字！用你上傳嘅 57439a5c...jpeg</div><div id="controls"><div id="joy"><div id="knob"></div></div><div id="skills"><button class="sbtn" onclick="doAtk()">攻擊</button><button class="sbtn" onclick="doAtk(true)">必殺</button><button class="sbtn" onclick="openChar()">👤人物</button><button class="sbtn" onclick="openDex()">📖圖鑑</button><button class="sbtn seal" onclick="trySeal()">🎀封印</button></div></div></div>
 <div id="battle"><div style="height:48px;background:#111;border-bottom:2px solid #ffb300;display:flex;justify-content:space-between;align-items:center;padding:0 10px;color:#ffd54f;font-weight:900"><span>⚔️ <span id="ename">寵物</span> Lv<span id="elv">1</span> <span id="ehpT">100%</span> <span id="bJob">🎨</span></span><button onclick="closeB()" style="background:#222;color:#ffd54f;border:2px solid #ffb300;border-radius:8px;padding:5px 10px">逃</button></div>
-<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative"><div id="eBox" style="width:170px;height:170px;background:#fff;border:3px solid #ffb300;border-radius:20px;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative"><div id="eSprite" class="sprite"></div><div id="fxLayer" style="position:absolute;inset:0;pointer-events:none"></div></div><div id="bmsg" style="margin-top:10px;background:rgba(0,0,0,.7);padding:6px 12px;border-radius:8px;font-size:11px;text-align:center">No.001</div><div id="sealLayer" style="position:absolute;inset:0;pointer-events:none;display:none;z-index:40"></div><div id="battleFlash" style="position:absolute;inset:0;display:none;pointer-events:none;z-index:45"></div><div style="display:flex;gap:8px;width:92%;margin-top:10px"><button class="sbtn" id="atkBtn" style="flex:1;height:50px" onclick="doAtk()">攻擊</button><button class="sbtn seal" style="flex:1;height:50px" onclick="trySeal()">封印</button></div></div></div><div id="pop"><div class="box" id="popBox"></div></div></div>
+<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative"><div id="eBox" style="width:170px;height:170px;background:#fff;border:3px solid #ffb300;border-radius:20px;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative"><div id="eSprite" class="sprite"></div></div><div id="bmsg" style="margin-top:10px;background:rgba(0,0,0,.7);padding:6px 12px;border-radius:8px;font-size:11px;text-align:center">No.001</div><div id="sealLayer" style="position:absolute;inset:0;pointer-events:none;display:none;z-index:40"></div><div id="battleFlash" style="position:absolute;inset:0;display:none;pointer-events:none;z-index:45"></div><div style="display:flex;gap:8px;width:92%;margin-top:10px"><button class="sbtn" id="atkBtn" style="flex:1;height:50px" onclick="doAtk()">攻擊</button><button class="sbtn seal" style="flex:1;height:50px" onclick="trySeal()">封印</button></div></div></div><div id="pop"><div class="box" id="popBox"></div></div></div>
 <script>
+const CHAR_FILE='./57439a5c-eecf-0207-7a99-a0eaf30dfc4c.jpeg';
 const pets=[];const namesA=["虎紋貓","黑魔貓","妖狐","白兔","棕熊","飛龍","史萊姆","幽靈","蝙蝠","蜘蛛","螳螂","石怪","哥布林","黃蜂","水蜥","灰狼","熊貓","企鵝","倉鼠","貓頭鷹","浣熊","松鼠","烏龜","青蛙","紫蛇","刺蝟","小羊","小牛","小豬","小猴","大象","鱷魚","蠍子","蝸牛","蝴蝶","甲蟲","梅花鹿","山羊","烏鴉","鳳凰","小馬","雪怪","蘑菇","水晶","羅剎","木乃伊","南瓜","鯊魚","海豹","六角龍"];const namesB=["九尾狐","白虎","黑貓魔","獅子王","熊貓魔","仙人掌","熔岩","水晶","雷龍","天使","紫惡魔","蘑菇人","樹精","沙魔","機械人","風妖","人魚","火鬼","毛熊","毒蛙","幽靈貓","骷髏","吸血蝠","狼人","牛頭","半人馬","獅鷲","獨角獸","天馬","雞蛇","青蛇","獅蛇","雙頭蛇","比蒙","海龍","章魚","雪怪王","骷髏王","喪屍","巫妖","女妖","魅魔","天使","墮天使","聖騎","邪眼","寶箱","骰子","卡牌"];for(let i=0;i<100;i++)pets.push({id:i+1,name:[...namesA,...namesB][i]});
-
-// 基礎4職業，用紅劍做基底，靠filter變色
-const baseChars=[
- {id:'sword', name:'劍士', px:0,py:0, type:'sword', atkIcon:'🗡️', baseHue:0},
- {id:'archer', name:'弓手', px:0,py:1, type:'archer', atkIcon:'🏹', baseHue:120},
- {id:'mage', name:'法師', px:0,py:2, type:'mage', atkIcon:'⭐', baseHue:270},
- {id:'fighter', name:'格鬥', px:2,py:2, type:'fighter', atkIcon:'🔥', baseHue:25},
-];
-function charStyle(c){let x=(c.px*100/3).toFixed(2), y=(c.py*100/2).toFixed(2);return `background-image:url('./char12.png');background-position:${x}% ${y}%;background-size:400% 300%;`;}
-
-const colors=[
- {name:'紅', hex:'#ff1744', hue:0},
- {name:'粉紅', hex:'#ff4081', hue:340},
- {name:'橙', hex:'#ff9100', hue:30},
- {name:'金', hex:'#ffea00', hue:50},
- {name:'綠', hex:'#00e676', hue:120},
- {name:'青', hex:'#00e5ff', hue:180},
- {name:'藍', hex:'#2979ff', hue:220},
- {name:'紫', hex:'#d500f9', hue:280},
- {name:'黑', hex:'#212121', hue:0, filter:'grayscale(1) brightness(0.5)'},
- {name:'白', hex:'#ffffff', hue:0, filter:'grayscale(1) brightness(1.6)'},
-];
-
-let curCharId=localStorage.getItem('cg_char')||'sword';
-let curColorHex=localStorage.getItem('cg_color')||'#ff1744';
-let curFilter=localStorage.getItem('cg_filter')||'';
-
+const baseChars=[{id:'sword',name:'劍士',px:0,py:0,type:'sword',atkIcon:'🗡️',baseHue:0},{id:'archer',name:'弓手',px:0,py:1,type:'archer',atkIcon:'🏹',baseHue:120},{id:'mage',name:'法師',px:0,py:2,type:'mage',atkIcon:'⭐',baseHue:270},{id:'fighter',name:'格鬥',px:2,py:2,type:'fighter',atkIcon:'🔥',baseHue:25}];
+function charStyle(c){let x=(c.px*100/3).toFixed(2), y=(c.py*100/2).toFixed(2);return `background-image:url('${CHAR_FILE}');background-position:${x}% ${y}%;background-size:400% 300%;`;}
+const colors=[{name:'紅',hex:'#ff1744',hue:0},{name:'粉紅',hex:'#ff4081',hue:340},{name:'橙',hex:'#ff9100',hue:30},{name:'金',hex:'#ffea00',hue:50},{name:'綠',hex:'#00e676',hue:120},{name:'青',hex:'#00e5ff',hue:180},{name:'藍',hex:'#2979ff',hue:220},{name:'紫',hex:'#d500f9',hue:280},{name:'黑',hex:'#212121',hue:0,filter:'grayscale(1) brightness(0.5)'},{name:'白',hex:'#ffffff',hue:0,filter:'grayscale(1) brightness(1.6)'}];
+let curCharId=localStorage.getItem('cg_char')||'sword';let curColorHex=localStorage.getItem('cg_color')||'#ff1744';let curFilter='';
 function getChar(){return baseChars.find(c=>c.id===curCharId)||baseChars[0];}
-function hexToHue(hex){let c=colors.find(x=>x.hex===hex);return c?c.hue:0;}
-function getFilterFor(hex){
- let col=colors.find(c=>c.hex===hex);
- if(col && col.filter) return col.filter;
- let targetHue=hexToHue(hex);
- let base=getChar().baseHue;
- let diff=targetHue-base;
- return `hue-rotate(${diff}deg) saturate(1.4)`;
-}
-
+function getFilterFor(hex){let col=colors.find(c=>c.hex===hex);if(col&&col.filter) return col.filter;let targetHue=col?col.hue:0;let base=getChar().baseHue;let diff=targetHue-base;return `hue-rotate(${diff}deg) saturate(1.4)`;}
 let px=1245,py=1070,gold=300,balls=30,dex=new Array(100).fill(false),emy=0,emyHp=100,battle=false,ans=0,input="",stepCount=0,lastBattle=-100,playerLv=1,mode=localStorage.getItem('cg_size')||'phone';
 function applySize(){let g=document.getElementById('game'),btn=document.getElementById('sizeBtn');if(mode==='ipad'){g.classList.add('ipad');btn.innerText='📱 iPad';}else{g.classList.remove('ipad');btn.innerText='📱 手機';}setTimeout(updateCam,50);}
 function toggleSize(){mode=mode==='phone'?'ipad':'phone';localStorage.setItem('cg_size',mode);applySize();}
 function applyChar(){
- let c=getChar();
- let filter=getFilterFor(curColorHex);
- curFilter=filter;
- let style=charStyle(c)+`position:absolute;left:50%;top:50%;width:56px;height:74px;margin:-37px -28px;border:2px solid gold;border-radius:10px;box-shadow:0 0 10px gold;background-color:#fff;image-rendering:pixelated;background-size:400% 300%;filter:${filter};`;
- document.getElementById('player').setAttribute('style',style);
- document.getElementById('jobTag').innerText=c.name;
+ let c=getChar();let filter=getFilterFor(curColorHex);curFilter=filter;
+ let p=document.getElementById('player');
+ let style=charStyle(c)+`position:absolute;left:50%;top:50%;width:58px;height:76px;transform:translate(-50%,-50%);border:3px solid gold;border-radius:12px;box-shadow:0 0 12px gold;background-color:#fff;image-rendering:pixelated;background-size:400% 300%;filter:${filter};`;
+ p.setAttribute('style',style);p.innerText='';
+ document.getElementById('jobTag').innerHTML=`${c.name} <span style="display:inline-block;width:10px;height:10px;background:${curColorHex};border-radius:50%;border:1px solid #000"></span>`;
  document.getElementById('bJob').innerText=c.atkIcon+' '+c.name;
  document.getElementById('atkBtn').innerText=c.atkIcon+' '+(c.type==='sword'?'斬':c.type==='archer'?'射':c.type==='mage'?'魔法':'氣功');
- localStorage.setItem('cg_char',curCharId);
- localStorage.setItem('cg_color',curColorHex);
- localStorage.setItem('cg_filter',filter);
+ localStorage.setItem('cg_char',curCharId);localStorage.setItem('cg_color',curColorHex);
 }
 function openChar(){
  let c=getChar();
- let html=`<h3>🎨 顏色由你決定</h3><p style="font-size:12px">1.揀職業 2.揀顏色 即時預覽</p><div class="charGrid">`;
+ let html=`<h3>🎨 顏色由你決定</h3><p style="font-size:11px">地圖乾淨無字，劍士無藍黃，紅粉黑綠</p><div class="charGrid">`;
  baseChars.forEach(ch=>{
    let sel=ch.id===curCharId?'sel':'';let st=charStyle(ch)+`filter:${ch.id===curCharId?curFilter:''};`;
    html+=`<div class="charCard ${sel}" onclick="pickChar('${ch.id}')"><div class="charIcon" style="${st}"></div><div style="font-weight:900;font-size:11px">${ch.name}</div><div style="font-size:10px">${ch.atkIcon}</div></div>`;
@@ -97,7 +57,7 @@ function openChar(){
  colors.forEach(col=>{
    let sel=col.hex===curColorHex?'sel':'';html+=`<div class="colorBtn ${sel}" style="background:${col.hex}" onclick="pickColor('${col.hex}')" title="${col.name}"></div>`;
  });
- html+=`</div><div style="display:flex;align-items:center;justify-content:center;gap:8px;margin-top:8px"><span>自訂：</span><input type="color" value="${curColorHex}" oninput="pickColor(this.value)"><span style="font-size:10px">${curColorHex}</span></div><div style="margin-top:10px;display:flex;align-items:center;justify-content:center;gap:12px"><div style="width:70px;height:84px;${charStyle(c)}background-size:400% 300%;filter:${curFilter};border:2px solid #000;border-radius:8px;image-rendering:pixelated"></div><div style="font-size:12px">預覽<br><b>${c.name}</b><br>${curColorHex}</div></div><button onclick="closePop()" style="width:100%;height:44px;margin-top:10px">確定 ${c.name} ${curColorHex}</button>`;
+ html+=`</div><div style="display:flex;align-items:center;justify-content:center;gap:8px;margin-top:8px"><span>自訂：</span><input type="color" value="${curColorHex}" oninput="pickColor(this.value)"><span style="font-size:10px">${curColorHex}</span></div><button onclick="closePop()" style="width:100%;height:44px;margin-top:10px">確定 ${c.name} ${curColorHex}</button>`;
  pop(html);
 }
 function pickChar(id){curCharId=id;applyChar();openChar();}
@@ -115,10 +75,9 @@ let curQ=null;function makeVerticalHTML(q,inputStr){return `<div class="vertical
 function doAtk(isBig=false){curQ=genQuestion();let c=getChar();pop(`<h3>${c.name} Lv${playerLv} ${c.atkIcon} <span style="display:inline-block;width:14px;height:14px;background:${curColorHex};border-radius:50%;border:1px solid #000"></span></h3>${makeVerticalHTML(curQ,'')}<div class="numpad"><button onclick="addN('1')">1</button><button onclick="addN('2')">2</button><button onclick="addN('3')">3</button><button onclick="addN('4')">4</button><button onclick="addN('5')">5</button><button onclick="addN('6')">6</button><button onclick="addN('7')">7</button><button onclick="addN('8')">8</button><button onclick="addN('9')">9</button><button onclick="clrN()">⌫</button><button onclick="addN('0')">0</button><button class="ok" onclick="chk(false,${isBig})">${c.atkIcon} OK</button></div>`);input="";}
 function trySeal(){if(balls<=0){pop('<h3>無卡</h3>');return;}if(emyHp>60){document.getElementById('bmsg').innerText='仲有'+emyHp+'%血！';return;}curQ=genQuestion();pop(`<h3>🎀 Lv${playerLv} ${getChar().name} 直式封印</h3>${makeVerticalHTML(curQ,'')}<div class="numpad"><button onclick="addN('1')">1</button><button onclick="addN('2')">2</button><button onclick="addN('3')">3</button><button onclick="addN('4')">4</button><button onclick="addN('5')">5</button><button onclick="addN('6')">6</button><button onclick="addN('7')">7</button><button onclick="addN('8')">8</button><button onclick="addN('9')">9</button><button onclick="clrN()">⌫</button><button onclick="addN('0')">0</button><button class="ok" style="background:#e91e63;color:white" onclick="chk(true)">封印</button></div>`);input="";}
 function addN(n){input+=n;document.querySelectorAll('.ansBox').forEach(el=>el.innerText=input);}function clrN(){input=input.slice(0,-1);document.querySelectorAll('.ansBox').forEach(el=>el.innerText=input||'?');}
-function showAtkFx(){let c=getChar();let layer=document.getElementById('fxLayer');layer.innerHTML='';let fx=document.createElement('div');fx.className='atkFx';fx.innerText=c.atkIcon;fx.style.color=curColorHex;layer.appendChild(fx);setTimeout(()=>layer.innerHTML='',700);}
-function chk(isSeal,isBig){let v=parseInt(input);if(isNaN(v))return;closePop();let layer=document.getElementById('sealLayer'),flash=document.getElementById('battleFlash');if(v===ans){if(isSeal){balls--;let ok=Math.random()<0.85;layer.style.display='block';layer.innerHTML='<div style="position:absolute;left:50%;top:50%;width:100px;height:100px;margin:-50px;background:radial-gradient(#ff80ab,#e91e63);border:3px solid #fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:44px">🎀</div>';setTimeout(()=>{layer.innerHTML=ok?`<div style="position:absolute;left:50%;top:25%;transform:translateX(-50%);font-size:26px;color:gold;font-weight:900;animation:dmgPop 1s forwards">✨${getChar().name}成功！</div>`:`<div style="position:absolute;left:50%;top:25%;transform:translateX(-50%);font-size:22px;color:#f55;font-weight:900;animation:dmgPop 1s forwards">💨失敗！</div>`;if(ok){dex[emy]=true;gold+=35;closeB();}updateUI();setTimeout(()=>layer.style.display='none',900);},600);}else{showAtkFx();let dmg=isBig?50:35;emyHp=Math.max(0,emyHp-dmg);document.getElementById('ehpT').innerText=emyHp+'%';let d=document.createElement('div');d.className='dmg';d.innerText='-'+dmg+' '+getChar().atkIcon;document.getElementById('eBox').appendChild(d);setTimeout(()=>d.remove(),900);if(emyHp<=0)document.getElementById('bmsg').innerText='💀倒下！快封印！';}}else{flash.style.display='block';flash.innerHTML='<div style="position:absolute;inset:0;background:rgba(255,0,0,.55)"></div>';setTimeout(()=>flash.style.display='none',500);let m=document.createElement('div');m.className='miss';m.innerText=`❌ MISS! ${curQ.a}${curQ.op}${curQ.b}=${ans}`;document.getElementById('eBox').appendChild(m);setTimeout(()=>m.remove(),1300);if(isSeal){balls--;updateUI();}}}
+function chk(isSeal,isBig){let v=parseInt(input);if(isNaN(v))return;closePop();let layer=document.getElementById('sealLayer'),flash=document.getElementById('battleFlash');if(v===ans){if(isSeal){balls--;let ok=Math.random()<0.85;layer.style.display='block';layer.innerHTML='<div style="position:absolute;left:50%;top:50%;width:100px;height:100px;margin:-50px;background:radial-gradient(#ff80ab,#e91e63);border:3px solid #fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:44px">🎀</div>';setTimeout(()=>{layer.innerHTML=ok?`<div style="position:absolute;left:50%;top:25%;transform:translateX(-50%);font-size:26px;color:gold;font-weight:900;animation:dmgPop 1s forwards">✨成功！</div>`:`<div style="position:absolute;left:50%;top:25%;transform:translateX(-50%);font-size:22px;color:#f55;font-weight:900;animation:dmgPop 1s forwards">💨失敗！</div>`;if(ok){dex[emy]=true;gold+=35;closeB();}updateUI();setTimeout(()=>layer.style.display='none',900);},600);}else{let dmg=isBig?50:35;emyHp=Math.max(0,emyHp-dmg);document.getElementById('ehpT').innerText=emyHp+'%';let d=document.createElement('div');d.className='dmg';d.innerText='-'+dmg+' '+getChar().atkIcon;document.getElementById('eBox').appendChild(d);setTimeout(()=>d.remove(),900);}}else{flash.style.display='block';flash.innerHTML='<div style="position:absolute;inset:0;background:rgba(255,0,0,.55)"></div>';setTimeout(()=>flash.style.display='none',500);let m=document.createElement('div');m.className='miss';m.innerText=`❌ MISS! ${curQ.a}${curQ.op}${curQ.b}=${ans}`;document.getElementById('eBox').appendChild(m);setTimeout(()=>m.remove(),1300);if(isSeal){balls--;updateUI();}}}
 function pop(h){document.getElementById('popBox').innerHTML=h;document.getElementById('pop').style.display='flex';}function closePop(){document.getElementById('pop').style.display='none';}
-function openShop(){pop(`<h3>🏪商店 ${getChar().name} <span style="display:inline-block;width:12px;height:12px;background:${curColorHex};border-radius:50%"></span> 📍${window._gx},${window._gy}</h3><button onclick="openChar()" style="width:100%;padding:10px;background:#fff;border:2px solid #ffb300;border-radius:10px;margin-bottom:8px">🎨 換顏色 ${getChar().name}<br><span style="display:inline-block;width:12px;height:12px;background:${curColorHex};border-radius:50%"></span> ${curColorHex}</button><button onclick="toggleSize();closePop();openShop();" style="width:100%;padding:8px;background:#222;color:#ffd54f;border:2px solid #ffb300;border-radius:10px;margin-bottom:8px">🔄 切換 📱手機 / 📱iPad</button><button onclick="if(gold>=20){gold-=20;balls++;updateUI();closePop();}" style="width:100%;padding:12px;background:#ffb300;border-radius:10px">買封印卡 20金 🎀</button><button onclick="closePop()" style="width:100%;margin-top:8px;height:44px">關</button>`);}
+function openShop(){pop(`<h3>🏪商店 ${getChar().name} 📍${window._gx},${window._gy}</h3><button onclick="openChar()" style="width:100%;padding:10px;background:#fff;border:2px solid #ffb300;border-radius:10px;margin-bottom:8px">🎨 換顏色 ${getChar().name}</button><button onclick="toggleSize();closePop();openShop();" style="width:100%;padding:8px;background:#222;color:#ffd54f;border:2px solid #ffb300;border-radius:10px;margin-bottom:8px">🔄 切換 📱手機 / 📱iPad</button><button onclick="if(gold>=20){gold-=20;balls++;updateUI();closePop();}" style="width:100%;padding:12px;background:#ffb300;border-radius:10px">買封印卡 20金 🎀</button><button onclick="closePop()" style="width:100%;margin-top:8px;height:44px">關</button>`);}
 function openDex(){let h=`<h3>📖100寵圖鑑 ${dex.filter(x=>x).length}/100 Lv${playerLv}</h3><div style="max-height:400px;overflow:auto;display:grid;grid-template-columns:repeat(5,1fr);gap:6px">`;pets.forEach((p,i)=>{h+=`<div style="border:2px solid ${dex[i]?'#ffb300':'#aaa'};border-radius:8px;padding:3px;background:${dex[i]?'#fff8e0':'#eee'};text-align:center"><div class="spriteSmall" style="${getSpriteStyle(i)}"></div><div style="font-size:8px;font-weight:900">${String(p.id).padStart(3,'0')} ${p.name}</div></div>`});h+='</div><button onclick="closePop()" style="margin-top:10px;height:44px;width:100%">關</button>';pop(h);}
 let joy=document.getElementById('joy'),knob=document.getElementById('knob'),drag=false,last=0;
 joy.addEventListener('touchstart',e=>{drag=true;e.preventDefault();},{passive:false});window.addEventListener('touchend',()=>{drag=false;knob.style.transform='translate(-50%,-50%)';});
