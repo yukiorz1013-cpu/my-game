@@ -1,72 +1,72 @@
-<!DOCTYPE html><html lang="zh-HK"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>V65 4層暖方波多層次</title>
+<!DOCTYPE html><html lang="zh-HK"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>V67 超厚合奏</title>
 <style>body{margin:0;background:#0f0f23;display:flex;justify-content:center;font-family:-apple-system,sans-serif;-webkit-tap-highlight-color:transparent}#game{width:100%;max-width:440px;background:linear-gradient(#fff3e0,#e8f5e9);min-height:100vh;padding:14px;box-sizing:border-box;text-align:center;position:relative}.card{background:white;border-radius:22px;padding:14px;margin:10px 0}.pet-wrap{height:280px;display:flex;align-items:flex-end;justify-content:center}.pet-img{object-fit:contain;display:block;transition:width 0.6s,height 0.6s}.stage-badge{display:inline-block;background:#e8f5e9;color:#2e7d32;border:2px solid #a5d6a7;padding:6px 16px;border-radius:20px;font-size:13px;font-weight:bold;margin:8px 0}.btn{width:100%;padding:14px;border:none;border-radius:14px;font-size:18px;font-weight:bold;margin:5px 0;cursor:pointer;touch-action:manipulation}.btn-go{background:#66bb6a;color:white}.btn-leader{background:linear-gradient(135deg,#a5d6a7,#2e7d32);color:white}.btn-evo{background:gold;display:none}.timer{font-size:20px;font-weight:bold;color:#2e7d32;background:#e8f5e9;padding:6px 14px;border-radius:20px;display:inline-block;margin-top:6px}.prog-bg{background:#eee;border-radius:12px;height:22px;overflow:hidden;margin:10px 0;position:relative}.prog-fill{height:100%;background:linear-gradient(90deg,#a5d6a7,#2e7d32);transition:width 0.5s}.prog-text{position:absolute;width:100%;top:3px;font-weight:bold;font-size:12px;text-align:center}#mathBox,#leadBox,#musicBox{position:fixed;inset:0;background:rgba(0,0,0,.78);display:none;align-items:center;justify-content:center;z-index:9999;padding:14px}.box{background:white;width:100%;max-width:380px;border-radius:24px;padding:20px;text-align:center;border:4px solid #a5d6a7;pointer-events:auto}.box input{font-size:32px;padding:14px;border:3px solid #66bb6a;border-radius:14px;width:85%;margin:8px 0;text-align:center;font-weight:bold;pointer-events:auto;-webkit-user-select:text;user-select:text;outline:none;background:#f9fff9}.num-pad{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:12px 0}.num-key{padding:14px;font-size:22px;font-weight:bold;background:#e8f5e9;border:2px solid #a5d6a7;border-radius:12px;cursor:pointer;touch-action:manipulation}.num-key:active{background:#66bb6a;color:white}#toast{position:fixed;top:38%;left:50%;transform:translate(-50%,-50%);padding:14px 22px;border-radius:20px;font-size:18px;font-weight:bold;z-index:10001;display:none;color:white}.lead-row{display:flex;justify-content:space-between;padding:10px;border-bottom:1px solid #e8f5e9;font-size:13px}.music-btn{position:absolute;top:10px;right:10px;background:white;border-radius:50%;width:40px;height:40px;border:none;font-size:20px;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.2)}.music-opt{padding:10px;margin:6px 0;border:2px solid #e8f5e9;border-radius:12px;cursor:pointer;text-align:left}.music-opt.active{border-color:#66bb6a;background:#e8f5e9}@keyframes pop{0%{transform:scale(1)}30%{transform:scale(1.35)}100%{transform:scale(1)}}@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}</style></head><body>
 <div id="game"><button class="music-btn" onclick="openMusic()">🎵</button><h2>🦖 數學霸恐龍王</h2><div class="card"><div class="pet-wrap"><img id="petImg" class="pet-img" src="./dino1.png.jpg" style="animation:bounce 0.7s infinite"></div><h3 id="petName"></h3><div class="stage-badge" id="stageBadge"></div><br><div class="timer">⏱️ <span id="timer">00:00</span></div><div class="prog-bg"><div id="progBar" class="prog-fill"></div><div id="progText" class="prog-text"></div></div><p style="font-size:13px"><b id="solved">0</b>題 | <b id="score">0</b>分</p></div><button class="btn btn-go" onclick="startQ()">▶️ 開始做題</button><button class="btn btn-evo" id="evoBtn" onclick="doEvo()">⚡️ 進化</button><button class="btn btn-leader" onclick="openLeader()">👑 霸主榜</button></div>
 <div id="mathBox"><div class="box"><h1 id="mQ" style="font-size:38px;margin:10px 0"></h1><input id="mAns" type="number" inputmode="numeric" pattern="[0-9]*" autocomplete="off" placeholder="?" autofocus><div class="num-pad"><button class="num-key" onclick="addNum('1')">1</button><button class="num-key" onclick="addNum('2')">2</button><button class="num-key" onclick="addNum('3')">3</button><button class="num-key" onclick="addNum('4')">4</button><button class="num-key" onclick="addNum('5')">5</button><button class="num-key" onclick="addNum('6')">6</button><button class="num-key" onclick="addNum('7')">7</button><button class="num-key" onclick="addNum('8')">8</button><button class="num-key" onclick="addNum('9')">9</button><button class="num-key" onclick="clearNum()">⌫</button><button class="num-key" onclick="addNum('0')">0</button><button class="num-key" style="background:#66bb6a;color:white" onclick="checkAns()">OK</button></div><button class="btn" style="background:#66bb6a;color:white" onclick="checkAns()">確定</button><button class="btn" style="background:#eee" onclick="hideMath()">取消</button></div></div>
 <div id="leadBox"><div class="box"><h2>👑 霸主榜</h2><div id="leadList"></div><div style="margin-top:10px;border-top:3px dashed #a5d6a7;padding-top:10px"><input id="playerName" placeholder="霸主名號"><input id="playerPwd" type="password" placeholder="4位密碼"><button class="btn" style="background:#66bb6a;color:white" onclick="uploadScore()">🔒 登榜</button><button class="btn" style="background:#eee" onclick="closeLeader()">關閉</button></div></div></div>
-<div id="musicBox"><div class="box"><h2>🎵 背景音樂</h2><div class="music-opt active" onclick="setMusic('warm4',this)">🟩 4層暖方波 多層次 (新)</div><div class="music-opt" onclick="setMusic('mute',this)">🔇 靜音</div><button class="btn" style="background:#eee;margin-top:10px" onclick="closeMusic()">完成</button></div></div><div id="toast"></div>
+<div id="musicBox"><div class="box"><h2>🎵 背景音樂</h2><div class="music-opt active" onclick="setMusic('thick',this)">🟩 5層超厚合奏版 (新)</div><div class="music-opt" onclick="setMusic('mute',this)">🔇 靜音</div><button class="btn" style="background:#eee;margin-top:10px" onclick="closeMusic()">完成</button></div></div><div id="toast"></div>
 <script>
 const BUCKET_ID="9xrLimS38pHRafoTWwqfSP",KEY="yuki_leaderboard";
 const pets=[{img:"./dino1.png.jpg",name:"Lv.1 蛋蛋龍",total:20},{img:"./dino2.png.jpg",name:"Lv.2 BB龍",total:20},{img:"./dino3.png.WEBP",name:"Lv.3 火焰龍",total:20},{img:"./dino4.png.jpg",name:"Lv.4 霸王龍",total:20}];
-let petIdx=0,solvedLv=0,total=0,score=0,ans=0,ac,startTime=0,timerInterval=null,bgmTimer=null;let currentMusic='warm4',masterVol=0.10;
-let saved=JSON.parse(localStorage.getItem('yuki_v65')||'{}');if(saved.petIdx!=null){petIdx=saved.petIdx;solvedLv=saved.solvedLv;total=saved.total;score=saved.score;}
-function save(){localStorage.setItem('yuki_v65',JSON.stringify({petIdx,solvedLv,total,score,startTime,currentMusic}));}
+let petIdx=0,solvedLv=0,total=0,score=0,ans=0,ac,startTime=0,timerInterval=null,bgmTimer=null;let currentMusic='thick',masterVol=0.075;
+let saved=JSON.parse(localStorage.getItem('yuki_v67')||'{}');if(saved.petIdx!=null){petIdx=saved.petIdx;solvedLv=saved.solvedLv;total=saved.total;score=saved.score;}
+function save(){localStorage.setItem('yuki_v67',JSON.stringify({petIdx,solvedLv,total,score,startTime,currentMusic}));}
 function showToast(t,c){let e=document.getElementById('toast');e.innerText=t;e.style.background=c;e.style.display='block';setTimeout(()=>e.style.display='none',1500);}
 function formatTime(ms){let s=Math.floor(ms/1000),m=Math.floor(s/60);s%=60;return (m<10?'0':'')+m+':'+(s<10?'0':'')+s;}
 function getElapsed(){return startTime==0?0:Date.now()-startTime;}
 function update(){let p=pets[petIdx];document.getElementById('petImg').src=p.img;document.getElementById('petName').innerText=p.name;let base=40,max=260;let size=base+(solvedLv/p.total)*(max-base);let img=document.getElementById('petImg');img.style.width=size+'px';img.style.height=size+'px';document.getElementById('stageBadge').innerText='✨ 長大 '+(solvedLv+1<=p.total?solvedLv+1:p.total)+'/20 段';if(solvedLv>=p.total)document.getElementById('stageBadge').innerText='🎉 20/20 滿級！可進化';let pct=Math.round(solvedLv/p.total*100);document.getElementById('progBar').style.width=pct+'%';document.getElementById('progText').innerText=solvedLv+'/20 段';document.getElementById('solved').innerText=total;document.getElementById('score').innerText=score;document.getElementById('evoBtn').style.display=solvedLv>=p.total?'block':'none';document.getElementById('timer').innerText=formatTime(getElapsed());save();}
 function ensureAudio(){try{if(!ac)ac=new(window.AudioContext||window.webkitAudioContext)();if(ac.state==='suspended')ac.resume();}catch(e){}}
-// 暖方波基礎 - 唔水晶唔鋼琴
-function playSq(freq,dur,vol,filterFreq){
+// 超厚合奏 - 每粒音3把方波合奏
+function playThick(freq,dur,vol,filterFreq,detuneLevel){
   try{
     ensureAudio();let t0=ac.currentTime;
-    let filter=ac.createBiquadFilter();filter.type='lowpass';filter.frequency.value=filterFreq;
-    let o=ac.createOscillator(),g=ac.createGain();o.type='square';o.frequency.value=freq;
-    g.gain.setValueAtTime(0,t0);g.gain.linearRampToValueAtTime(vol,t0+0.012);g.gain.linearRampToValueAtTime(vol*0.6,t0+dur*0.4);g.gain.exponentialRampToValueAtTime(0.001,t0+dur);
-    o.connect(g);g.connect(filter);filter.connect(ac.destination);o.start(t0);o.stop(t0+dur);
+    // detuneLevel 0=無, 1=輕微合唱, 2=厚合奏
+    let detunes = detuneLevel==2 ? [0.992,1.0,1.008] : detuneLevel==1 ? [0.996,1.004] : [1.0];
+    detunes.forEach(dt=>{
+      let filter=ac.createBiquadFilter();filter.type='lowpass';filter.frequency.value=filterFreq;
+      let o=ac.createOscillator(),g=ac.createGain();
+      o.type='square'; o.frequency.value=freq*dt;
+      // 厚包絡 - 稍微長啲，墊住
+      g.gain.setValueAtTime(0,t0); g.gain.linearRampToValueAtTime(vol/detunes.length,t0+0.015); g.gain.linearRampToValueAtTime(vol/detunes.length*0.7,t0+dur*0.45); g.gain.exponentialRampToValueAtTime(0.001,t0+dur);
+      o.connect(g); g.connect(filter); filter.connect(ac.destination);
+      o.start(t0); o.stop(t0+dur);
+    });
+    // 超低音墊 - 唔突出但厚
+    if(filterFreq<400){
+      let o=ac.createOscillator(),g=ac.createGain(); o.type='sine'; o.frequency.value=freq*0.5;
+      g.gain.setValueAtTime(0,t0); g.gain.linearRampToValueAtTime(vol*0.25,t0+0.04); g.gain.exponentialRampToValueAtTime(0.001,t0+dur*0.9);
+      o.connect(g); g.connect(ac.destination); o.start(t0); o.stop(t0+dur*0.9);
+    }
   }catch(e){}
 }
-function play4Layer(){
+function playThickBGM(){
   if(bgmTimer)clearTimeout(bgmTimer);
-  // 4層編曲：bass(根音) + harm(三度) + mel(主旋律) + high(八度點綴) - 全部方波，暖
-  // 節奏：你條片10:20原版 強-弱-弱 0.42 0.20 0.20
   let seq=[
-    {m:261.63,h:329.63,b:130.81,hi:523.25,d:0.42,a:1},
-    {m:329.63,h:415.30,b:0,hi:0,d:0.20,a:0},
-    {m:392.00,h:493.88,b:0,hi:0,d:0.20,a:0},
-    {m:392.00,h:523.25,b:155.56,hi:659.25,d:0.42,a:1},
-    {m:329.63,h:415.30,b:0,hi:0,d:0.20,a:0},
-    {m:261.63,h:329.63,b:0,hi:0,d:0.20,a:0},
-    {m:392.00,h:493.88,b:130.81,hi:523.25,d:0.70,a:1},
+    {m:261.63,h:329.63,h2:196.00,b:130.81,hi:392.00,d:0.42,a:1},
+    {m:329.63,h:415.30,h2:0,b:0,hi:0,d:0.20,a:0},
+    {m:392.00,h:493.88,h2:0,b:0,hi:0,d:0.20,a:0},
+    {m:392.00,h:523.25,h2:233.08,b:155.56,hi:440.00,d:0.42,a:1},
+    {m:329.63,h:415.30,h2:0,b:0,hi:0,d:0.20,a:0},
+    {m:261.63,h:329.63,h2:0,b:0,hi:0,d:0.20,a:0},
+    {m:392.00,h:493.88,h2:261.63,b:130.81,hi:392.00,d:0.70,a:1},
     
-    {m:440.00,h:554.37,b:146.83,hi:659.25,d:0.42,a:1},
-    {m:493.88,h:622.25,b:0,hi:0,d:0.20,a:0},
-    {m:523.25,h:659.25,b:0,hi:0,d:0.20,a:0},
-    {m:523.25,h:659.25,b:174.61,hi:783.99,d:0.42,a:1},
-    {m:392.00,h:493.88,b:0,hi:0,d:0.20,a:0},
-    {m:329.63,h:415.30,b:0,hi:0,d:0.20,a:0},
-    {m:392.00,h:493.88,b:130.81,hi:587.33,d:0.70,a:1},
-    
-    {m:261.63,h:329.63,b:130.81,hi:0,d:0.28,a:0},
-    {m:329.63,h:415.30,b:0,hi:0,d:0.28,a:0},
-    {m:392.00,h:493.88,b:155.56,hi:523.25,d:0.28,a:1},
-    {m:523.25,h:659.25,b:0,hi:783.99,d:0.28,a:1},
-    {m:392.00,h:493.88,b:130.81,hi:0,d:0.38,a:0},
-    {m:329.63,h:415.30,b:0,hi:0,d:0.18,a:0},
-    {m:293.66,h:369.99,b:0,hi:0,d:0.18,a:0},
-    {m:329.63,h:415.30,b:130.81,hi:523.25,d:0.68,a:1},
+    {m:440.00,h:554.37,h2:220.00,b:146.83,hi:440.00,d:0.42,a:1},
+    {m:493.88,h:587.33,h2:0,b:0,hi:0,d:0.20,a:0},
+    {m:523.25,h:587.33,h2:0,b:0,hi:0,d:0.20,a:0},
+    {m:523.25,h:587.33,h2:261.63,b:174.61,hi:523.25,d:0.42,a:1},
+    {m:392.00,h:493.88,h2:0,b:0,hi:0,d:0.20,a:0},
+    {m:329.63,h:415.30,h2:0,b:0,hi:0,d:0.20,a:0},
+    {m:392.00,h:493.88,h2:196.00,b:130.81,hi:392.00,d:0.70,a:1},
   ];
   let i=0;
   function tick(){
     let n=seq[i%seq.length];
-    let baseVol=masterVol;
-    // Layer1 Bass - 最低，短，唔拖，低通350，暖唔轟
-    if(n.b>0) playSq(n.b, n.d*0.85, baseVol*0.55, 350);
-    // Layer2 Harmony - 中音三度，襯底，低通600
-    playSq(n.h, n.d*0.70, baseVol*0.28, 600);
-    // Layer3 Melody - 主旋律，低通850-950，開朗
-    playSq(n.m, n.d*0.78, baseVol*(n.a?1.25:0.70), n.a?950:780);
-    // Layer4 High - 八度/十二度點綴，只喺強拍，細聲，低通1100
-    if(n.hi>0 && n.a) setTimeout(()=>playSq(n.hi, n.d*0.45, baseVol*0.22, 1100), 45);
+    let base=masterVol;
+    // 5層，全部厚合奏
+    if(n.b>0) playThick(n.b, n.d*0.90, base*0.50, 320, 2); // Bass 3把
+    if(n.h2>0) playThick(n.h2, n.d*0.75, base*0.22, 500, 1); // LowHarm 第二和聲，新增
+    playThick(n.h, n.d*0.70, base*0.28, 600, 1); // MidHarm
+    playThick(n.m, n.d*0.78, base*(n.a?0.95:0.80), n.a?880:720, 2); // Mel 3把合奏最厚
+    if(n.hi>0 && n.a) setTimeout(()=>playThick(n.hi, n.d*0.42, base*0.10, 900, 0), 50); // High 降到0.10更唔突出
     
     i++;
     bgmTimer=setTimeout(tick, n.d*1000+90);
@@ -75,17 +75,17 @@ function play4Layer(){
 }
 function sfxCorrect(){
   try{
-    ensureAudio();let t0=ac.currentTime;if(bgmTimer){clearTimeout(bgmTimer);bgmTimer=null;setTimeout(()=>{if(currentMusic!=='mute') play4Layer();},600);}
+    ensureAudio();let t0=ac.currentTime;if(bgmTimer){clearTimeout(bgmTimer);bgmTimer=null;setTimeout(()=>{if(currentMusic!=='mute') playThickBGM();},600);}
     [659.25,783.99,1046.5].forEach((f,idx)=>{
       let o=ac.createOscillator(),g=ac.createGain();
       o.type='triangle'; o.frequency.value=f;
-      g.gain.setValueAtTime(0,t0+idx*0.11); g.gain.linearRampToValueAtTime(0.28,t0+idx*0.11+0.01); g.gain.exponentialRampToValueAtTime(0.001,t0+idx*0.11+0.5);
+      g.gain.setValueAtTime(0,t0+idx*0.11); g.gain.linearRampToValueAtTime(0.24,t0+idx*0.11+0.01); g.gain.exponentialRampToValueAtTime(0.001,t0+idx*0.11+0.5);
       o.connect(g); g.connect(ac.destination); o.start(t0+idx*0.11); o.stop(t0+idx*0.11+0.5);
     });
   }catch(e){}
 }
-function sfxWrong(){try{ensureAudio();let t0=ac.currentTime;let o=ac.createOscillator(),g=ac.createGain();o.type='triangle';o.frequency.setValueAtTime(140,t0);o.frequency.linearRampToValueAtTime(80,t0+0.25);g.gain.setValueAtTime(0.25,t0);g.gain.exponentialRampToValueAtTime(0.001,t0+0.3);o.connect(g);g.connect(ac.destination);o.start(t0);o.stop(t0+0.3);}catch(e){}}
-function playCurrent(){if(currentMusic==='warm4')play4Layer();else if(bgmTimer){clearTimeout(bgmTimer);bgmTimer=null;}}
+function sfxWrong(){try{ensureAudio();let t0=ac.currentTime;let o=ac.createOscillator(),g=ac.createGain();o.type='triangle';o.frequency.setValueAtTime(140,t0);o.frequency.linearRampToValueAtTime(80,t0+0.25);g.gain.setValueAtTime(0.20,t0);g.gain.exponentialRampToValueAtTime(0.001,t0+0.3);o.connect(g);g.connect(ac.destination);o.start(t0);o.stop(t0+0.3);}catch(e){}}
+function playCurrent(){if(currentMusic==='thick')playThickBGM();else if(bgmTimer){clearTimeout(bgmTimer);bgmTimer=null;}}
 function setMusic(url,el){currentMusic=url;document.querySelectorAll('.music-opt').forEach(o=>o.classList.remove('active'));if(el)el.classList.add('active');save();if(bgmTimer){clearTimeout(bgmTimer);bgmTimer=null;}if(startTime!=0)playCurrent();closeMusic();}
 function focusAns(){let el=document.getElementById('mAns'); setTimeout(()=>{el.focus(); el.click();},80);}
 function addNum(n){let el=document.getElementById('mAns'); el.value=(el.value||'')+n; el.focus();}
